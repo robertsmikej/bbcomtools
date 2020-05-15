@@ -1,0 +1,19 @@
+.page__type--product {
+    max-width: 760px;
+}
+.page__type--marketing {
+    max-width: 1200px;
+}
+.bb__content, .bb__content__outer {
+    width: 100%;
+    min-height: 40vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    transition: all .4s;
+    background-color: #FFF;
+}
+.component__outer {
+    position: relative;
+    height: 100%;
+}
