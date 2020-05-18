@@ -139,7 +139,6 @@ export default {
         });
         this.$nuxt.$on('toggleOptions', data => {
             let uniqueName = data.componentData.uniqueName;
-            console.log(data);
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn].optionsHidden = !this.clickedElements.elements[findIn].optionsHidden;

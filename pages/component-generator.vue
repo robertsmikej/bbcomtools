@@ -98,7 +98,6 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.arrayMove(this.clickedElements.elements, findIn, findIn + 1);
         });
-        console.log(this.components);
     },
     methods: {
         arrayMove: function (arr, fromIndex, toIndex) {
@@ -113,11 +112,6 @@ export default {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
             let comptype = e.currentTarget.getAttribute("component-type");
-            // console.log(compname);
-            // console.log(comptype);
-            // console.log(this.components);
-            // console.log(this.components[compname]);
-            // console.log(this.components[compname].types[comptype]);
             let newComponent = {
                 name: compname,
                 uniqueName: compname + newNumber,
@@ -370,51 +364,7 @@ export default {
         margin-left: auto;
     }
 
-    .component__edit__container {
-        width: 100%;
-        min-height: 50px;
-    }
-    .component__wrap {
-        position: relative;
-    }
-    .component__options {
-        min-height: 30px;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: flex-start;
-        z-index: 1;
-        padding: 0 6px;
-    }
-    .component__outer--max-width {
-        width: 100%;
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .component__options input {
-        width: 100%;
-        padding: 10px 10px;
-        margin: 0 auto;
-        font-size: 1em;
-    }
-    .component__options textarea {
-        width: 100%;
-        min-height: 100px;
-        padding: 6px 10px;
-        margin: 0 auto;
-        font-size: 1.1em;
-        line-height: 1.1em;
-    }
-    .component__options--border {
-        border: 1px solid #232323;
-    }
-    .component__top__icon {
-        position: absolute;
-        top: 2px;
-        right: 5px;
-        cursor: pointer;
-    }
+    
     .list__items {
         width: 100%;
         display: flex;

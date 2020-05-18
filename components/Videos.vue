@@ -27,7 +27,6 @@ export default {
             let info = {
                 componentData: this.componentData
             };
-            console.log(info);
             this.$nuxt.$emit("toggleOptions", info);
         }
     }

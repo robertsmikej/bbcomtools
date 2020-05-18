@@ -100,4 +100,55 @@ nav a {
 .preview__content {
     width: 100%;
 }
+
+.component__edit__container {
+    width: 100%;
+    min-height: 50px;
+}
+.component__wrap {
+    position: relative;
+}
+.component__options {
+    min-height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    z-index: 1;
+    padding: 0;
+}
+.component__outer--max-width {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.component__options input {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 0 auto;
+    font-size: 1em;
+}
+.component__options textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 6px 10px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    line-height: 1.1em;
+}
+.component__options--border {
+    border: 1px solid #232323;
+}
+.component__top__icon {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    cursor: pointer;
+}
+
+textarea {
+    min-width: 300px;
+    min-height: 60px;
+}
 </style>
