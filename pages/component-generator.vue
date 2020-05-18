@@ -343,26 +343,9 @@ export default {
         border-radius: 3px;
         align-self: center;
     }
-    .page__type--selected {
-        border: 1px solid #232323;
-        background: #FFF;
-        color: #232323;
-    }
+    
 
-    .page__type__header {
-        width: 100%;
-        margin: 0 0 20px;
-        color: #303030;
-        font: 600 30px/1.1 ProximaNovaExCnSemiBold,Arial,sans-serif;
-        text-transform: uppercase;
-        border-bottom: 1px solid #c8c8c8;
-        background-color: #FFF;
-    }
-
-    .build__code__button {
-        position: relative;
-        margin-left: auto;
-    }
+    
 
     
     .list__items {
