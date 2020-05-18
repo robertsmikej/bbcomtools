@@ -1,7 +1,7 @@
 <template>
     <section class="container">
         <div class="element__bar">
-            <div class="page__type__buttons">
+            <div class="bar__buttons page__type__buttons">
                 <h4>Type Of Page</h4>
                 <div class="bar__button" :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Product</div>
                 <div class="bar__button" :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Marketing</div>
@@ -15,7 +15,9 @@
                     </div>
                 </div>
             </div>
-            <div class="bar__button build__code__button" @click="buildCode">Build Code</div>
+            <div class="bar__buttons">
+                <div class="bar__button" @click="buildImportCode">Code</div>
+            </div>
         </div>
         <div class="built__elements__wrapper">
             <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
@@ -26,11 +28,12 @@
             </div>
         </div>
         <div class="code__section" v-if="showCode">
-            <textarea class="code__text__area" v-if="codeBuilt" name="code" :value="code"></textarea>
+            <textarea class="code__text__area" name="code" :value="code"></textarea>
             <div class="code__commands">
                 <div @click="copyText" class="code__command">Copy</div>
                 <div @click="clearCode" class="code__command">Clear</div>
                 <div @click="toggleCode" class="code__command">Close</div>
+                <div @click="importCode" class="code__command">Import</div>
             </div>
         </div>
     </section>
@@ -47,55 +50,55 @@ export default {
                 Headers: {
                     title: "text headers",
                     types: {
-                        "1": {
+                        "H1": {
                             title: "H1",
                             componentName: "Headers",
-                            type: "1",
+                            type: "H1",
                             defaultData: {
                                 headerText: "H1 New"
                             },
                             img: ""
                         },
-                        "2": {
+                        "H2": {
                             title: "H2",
                             componentName: "Headers",
-                            type: "2",
+                            type: "H2",
                             defaultData: {
                                 headerText: "H2 New"
                             },
                             img: ""
                         },
-                        "3": {
+                        "H3": {
                             title: "H3",
                             componentName: "Headers",
-                            type: "3",
+                            type: "H3",
                             defaultData: {
                                 headerText: "H3 New"
                             },
                             img: ""
                         },
-                        "4": {
+                        "H4": {
                             title: "H4",
                             componentName: "Headers",
-                            type: "4",
+                            type: "H4",
                             defaultData: {
                                 headerText: "H4 New"
                             },
                             img: ""
                         },
-                        "5": {
+                        "H5": {
                             title: "H5",
                             componentName: "Headers",
-                            type: "5",
+                            type: "H5",
                             defaultData: {
                                 headerText: "H5 New"
                             },
                             img: ""
                         },
-                        "6": {
+                        "H6": {
                             title: "H6",
                             componentName: "Headers",
-                            type: "6",
+                            type: "H6",
                             defaultData: {
                                 headerText: "H6 New"
                             },
@@ -194,6 +197,20 @@ export default {
                         }
                     }
                 },
+                Videos: {
+                    title: "Videos",
+                    types: {
+                        "VideoJW": {
+                            title: "VideoJW",
+                            componentName: "Videos",
+                            type: "VideoJW",
+                            defaultData: {
+                                videoCode: ""
+                            },
+                            img: ""
+                        }
+                    }
+                }
             },
             clickedElements: {
                 numberOfSections: 0,
@@ -202,7 +219,6 @@ export default {
             },
             pageActions : 0,
             currentComponentName: "",
-            codeBuilt: false,
             showCode: false,
             code: "",
             pageType: "product"
@@ -255,13 +271,18 @@ export default {
         createComponent: function (e, name) {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
-            let comptype = e.currentTarget.getAttribute("component-type").toLowerCase();
+            let comptype = e.currentTarget.getAttribute("component-type");
+            // console.log(compname);
+            // console.log(comptype);
+            // console.log(this.components);
+            // console.log(this.components[compname]);
+            // console.log(this.components[compname].types[comptype]);
             let newComponent = {
                 name: compname,
                 uniqueName: compname + newNumber,
                 number: newNumber,
                 type: e.currentTarget.getAttribute("component-type"),
-                componentData: {},
+                elementData: {},
                 defaultData: this.components[compname].types[comptype].defaultData,
                 optionsHidden: false,
                 alreadyCreated: false
@@ -270,23 +291,28 @@ export default {
             this.clickedElements.numberOfSections += 1;
             this.pageActions += 1;
             this.clickedElements.elements.push(newComponent);
-            // this.clickedElements.elements[newComponent.name + newComponent.number] = newComponent;
         },
-        buildCode: function () {
+        buildImportCode: function () {
             let code = this.$el.querySelector(".bb__content");
-            code.querySelectorAll(".component__options").forEach(function (opt) {
+            let codeCopy = code.cloneNode(true);
+            codeCopy.querySelectorAll(".component__options").forEach(function (opt) {
                 opt.parentNode.removeChild(opt);
             });
-            code.querySelectorAll(".component__wrap").forEach(function (wrap) {
+            codeCopy.querySelectorAll(".component__wrap").forEach(function (wrap) {
                 wrap.outerHTML = wrap.innerHTML;
             });
-            code = code.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
-            this.code = code;
-            this.codeBuilt = true;
+            codeCopy.querySelectorAll(".component__remove").forEach(function (opt) {
+                opt.parentNode.removeChild(opt);
+            });
+            codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
+            this.code = codeCopy;
             this.showCode = true;
         },
         toggleCode: function () {
             this.showCode = !this.showCode;
+            if (this.showCode === false) {
+                this.code = "";
+            }
         },
         clearCode: function () {
             this.code = "";
@@ -296,6 +322,50 @@ export default {
             text.focus();
             text.select();
             document.execCommand('copy');
+        },
+        importCode: function () {
+            let code = this.$el.querySelector(".code__text__area").value;
+            let codeDiv = document.createElement("div");
+            codeDiv.innerHTML = code;
+            let elements = codeDiv.querySelectorAll(".component__wrap");
+            let clickedElements = this.clickedElements;
+            let number = clickedElements.numberOfComponents;
+            let components = this.components;
+            let actions = 0;
+            clickedElements.elements = [];
+            clickedElements.numberOfComponents = 0;
+            clickedElements.numberOfSections = 0;
+            this.pageActions = 0;
+            let newArr = [];
+            if (elements.length > 0) {
+                elements.forEach(function (e) {
+                    let el = e.childNodes[0];
+                    let name = e.getAttribute("data-component-name");
+                    let type = e.getAttribute("data-component-type");
+                    let data = e.getAttribute("data-component-data");
+                    let dataName = e.getAttribute("data-component-data-name");
+                    let newComponent = {
+                        "name": name,
+                        "uniqueName": name + number,
+                        "number": number,
+                        "type": type,
+                        "componentData": {
+                            "elementData": {
+                                dataName: data
+                            }
+                        },
+                        "defaultData": components[name].types[type].defaultData,
+                        "optionsHidden": false,
+                        "alreadyCreated": false
+                    };
+                    actions += 1;
+                    newArr.push(newComponent);
+                });
+            }
+            clickedElements.elements = newArr;
+            clickedElements.numberOfComponents += actions;
+            clickedElements.numberOfSections += actions;
+            this.pageActions += actions;
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();
@@ -325,7 +395,7 @@ export default {
         flex-direction: row;
         flex-wrap: wrap;
         align-content: flex-start;
-        justify-content: flex-start;
+        justify-content: center;
     }
     .element__section {
         display: flex;

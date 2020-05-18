@@ -3,6 +3,10 @@ import Vue from 'vue';
 import OptionsButtons from '../components/OptionsButtons.vue';
 Vue.component('OptionsButtons', OptionsButtons);
 
+import TextInput from '../components/inputs/TextInput.vue';
+Vue.component('TextInput', TextInput);
+
+
 import Headers from '../components/Headers.vue';
 Vue.component('Headers', Headers);
 
@@ -18,5 +22,5 @@ Vue.component('Spacer', Spacer);
 import SideBySide from '../components/SideBySide.vue';
 Vue.component('SideBySide', SideBySide);
 
-import Video from '../components/Video.vue';
-Vue.component('Video', Video);
+import Videos from '../components/Videos.vue';
+Vue.component('Videos', Videos);

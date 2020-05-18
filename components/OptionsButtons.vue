@@ -54,15 +54,16 @@ export default {
         align-content: center;
         justify-content: center;
         align-items: center;
-        font-size: 1em;
-        line-height: 1em;
+        font-size: 1.1em;
+        line-height: 1.1em;
         text-transform: uppercase;
         color: #FFF;
         font-weight: 900;
         cursor: pointer;
     }
     .options__arrows {
-        font-size: 28px;
-        line-height: 28px;
+        /* font-size: 28px;
+        line-height: 28px; */
+        font-weight: 900;
     }
 </style>

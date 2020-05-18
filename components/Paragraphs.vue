@@ -1,11 +1,11 @@
 <template>
     <div class="page__paras component__outer component__outer--max-width">
         <div class="component__options" v-if="!componentData.optionsHidden">
-            <textarea v-model="componentData.componentData.paraText" class="text__text__area" type="text"/>
+            <textarea v-model="componentData.elementData.paraText" class="text__text__area" type="text"/>
             <OptionsButtons :componentData="componentData"/>
         </div>
         <div class="component__wrap" @click="checkOptions">
-            <p v-if="type === 'p'">{{ componentData.componentData.paraText }}</p>
+            <p v-if="type === 'p'">{{ componentData.elementData.paraText }}</p>
         </div>
     </div>
 </template>
