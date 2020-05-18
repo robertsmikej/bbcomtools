@@ -125,7 +125,8 @@ export default {
                 elementData: {},
                 defaultData: that.components[el.componentName].types[el.type].defaultData,
                 optionsHidden: true,
-                alreadyCreated: false
+                alreadyCreated: false,
+                vendorRestricted: that.checkRestricted("vendors")
             };
             if (el.defaultData) {
                 for (let d in el.defaultData) {
@@ -138,6 +139,7 @@ export default {
         });
         this.$nuxt.$on('toggleOptions', data => {
             let uniqueName = data.componentData.uniqueName;
+            console.log(data);
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn].optionsHidden = !this.clickedElements.elements[findIn].optionsHidden;
@@ -186,6 +188,9 @@ export default {
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();
+        },
+        checkRestricted: function (name) {
+            return this.restrictions.includes(name);
         }
     },
     head() {

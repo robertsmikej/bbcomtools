@@ -55,7 +55,8 @@ export default {
             currentComponentName: "",
             showCode: false,
             code: "",
-            pageType: "product"
+            pageType: "product",
+            restrictions: []
         }
     },
     computed: {
@@ -125,7 +126,8 @@ export default {
                 elementData: {},
                 defaultData: this.components[compname].types[comptype].defaultData,
                 optionsHidden: false,
-                alreadyCreated: false
+                alreadyCreated: false,
+                vendorRestricted: this.checkRestricted("vendors")
             };
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
@@ -209,6 +211,9 @@ export default {
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();
+        },
+        checkRestricted: function (name) {
+            return this.restrictions.includes(name);
         }
     }
 }

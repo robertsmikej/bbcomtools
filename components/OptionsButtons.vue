@@ -2,8 +2,8 @@
     <div class="component__options__buttons">
         <div class="component__options--button" @click="sendInfo">✔</div>
         <div class="component__options--button" @click="removeElement">X</div>
-        <div class="component__options--button options__arrows" @click="moveElementUp">↑</div>
-        <div class="component__options--button options__arrows" @click="moveElementDown">↓</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementUp">↑</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementDown">↓</div>
     </div>
 </template>
 
