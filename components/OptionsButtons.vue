@@ -17,6 +17,7 @@ export default {
             let info = {
                 componentData: this.componentData
             };
+            console.log(this.componentData.elementData);
             this.$nuxt.$emit('sendComponentInfo', info);
             this.$nuxt.$emit("toggleOptions", info);
         },
@@ -60,10 +61,5 @@ export default {
         color: #FFF;
         font-weight: 900;
         cursor: pointer;
-    }
-    .options__arrows {
-        /* font-size: 28px;
-        line-height: 28px; */
-        font-weight: 900;
     }
 </style>

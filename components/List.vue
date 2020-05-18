@@ -65,13 +65,7 @@ export default {
 </script>
 
 <style>
-    .merch__list {
-        width: 100%;
-        list-style-position: inside;
-        margin: 10px auto;
-    }
-    .merch__list li {
-        width: 100%;
-        text-align: left;
-    }
+.merch__list {
+    cursor: pointer;
+}
 </style>

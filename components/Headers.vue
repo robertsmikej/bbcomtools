@@ -5,7 +5,7 @@
             <OptionsButtons :componentData="componentData"/>
         </div>
         <div class="component__wrap" :data-component-name="componentData.name" :data-component-type="componentData.type" data-component-data-name="headerText" :data-component-data="componentData.elementData.headerText" @click="checkOptions">
-            <component :is="componentData.type" :data-component-name="componentData.name" :data-component-type="componentData.type" class="page__header--h1">{{ componentData.elementData.headerText }}</component>
+            <component :is="componentData.type" :data-component-name="componentData.name" :data-component-type="componentData.type" :class="'page__header--' + componentData.type.toLowerCase()">{{ componentData.elementData.headerText }}</component>
         </div>
     </div>
 </template>
@@ -40,5 +40,6 @@ export default {
 .page__header--h5,
 .page__header--h6 {
     cursor: pointer;
+    white-space: pre-line;
 }
 </style>

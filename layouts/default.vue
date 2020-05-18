@@ -3,12 +3,14 @@
         <nav>
             <h3>BBcom Tools</h3>
             <ul>
-                <nuxt-link to="component-generator">Component Generator</nuxt-link>
+                <nuxt-link to="../vendors/newproduct">Vendor - New Prod</nuxt-link>
+                <nuxt-link to="../component-generator">Component Generator</nuxt-link>
             </ul>
         </nav>
         <nuxt/>
     </div>
 </template>
+
 
 <style>
 html {
@@ -61,6 +63,7 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 10;
 }
 nav h3 {
     text-align: left;
@@ -82,5 +85,19 @@ nav a {
     justify-content: flex-start;
     align-items: flex-start;
     padding: 40px 0 0;
+}
+
+.built__elements__wrapper {
+    width: 100%;
+    padding-top: 30px;
+    min-height: 90vh;
+    background-color: #f9f9f9;
+}
+.built__elements__wrapper__inner {
+    padding: 10px;
+    width: auto;
+}
+.preview__content {
+    width: 100%;
 }
 </style>

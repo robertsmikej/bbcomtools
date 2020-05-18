@@ -38,7 +38,7 @@ module.exports = {
   ** Global CSS
   */
     css: [
-        '~/assets/styles/components.css',
+      { src: '~/assets/styles/components.css', lang: 'css' }
     ],
 
   /*
@@ -74,6 +74,7 @@ markdownit: {
     /*
     ** You can extend webpack config here
     */
+   extractCSS: true,
     extend(config, ctx) {
       
     }

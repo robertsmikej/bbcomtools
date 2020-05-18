@@ -32,22 +32,7 @@ export default {
 </script>
 
 <style>
-    .component__spacer {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        background: transparent;
-    }
-    .component__spacer--small {
-        height: 20px;
-    }
-    .component__spacer--medium {
-        height: 40px;
-    }
-    .component__spacer--large {
-        height: 60px;
-    }
-    .component__spacer--extralarge {
-        height: 80px;
-    }
+.component__spacer {
+    cursor: pointer;
+}
 </style>

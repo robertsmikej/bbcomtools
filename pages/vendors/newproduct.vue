@@ -1,0 +1,201 @@
+<template>
+    <section class="container">
+        <div class="built__elements__wrapper">
+            <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
+                <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
+                <div class="bb__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
+                    <component :is="element.componentName" :componentData="element" v-for="element in clickedElements.elements" :key="element.uniqueName" :type="element.type ? element.type : null"></component> 
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            page: {
+                header_text: "Components"
+            },
+            clickedElements: {
+                numberOfComponents: 0,
+                elements: []
+            },
+            pageActions : 0,
+            currentComponentName: "",
+            pageType: "product",
+            restrictions: [
+                "vendors"
+            ]
+        }
+    },
+    computed: {
+        components: function () {
+            return this.$store.state.components
+        }
+    },
+    created() {
+        let vendorPageStructure = [
+            {
+                componentName: "Headers",
+                type: "H2",
+                defaultData: {
+                    headerText: "Signature 100% Whey Protein Powder",
+                }
+            },
+            {
+                componentName: "Paragraphs",
+                type: "p",
+                defaultData: {
+                    paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                }
+            },
+            {
+                componentName: "Spacer",
+                type: "small"
+            },
+            {
+                componentName: "Videos",
+                type: "VideoJW",
+                defaultData: {
+                    paraText: "",
+                }
+            },
+            {
+                componentName: "Spacer",
+                type: "small"
+            },
+            {
+                componentName: "Headers",
+                type: "H3",
+                defaultData: {
+                    headerText: "Product Benefits",
+                }
+            },
+            {
+                componentName: "List",
+                type: "list",
+                defaultData: {
+                    listItems: [
+                        "New List Item",
+                        "New List Item"
+                    ]
+                }
+            },
+            {
+                componentName: "SideBySide",
+                type: "sidebyside",
+                defaultData: {
+                    headerText: "Key Ingredients",
+                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
+                    imgAlt: "Key Ingredients"
+                }
+            },
+            {
+                componentName: "SideBySide",
+                type: "sidebyside",
+                defaultData: {
+                    headerText: "Supports Your Goals",
+                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
+                    imgAlt: "Key Ingredients"
+                }
+            },
+            {
+                componentName: "SideBySide",
+                type: "sidebyside",
+                defaultData: {
+                    headerText: "Good To Know",
+                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
+                    imgAlt: "Key Ingredients"
+                }
+            }
+        ];
+        let that = this;
+        vendorPageStructure.forEach(function (el) {
+            let newNumber = that.clickedElements.numberOfComponents;
+            let newComponent = {
+                componentName: el.componentName,
+                uniqueName: el.componentName + newNumber,
+                number: newNumber,
+                type: el.type,
+                elementData: {},
+                defaultData: that.components[el.componentName].types[el.type].defaultData,
+                optionsHidden: true,
+                alreadyCreated: false
+            };
+            if (el.defaultData) {
+                for (let d in el.defaultData) {
+                    newComponent.elementData[d] = el.defaultData[d];
+                }
+            }
+            that.clickedElements.elements.push(newComponent);
+            that.clickedElements.numberOfComponents += 1;
+            that.pageActions += 1;
+        });
+        this.$nuxt.$on('toggleOptions', data => {
+            let uniqueName = data.componentData.uniqueName;
+            this.currentComponentName = uniqueName;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            this.clickedElements.elements[findIn].optionsHidden = !this.clickedElements.elements[findIn].optionsHidden;
+            this.pageActions += 1;
+        });
+        this.$nuxt.$on('sendComponentInfo', data => {
+            let uniqueName = data.componentData.uniqueName;
+            this.currentComponentName = uniqueName;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            this.clickedElements.elements[findIn] = data.componentData;
+            this.pageActions += 1;
+        });
+        this.$nuxt.$on('removeElement', data => {
+            if (this.clickedElements.elements && data) {
+                this.currentComponentName = data;
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements.splice(findIn, 1);
+                this.clickedElements.numberOfComponents -= 1;
+                this.clickedElements.numberOfSections -= 1;
+            }
+        });
+    },
+    methods: {
+        arrayMove: function (arr, fromIndex, toIndex) {
+            var element = arr[fromIndex];
+            arr.splice(fromIndex, 1);
+            arr.splice(toIndex, 0, element);
+        },
+        findInArray: function (data) {
+            return data.uniqueName === this.currentComponentName;
+        },
+        toggleCode: function () {
+            this.showCode = !this.showCode;
+            if (this.showCode === false) {
+                this.code = "";
+            }
+        },
+        clearCode: function () {
+            this.code = "";
+        },
+        copyText: function () {
+            let text = this.$el.querySelector(".code__text__area");
+            text.focus();
+            text.select();
+            document.execCommand('copy');
+        },
+        changePageType: function (e) {
+            this.pageType = e.target.innerHTML.toLowerCase();
+        }
+    },
+    head() {
+        return {
+            script: [{ src: 'https://identity.netlify.com/v1/netlify-identity-widget.js' }],
+        };
+    }
+}
+</script>
+
+<style>
+
+</style>
