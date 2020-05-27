@@ -1,5 +1,8 @@
 import Vue from 'vue';
 
+import Nav from '../components/Nav.vue';
+Vue.component('Nav', Nav);
+
 import OptionsButtons from '../components/OptionsButtons.vue';
 Vue.component('OptionsButtons', OptionsButtons);
 
@@ -24,3 +27,6 @@ Vue.component('SideBySide', SideBySide);
 
 import Videos from '../components/Videos.vue';
 Vue.component('Videos', Videos);
+
+import Banners from '../components/Banners.vue';
+Vue.component('Banners', Banners);

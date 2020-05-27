@@ -1,13 +1,14 @@
 var allComponents = {
     Headers: {
         title: "text headers",
+        pageTypes: ["product", "marketing"],
         types: {
             "H1": {
                 title: "H1",
                 componentName: "Headers",
                 type: "H1",
                 defaultData: {
-                    headerText: "H1 New"
+                    headerText: "New H1"
                 },
                 img: ""
             },
@@ -16,7 +17,7 @@ var allComponents = {
                 componentName: "Headers",
                 type: "H2",
                 defaultData: {
-                    headerText: "H2 New"
+                    headerText: "New H2"
                 },
                 img: ""
             },
@@ -25,7 +26,7 @@ var allComponents = {
                 componentName: "Headers",
                 type: "H3",
                 defaultData: {
-                    headerText: "H3 New"
+                    headerText: "New H3"
                 },
                 img: ""
             },
@@ -34,7 +35,7 @@ var allComponents = {
                 componentName: "Headers",
                 type: "H4",
                 defaultData: {
-                    headerText: "H4 New"
+                    headerText: "New H4"
                 },
                 img: ""
             },
@@ -43,7 +44,7 @@ var allComponents = {
                 componentName: "Headers",
                 type: "H5",
                 defaultData: {
-                    headerText: "H5 New"
+                    headerText: "New H5"
                 },
                 img: ""
             },
@@ -52,7 +53,7 @@ var allComponents = {
                 componentName: "Headers",
                 type: "H6",
                 defaultData: {
-                    headerText: "H6 New"
+                    headerText: "New H6"
                 },
                 img: ""
             }
@@ -60,13 +61,14 @@ var allComponents = {
     },
     Paragraphs: {
         title: "paragraphs",
+        pageTypes: ["product", "marketing"],
         types: {
             "p": {
                 title: "P",
                 componentName: "Paragraphs",
                 type: "p",
                 defaultData: {
-                    headerText: "Paragraph New"
+                    paraText: "New Paragraph"
                 },
                 img: "paragraph.png"
             }
@@ -74,16 +76,17 @@ var allComponents = {
     },
     List: {
         title: "list",
+        pageTypes: ["product", "marketing"],
         types: {
             "list": {
                 title: "List",
                 componentName: "List",
                 type: "list",
                 defaultData: {
-                    listItems: {
-                        1: "New List Item 1",
-                        2: "New List Item 2"
-                    }
+                    listItems: [
+                        "New List Item 1",
+                        "New List Item 2"
+                    ]
                 },
                 img: "list.png"
             }
@@ -91,6 +94,7 @@ var allComponents = {
     },
     Spacer: {
         title: "spacers",
+        pageTypes: ["product", "marketing"],
         types: {
             "small": {
                 title: "S",
@@ -132,6 +136,7 @@ var allComponents = {
     },
     SideBySide: {
         title: "Side By Side",
+        pageTypes: ["product", "marketing"],
         types: {
             "sidebyside": {
                 title: "SideBySide",
@@ -140,15 +145,16 @@ var allComponents = {
                 defaultData: {
                     headerText: "SBS New",
                     paraText: "Test Para",
-                    imgSrc: "",
-                    imgAlt: ""
+                    imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+                    imgAlt: "Img Alt"
                 },
-                img: ""
+                img: "sidebysidewheader1.png"
             }
         }
     },
     Videos: {
         title: "Videos",
+        pageTypes: ["product", "marketing"],
         types: {
             "VideoJW": {
                 title: "VideoJW",
@@ -157,10 +163,31 @@ var allComponents = {
                 defaultData: {
                     videoCode: ""
                 },
+                img: "jwplayer.png"
+            }
+        }
+    },
+    Banners: {
+        title: "banners",
+        pageTypes: ["marketing"],
+        types: {
+            "banner": {
+                title: "Banner",
+                componentName: "Banners",
+                type: "banner",
+                defaultData: {
+                    header_1: "New Banner - Line 1",
+                    header_2: "New Banner - Line 2",
+                    header_3: "New Banner - Line 3",
+                    paraText: "Paragraph Text",
+                    buttonText: "Shop Now",
+                    bannerLink: "https://www.bodybuilding.com",
+                    backgroundImg: ""
+                },
                 img: ""
             }
         }
-    }
+    },
 };
 
 export const state = () => ({

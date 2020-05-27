@@ -1,5 +1,5 @@
 <template>
-    <section class="container">
+    <section class="container new__product">
         <div class="built__elements__wrapper">
             <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
@@ -194,12 +194,22 @@ export default {
     },
     head() {
         return {
-            script: [{ src: 'https://identity.netlify.com/v1/netlify-identity-widget.js' }],
+            title: "New Product Page Form || Bodybuilding.com",
+            meta: [
+                { 
+                    hid: 'description',
+                    name: 'description',
+                    content: "New product page form for vendors"
+                },
+                { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+            ]
         };
     }
 }
 </script>
 
 <style>
-
+    .new__product .built__elements__wrapper {
+        padding-left: 0px;
+    }
 </style>

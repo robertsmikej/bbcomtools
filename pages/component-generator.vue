@@ -1,5 +1,5 @@
 <template>
-    <section class="container">
+    <section class="container component__generator">
         <div class="element__bar">
             <div class="bar__buttons page__type__buttons">
                 <h4>Type Of Page</h4>
@@ -8,10 +8,14 @@
             </div>
             <div class="element__sections">
                 <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
-                    <!-- <h4>{{ section.title }}</h4> -->
-                    <div class="create__element__cell" @click="createComponent" :component-name="component.componentName" :component-type="component.type ? component.type : null" v-for="component in section.types" :key="component.type + clickedElements.numberOfSections">
-                        <img class="create__element__img" v-if="component.img.length > 0" :src="'/' + component.img"/>
-                        <p class="create__element__para" v-if="component.img.length === 0">{{ component.title }}</p>
+                    <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
+                        <h4>{{ section.title }}</h4>
+                        <div v-for="component in section.types" :key="component.type + clickedElements.numberOfSections" class="create__element__cell__outer">
+                            <div @click="createComponent" :component-name="component.componentName" :component-type="component.type ? component.type : null" class="create__element__cell">
+                                <img class="create__element__img" v-if="component.img.length > 0" :src="'/imgs/' + component.img"/>
+                                <p class="create__element__para" v-if="component.img.length === 0">{{ component.title }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -23,7 +27,7 @@
             <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="bb__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component :is="element.name" :componentData="element" v-for="element in clickedElements.elements" :key="element.uniqueName" :type="element.type ? element.type : null"></component>
+                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.name" :componentData="element" :type="element.type ? element.type : null"></component>
                 </div>
             </div>
         </div>
@@ -100,6 +104,9 @@ export default {
         });
     },
     methods: {
+        checkPageType: function (data) {
+            return data.pageTypes.includes(this.pageType);
+        },
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];
             arr.splice(fromIndex, 1);
@@ -123,6 +130,11 @@ export default {
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
+            if (this.components[compname].types[comptype].defaultData) {
+                for (let d in this.components[compname].types[comptype].defaultData) {
+                    newComponent.elementData[d] = this.components[compname].types[comptype].defaultData[d];
+                }
+            }
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
             this.pageActions += 1;
@@ -159,49 +171,50 @@ export default {
             text.select();
             document.execCommand('copy');
         },
+        
         importCode: function () {
-            let code = this.$el.querySelector(".code__text__area").value;
-            let codeDiv = document.createElement("div");
-            codeDiv.innerHTML = code;
-            let elements = codeDiv.querySelectorAll(".component__wrap");
-            let clickedElements = this.clickedElements;
-            let number = clickedElements.numberOfComponents;
-            let components = this.components;
-            let actions = 0;
-            clickedElements.elements = [];
-            clickedElements.numberOfComponents = 0;
-            clickedElements.numberOfSections = 0;
-            this.pageActions = 0;
-            let newArr = [];
-            if (elements.length > 0) {
-                elements.forEach(function (e) {
-                    let el = e.childNodes[0];
-                    let name = e.getAttribute("data-component-name");
-                    let type = e.getAttribute("data-component-type");
-                    let data = e.getAttribute("data-component-data");
-                    let dataName = e.getAttribute("data-component-data-name");
-                    let newComponent = {
-                        "name": name,
-                        "uniqueName": name + number,
-                        "number": number,
-                        "type": type,
-                        "componentData": {
-                            "elementData": {
-                                dataName: data
-                            }
-                        },
-                        "defaultData": components[name].types[type].defaultData,
-                        "optionsHidden": false,
-                        "alreadyCreated": false
-                    };
-                    actions += 1;
-                    newArr.push(newComponent);
-                });
-            }
-            clickedElements.elements = newArr;
-            clickedElements.numberOfComponents += actions;
-            clickedElements.numberOfSections += actions;
-            this.pageActions += actions;
+            // let code = this.$el.querySelector(".code__text__area").value;
+            // let codeDiv = document.createElement("div");
+            // codeDiv.innerHTML = code;
+            // let elements = codeDiv.querySelectorAll(".component__wrap");
+            // let clickedElements = this.clickedElements;
+            // let number = clickedElements.numberOfComponents;
+            // let components = this.components;
+            // let actions = 0;
+            // clickedElements.elements = [];
+            // clickedElements.numberOfComponents = 0;
+            // clickedElements.numberOfSections = 0;
+            // this.pageActions = 0;
+            // let newArr = [];
+            // if (elements.length > 0) {
+            //     elements.forEach(function (e) {
+            //         let el = e.childNodes[0];
+            //         let name = e.getAttribute("data-component-name");
+            //         let type = e.getAttribute("data-component-type");
+            //         let data = e.getAttribute("data-component-data");
+            //         let dataName = e.getAttribute("data-component-data-name");
+            //         let newComponent = {
+            //             "name": name,
+            //             "uniqueName": name + number,
+            //             "number": number,
+            //             "type": type,
+            //             "componentData": {
+            //                 "elementData": {
+            //                     dataName: data
+            //                 }
+            //             },
+            //             "defaultData": components[name].types[type].defaultData,
+            //             "optionsHidden": false,
+            //             "alreadyCreated": false
+            //         };
+            //         actions += 1;
+            //         newArr.push(newComponent);
+            //     });
+            // }
+            // clickedElements.elements = newArr;
+            // clickedElements.numberOfComponents += actions;
+            // clickedElements.numberOfSections += actions;
+            // this.pageActions += actions;
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();
@@ -209,25 +222,78 @@ export default {
         checkRestricted: function (name) {
             return this.restrictions.includes(name);
         }
+    },
+    head() {
+        return {
+            title: "Component Generator || Bodybuilding.com",
+            meta: [
+                { 
+                    hid: 'description',
+                    name: 'description',
+                    content: "Component Generator for Bodybuilding.com Employees"
+                },
+                { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+            ]
+        };
     }
 }
 </script>
 
 <style>
+    .component__generator .built__elements__wrapper {
+        padding-left: 240px;
+    }
     .element__bar {
+        width: 240px;
+        height: calc(100vh - 40px);
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        justify-content: flex-start;
+        position: fixed;
+        top: 40px;
+        left: 0;
+        background: #FFF;
+        padding: 4px;
+        border: 1px solid #232323;
+    }
+
+    .page__type__buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-right: auto;
         width: 100%;
+        margin: 10px auto;
+    }
+    .page__type__buttons h4 {
+        width: 100%;
+        text-align: center;
+    }
+    .bar__button {
+        width: 100px;
+        background: #232323;
+        margin: 4px;
+        padding: 8px;
+        color: #FFF;
+        text-align: center;
         display: flex;
         flex-direction: row;
         align-content: center;
         align-items: center;
         justify-content: center;
-        position: sticky;
-        top: 0px;
-        left: 0;
-        background: #FFF;
-        padding: 4px 4px 4px 4px;
-        border: 1px solid #232323;
+        font-size: 1em;
+        line-height: 1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        align-self: center;
     }
+
     .element__sections {
         flex: 1;
         display: flex;
@@ -242,33 +308,78 @@ export default {
         flex-wrap: wrap;
         align-content: center;
         justify-content: center;
-        border-right: 1px solid #232323;
-        padding: 0 0;
-        flex: 0 1 auto;
+        padding: 10px 0;
+        flex: 1 1 auto;
+        border-top: 1px solid #232323;
+    }
+    .element__section__inner {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
     }
     .element__section h4 {
         text-transform: capitalize;
         align-self: center;
         margin: 0 5px;
         width: 100%;
+        text-align: center;
+    }
+    .create__element__cell__outer {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: flex-end;
+        justify-content: center;
     }
     .create__element__cell {
-        width: auto;
-        min-width: 30px;
+        min-width: 20px;
         border-radius: 4px;
         text-align: center;
         padding: 2px;
-        margin: 5px;
+        margin: 2px;
         cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: flex-end;
+        justify-content: center;
+        /* border: 1px solid #232323; */
     }
     .create__element__img {
         max-width: 20px;
         max-height: 20px;
     }
     .create__element__para {
-        font-size: .9em;
-        line-height: .9em;
+        font-size: 1em;
+        line-height: 1em;
         text-align: center;
+    }
+    [component-type="H1"] p {
+        font-size: var(--h1-size);
+        line-height: 1em;
+    }
+    [component-type="H2"] p {
+        font-size: var(--h2-size);
+        line-height: 1em;
+    }
+    [component-type="H3"] p {
+        font-size: var(--h3-size);
+        line-height: 1em;
+    }
+    [component-type="H4"] p {
+        font-size: var(--h4-size);
+        line-height: 1em;
+    }
+    [component-type="H5"] p {
+        font-size: var(--h5-size);
+        line-height: 1em;
+    }
+    [component-type="h6"] p {
+        font-size: var(--h6-size);
+        line-height: 1em;
     }
     
     .code__section {
@@ -311,38 +422,7 @@ export default {
         text-align: center;
     }
 
-    .page__type__buttons {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-        margin-right: auto;
-        width: 260px;
-    }
-    .page__type__buttons h4 {
-        width: 100%;
-    }
-    .bar__button {
-        width: 120px;
-        background: #232323;
-        margin: 4px;
-        padding: 8px;
-        color: #FFF;
-        text-align: center;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-        font-size: 1em;
-        line-height: 1em;
-        text-transform: uppercase;
-        cursor: pointer;
-        border-radius: 3px;
-        align-self: center;
-    }
+    
     
 
     

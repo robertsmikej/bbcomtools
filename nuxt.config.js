@@ -1,4 +1,4 @@
-const pkg = require('./package')
+const pkg = require('./package');
 
 module.exports = {
   mode: 'universal',
@@ -74,7 +74,7 @@ markdownit: {
     /*
     ** You can extend webpack config here
     */
-   extractCSS: true,
+  //  extractCSS: true,
     extend(config, ctx) {
       
     }

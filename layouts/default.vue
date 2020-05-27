@@ -1,21 +1,34 @@
 <template>
     <div class="page__container">
-        <nav>
-            <h3>BBcom Tools</h3>
-            <ul>
-                <nuxt-link to="../vendors/newproduct">Vendor - New Prod</nuxt-link>
-                <nuxt-link to="../component-generator">Component Generator</nuxt-link>
-            </ul>
-        </nav>
+        <Nav/>
         <nuxt/>
     </div>
 </template>
 
 
 <style>
+    :root {
+        --h1-size: 2.4em;
+        --h2-size: 1.8em;
+        --h3-size: 1.6em;
+        --h4-size: 1.4em;
+        --h5-size: 1.2em;
+        --h6-size: 1em;
+
+        --bb-white: #FFF;
+        --bb-grey-light: #919191;
+        --bb-grey: #232323;
+        --bb-blue: #00aeef;
+        --bb-blue-dark: #1A3D7A;
+        --bb-green: #62bd19;
+        --font: ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        --font-bold: ProximaNovaExCnSemiBold, ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        --text-color: #2B373C;
+
+
+    }
     html {
-        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-            Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-family: var(--font);
         font-size: 16px;
         word-spacing: 1px;
         -ms-text-size-adjust: 100%;
@@ -48,35 +61,7 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    nav {
-        width: 100vw;
-        height: 40px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        align-items: center;
-        justify-content: flex-start;
-        background-color: #313845;
-        color: #FFF;
-        padding: 10px 10px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10;
-    }
-    nav h3 {
-        text-align: left;
-        margin: 0;
-    }
-    nav ul {
-        margin: 6px 10px 6px auto;
-        align-self: center;
-        padding: 0 6px;
-    }
-    nav a {
-        color: #FFF;
-    }
+    
     .container {
         width: 100%;
         display: flex;
@@ -87,17 +72,20 @@
         padding: 40px 0 0;
     }
 
-    .page__type--selected {
+    .container .page__type--selected {
         border: 1px solid #232323;
         background: #FFF;
         color: #232323;
     }
 
-    .page__type__header {
+    .container .page__type__header {
         width: 100%;
         margin: 0 0 20px;
         color: #303030;
-        font: 600 30px/1.1 ProximaNovaExCnSemiBold,Arial,sans-serif;
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 1em;
+        font-family: var(--font-bold);
         text-transform: uppercase;
         border-bottom: 1px solid #c8c8c8;
         background-color: #FFF;
@@ -130,30 +118,42 @@
     .component__wrap {
         position: relative;
     }
-    .component__options {
-        min-height: 30px;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: flex-start;
-        z-index: 1;
-        padding: 0;
-    }
     .component__outer--max-width {
         width: 100%;
         max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
     }
-    .component__options input {
+
+    .component__options {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: flex-start;
+        z-index: 1;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    
+
+    .component__options--individual {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%;
+        height: 100%;
+        z-index: 2;
+    }
+    .component__options--individual input {
         width: 100%;
         padding: 10px 10px;
         margin: 0 auto;
         font-size: 1em;
     }
-    .component__options textarea {
+    .component__options--individual textarea {
         width: 100%;
-        min-height: 100px;
         padding: 6px 10px;
         margin: 0 auto;
         font-size: 1.1em;

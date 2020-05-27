@@ -1,9 +1,9 @@
 <template>
     <div class="component__options__buttons">
-        <div class="component__options--button" @click="sendInfo">✔</div>
+        <div class="component__options--button" @click="checkNotBlank()">✔</div>
         <div class="component__options--button" @click="removeElement">X</div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementUp">↑</div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementDown">↓</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementUp">▲</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted" @click="moveElementDown">▼</div>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
         componentData: Object
     },
     methods: {
-        sendInfo(event) {
+        sendInfo() {
             let info = {
                 componentData: this.componentData
             };
@@ -28,6 +28,18 @@ export default {
         },
         moveElementDown() {
             this.$nuxt.$emit('moveElementDown', this.componentData.uniqueName);
+        },
+        checkNotBlank: function (t) {
+            let elData = this.componentData.elementData;
+            console.log(elData);
+            for (let e in elData) {
+                let el = elData[e];
+                if (el.length <= 0) {
+                    console.log("Element Has Empty Field, Are You Sure You Want To Continue?");
+                } else {
+                    this.sendInfo();
+                }
+            }
         }
     }
 }
@@ -35,6 +47,7 @@ export default {
 
 <style>
     .component__options__buttons {
+        width: auto;
         display: flex;
         flex-direction: row;
         align-content: center;
@@ -43,22 +56,22 @@ export default {
         margin: 0 auto;
     }
     .component__options--button {
-        width: 40px;
-        height: 40px;
-        padding: 6px;
+        width: 24px;
+        height: 24px;
         margin: 5px;
-        background: #232323;
-        border-radius: 4px;
+        background: #FFF;
+        border: 1px solid var(--bb-grey);
+        border-radius: 50%;
         display: flex;
         flex-direction: row;
         align-content: center;
         justify-content: center;
         align-items: center;
-        font-size: 1.1em;
-        line-height: 1.1em;
+        font-size: 16px;
         text-transform: uppercase;
-        color: #FFF;
+        color: var(--bb-grey);
         font-weight: 900;
         cursor: pointer;
+        align-self: center;;
     }
 </style>
