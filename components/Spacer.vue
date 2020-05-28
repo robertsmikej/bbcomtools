@@ -1,5 +1,5 @@
 <template>
-    <div class="component__outer component__outer--max-width">
+    <div class="page__spacer component__outer component__outer--max-width">
         <div class="component__options" v-if="!componentData.optionsHidden">
             <OptionsButtons :componentData="componentData"/>
         </div>
@@ -34,5 +34,8 @@ export default {
 <style>
 .component__spacer {
     cursor: pointer;
+}
+.page__spacer {
+    background-color: var(--bb-grey-very-light);
 }
 </style>

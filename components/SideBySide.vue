@@ -1,33 +1,27 @@
 <template>
     <div class="side__by__side component__outer component__outer--max-width">
         <div class="side__by__side__inner">
-            <div class="side__by__side__image__container">
-                <div class="component__options" v-if="!componentData.optionsHidden">
-                    <textarea v-model="componentData.elementData.imgSrc" class="text__input" type="text" placeholder="Image URL"/>
+            <div class="side__by__side__image__container side__by__side__container" >
+                <div class="component__options component__options--group" v-if="!componentData.optionsHidden">
+                    <textarea v-model="componentData.elementData.imgSrc" class="js__options__input" type="text" placeholder="Image URL"/>
                     <OptionsButtons :componentData="componentData"/>
                 </div>
-                <div class="component__wrap" @click="checkOptions">
-                    <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" class="side__by__side__image"/>
-                </div>
+                <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" @click="checkOptions" class="side__by__side__image"/>
             </div>
             <div class="side__by__side__text__container">
-                <div class="side__by__side__text__para">
-                    <div class="component__options" v-if="!componentData.optionsHidden">
-                        <input v-model="componentData.elementData.headerText" class="text__input" type="text" placeholder="Header Text"/>
+                <div class="side__by__side__text__header side__by__side__container">
+                    <div class="component__options component__options--group" v-if="!componentData.optionsHidden">
+                        <input v-model="componentData.elementData.headerText" class="js__options__input page__header--h4 page__header--h4--builder" type="text" placeholder="Header Text"/>
                         <OptionsButtons :componentData="componentData"/>
                     </div>
-                    <div class="component__wrap" @click="checkOptions">
-                        <h4 class="page__header--h4 side__by__side__header">{{ componentData.elementData.headerText }}</h4>
-                    </div>
+                    <h4 class="page__header--h4 side__by__side__header" @click="checkOptions">{{ componentData.elementData.headerText }}</h4>
                 </div>
-                <div class="side__by__side__text__para">
-                    <div class="component__options" v-if="!componentData.optionsHidden">
-                        <textarea v-model="componentData.elementData.paraText" class="text__input" type="text" placeholder="Paragraph Text"/>
+                <div class="side__by__side__text__para side__by__side__container">
+                    <div class="component__options component__options--group" v-if="!componentData.optionsHidden">
+                        <textarea v-model="componentData.elementData.paraText" class="js__options__input page__para page__para--builder" type="text" placeholder="Paragraph Text"/>
                         <OptionsButtons :componentData="componentData"/>
                     </div>
-                    <div class="component__wrap" @click="checkOptions">
-                        <p class="page__para" style="white-space: pre-line;">{{ componentData.elementData.paraText }}</p>
-                    </div>
+                    <p class="page__para" @click="checkOptions" style="white-space: pre-line;">{{ componentData.elementData.paraText }}</p>
                 </div>
             </div>
         </div>
@@ -46,6 +40,9 @@ export default {
         };
     },
     methods: {
+        checkHeight(e) {
+            this.$nuxt.$emit("changeHeight", this.componentData);
+        },
         checkOptions() {
             let info = {
                 componentData: this.componentData
@@ -60,4 +57,9 @@ export default {
 .side__by__side {
     cursor: pointer;
 }
+
+/* .side__by__side__text__header,
+.side__by__side__text__para {
+    float: left;
+} */
 </style>

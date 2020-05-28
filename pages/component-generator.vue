@@ -27,7 +27,7 @@
             <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="bb__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.name" :componentData="element" :type="element.type ? element.type : null"></component>
+                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.name" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
                 </div>
             </div>
         </div>
@@ -69,7 +69,23 @@ export default {
         }
     },
     created() {
+        this.$nuxt.$on('changeHeight', data => {
+            let uniqueName = data.uniqueName;
+            this.currentComponentName = uniqueName;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            let parent = document.querySelector("." + uniqueName);
+            let inputs = parent.querySelectorAll("input, textarea");
+            for (let i = 0; i < inputs.length; i++) {
+                let input = inputs[i];
+                let styles = window.getComputedStyle(parent);
+                let inputHeight = Math.ceil(parent.offsetHeight) + "px";
+                console.log(this.clickedElements.elements[findIn].optionsMinHeight);
+                this.clickedElements.elements[findIn].optionsMinHeight.splice(i, 1);
+                this.clickedElements.elements[findIn].optionsMinHeight.splice(i, 0, inputHeight);
+            }
+        });
         this.$nuxt.$on('toggleOptions', data => {
+            // console.log(data);
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -127,6 +143,7 @@ export default {
                 elementData: {},
                 defaultData: this.components[compname].types[comptype].defaultData,
                 optionsHidden: false,
+                optionsMinHeight: ["0px"],
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
@@ -428,20 +445,5 @@ export default {
     
 
     
-    .list__items {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-content: flex-start;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-    .list__item {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-    }
+    
 </style>

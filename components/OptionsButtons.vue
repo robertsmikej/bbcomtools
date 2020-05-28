@@ -17,7 +17,7 @@ export default {
             let info = {
                 componentData: this.componentData
             };
-            this.$nuxt.$emit('sendComponentInfo', info);
+            this.$nuxt.$emit("sendComponentInfo", info);
             this.$nuxt.$emit("toggleOptions", info);
         },
         removeElement() {
@@ -29,15 +29,13 @@ export default {
         moveElementDown() {
             this.$nuxt.$emit('moveElementDown', this.componentData.uniqueName);
         },
-        checkNotBlank: function (t) {
+        checkNotBlank: function () {
             let elData = this.componentData.elementData;
-            console.log(elData);
             for (let e in elData) {
                 let el = elData[e];
-                if (el.length <= 0) {
-                    console.log("Element Has Empty Field, Are You Sure You Want To Continue?");
-                } else {
+                if (el.length > 0) {
                     this.sendInfo();
+                    return;
                 }
             }
         }
@@ -53,7 +51,9 @@ export default {
         align-content: center;
         justify-content: center;
         align-items: center;
-        margin: 0 auto;
+        margin: 0;
+        flex: 0;
+        background: #FFF;
     }
     .component__options--button {
         width: 24px;

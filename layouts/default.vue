@@ -16,7 +16,9 @@
         --h6-size: 1em;
 
         --bb-white: #FFF;
+        --bb-grey-very-light: #F9F9F9;
         --bb-grey-light: #919191;
+
         --bb-grey: #232323;
         --bb-blue: #00aeef;
         --bb-blue-dark: #1A3D7A;
@@ -43,15 +45,6 @@
         box-sizing: border-box;
         margin: 0;
         transition: all .3s;
-    }
-    h1 {
-        text-align: left;
-    }
-    h2 {
-        text-align: left;
-    }
-    h3 {
-        text-align: left;
     }
     .page__container {
         width: 100%;
@@ -137,27 +130,30 @@
         right: 0;
     }
     
-
-    .component__options--individual {
+    .component__options {
         position: absolute;
         top: 0;
         left: 0;
-        width: 80%;
+        width: 100%;
         height: 100%;
         z-index: 2;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        align-items: center;
+        justify-content: center;
     }
-    .component__options--individual input {
-        width: 100%;
-        padding: 10px 10px;
-        margin: 0 auto;
-        font-size: 1em;
+    .component__options--individual {
+        
     }
-    .component__options--individual textarea {
-        width: 100%;
-        padding: 6px 10px;
-        margin: 0 auto;
-        font-size: 1.1em;
-        line-height: 1.1em;
+    .component__options--group {
+
+    }
+    .component__options input, .component__options textarea {
+        flex: 1;
+        border: none;
+        margin: 0;
     }
     .component__options--border {
         border: 1px solid #232323;
@@ -167,10 +163,5 @@
         top: 2px;
         right: 5px;
         cursor: pointer;
-    }
-
-    textarea {
-        min-width: 300px;
-        min-height: 60px;
     }
 </style>

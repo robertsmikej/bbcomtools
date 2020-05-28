@@ -1,7 +1,7 @@
 <template>
     <div class="page__video component__outer component__outer--max-width">
-        <div class="component__options" v-if="!componentData.optionsHidden">
-            <textarea v-model="componentData.elementData.videoCode" class="text__text__area" type="text"/>
+        <div v-if="!componentData.optionsHidden" class="component__options--individual">
+            <textarea v-model="componentData.elementData.videoCode" class="text__text__area" type="text" placeholder="Video URL"/>
             <OptionsButtons :componentData="componentData"/>
         </div>
         <div class="component__remove" @click="checkOptions">
@@ -34,11 +34,14 @@ export default {
 </script>
 
 <style>
-
+.page__video {
+    margin: 24px auto;
+    width: 100%;
+}
 .video__preview__img {
     width: 100%;
     max-width: 100%;
-    margin: 20px 0;
+    margin: 0px 0;
     cursor: pointer;
     z-index: 1;
 }

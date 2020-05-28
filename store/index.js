@@ -84,8 +84,12 @@ var allComponents = {
                 type: "list",
                 defaultData: {
                     listItems: [
-                        "New List Item 1",
-                        "New List Item 2"
+                        {
+                            text: "New List Item 1"
+                        },
+                        {
+                            text: "New List Item 2"
+                        }
                     ]
                 },
                 img: "list.png"
@@ -143,8 +147,8 @@ var allComponents = {
                 componentName: "SideBySide",
                 type: "sidebyside",
                 defaultData: {
-                    headerText: "SBS New",
-                    paraText: "Test Para",
+                    headerText: "New Header",
+                    paraText: "New Para",
                     imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                     imgAlt: "Img Alt"
                 },
