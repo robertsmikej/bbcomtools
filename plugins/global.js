@@ -6,10 +6,6 @@ Vue.component('Nav', Nav);
 import OptionsButtons from '~/components/OptionsButtons.vue';
 Vue.component('OptionsButtons', OptionsButtons);
 
-import TextInput from '~/components/inputs/TextInput.vue';
-Vue.component('TextInput', TextInput);
-
-
 import Headers from '~/components/Headers.vue';
 Vue.component('Headers', Headers);
 
