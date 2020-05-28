@@ -143,7 +143,7 @@ var allComponents = {
         pageTypes: ["product", "marketing"],
         types: {
             "sidebyside": {
-                title: "Sidebyside",
+                title: "Side By Side",
                 componentName: "Sidebyside",
                 type: "sidebyside",
                 defaultData: {
