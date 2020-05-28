@@ -84,7 +84,7 @@ export default {
                 }
             },
             {
-                componentName: "SideBySide",
+                componentName: "Sidebyside",
                 type: "sidebyside",
                 defaultData: {
                     headerText: "Key Ingredients",
@@ -94,7 +94,7 @@ export default {
                 }
             },
             {
-                componentName: "SideBySide",
+                componentName: "Sidebyside",
                 type: "sidebyside",
                 defaultData: {
                     headerText: "Supports Your Goals",
@@ -104,7 +104,7 @@ export default {
                 }
             },
             {
-                componentName: "SideBySide",
+                componentName: "Sidebyside",
                 type: "sidebyside",
                 defaultData: {
                     headerText: "Good To Know",

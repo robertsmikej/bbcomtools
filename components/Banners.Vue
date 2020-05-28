@@ -4,7 +4,7 @@
             <div class="page__banner__image__container">
                 <div class="component__options" v-if="!componentData.optionsHidden">
                     <textarea v-model="componentData.elementData.imgSrc" class="text__input" type="text" placeholder="Background Image URL"/>
-                    <OptionsButtons :componentData="componentData"/>
+                    <Optionsbuttons :componentData="componentData"/>
                 </div>
                 <div class="component__wrap" @click="checkOptions">
                     <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" class="banner__image"/>
@@ -17,7 +17,7 @@
                         <input v-model="componentData.elementData.header_2" class="text__input" type="text" placeholder="Header Text - Line 2"/>
                         <input v-model="componentData.elementData.header_3" class="text__input" type="text" placeholder="Header Text - Line 3"/>
                         <input v-model="componentData.elementData.paraText" class="text__input" type="text" placeholder="Paragraph Text"/>
-                        <OptionsButtons :componentData="componentData"/>
+                        <Optionsbuttons :componentData="componentData"/>
                     </div>
                     <div class="component__wrap" @click="checkOptions">
                         <h2 class="page__banner__header">

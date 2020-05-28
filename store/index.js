@@ -138,13 +138,13 @@ var allComponents = {
             }
         }
     },
-    SideBySide: {
+    Sidebyside: {
         title: "Side By Side",
         pageTypes: ["product", "marketing"],
         types: {
             "sidebyside": {
-                title: "SideBySide",
-                componentName: "SideBySide",
+                title: "Sidebyside",
+                componentName: "Sidebyside",
                 type: "sidebyside",
                 defaultData: {
                     headerText: "New Header",

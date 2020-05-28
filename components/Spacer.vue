@@ -1,7 +1,7 @@
 <template>
     <div class="page__spacer component__outer component__outer--max-width">
         <div class="component__options" v-if="!componentData.optionsHidden">
-            <OptionsButtons :componentData="componentData"/>
+            <Optionsbuttons :componentData="componentData"/>
         </div>
         <div class="component__wrap" @click="checkOptions">
             <div class="component__spacer" :class="'component__spacer--' + type"></div>

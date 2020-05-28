@@ -14,7 +14,7 @@
                     @keyup="checkHeight()"
                     type="text"
                 />
-                <OptionsButtons 
+                <Optionsbuttons 
                     :componentData="componentData"
                 />
             </div>

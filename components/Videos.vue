@@ -2,7 +2,7 @@
     <div class="page__video component__outer component__outer--max-width">
         <div v-if="!componentData.optionsHidden" class="component__options--individual">
             <textarea v-model="componentData.elementData.videoCode" class="text__text__area" type="text" placeholder="Video URL"/>
-            <OptionsButtons :componentData="componentData"/>
+            <Optionsbuttons :componentData="componentData"/>
         </div>
         <div class="component__remove" @click="checkOptions">
             <img src="../static/imgs/video-preview.jpg" alt="Video Preview" class="video__preview__img">

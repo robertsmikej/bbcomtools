@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <OptionsButtons
+            <Optionsbuttons
                 :componentData="componentData"
             />
         </div>
