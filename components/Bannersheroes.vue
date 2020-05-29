@@ -45,7 +45,10 @@ export default {
         };
     },
     methods: {
-        checkOptions() {
+        checkHeight(e) {
+            this.$nuxt.$emit("changeHeight", this.componentData);
+        },
+        checkOptions(e) {
             let info = {
                 componentData: this.componentData
             };
@@ -56,7 +59,10 @@ export default {
 </script>
 
 <style>
-.component__spacer {
+.page__para {
     cursor: pointer;
+}
+.page__para--builder {
+    margin: 0;
 }
 </style>

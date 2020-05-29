@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
-import Banners from '../components/Banners.vue';
-Vue.component('Banners', Banners);
+import Bannersheroes from '../components/Bannersheroes.vue';
+Vue.component('Bannersheroes', Bannersheroes);
 
 import Headers from '../components/Headers.vue';
 Vue.component('Headers', Headers);
