@@ -3,8 +3,8 @@
         <div class="component__options" v-if="!componentData.optionsHidden">
             <Optionsbuttons :componentData="componentData"/>
         </div>
-        <div class="component__wrap" @click="checkOptions">
-            <div class="component__spacer" :class="'component__spacer--' + type"></div>
+        <div class="component__wrap component__container" @click="checkOptions">
+            <div class="component__spacer site__element" :class="'component__spacer--' + type"></div>
         </div>
     </div>
 </template>

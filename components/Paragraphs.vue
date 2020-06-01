@@ -1,6 +1,6 @@
 <template>
     <div class="page__paras component__outer component__outer--max-width">
-        <div class="component__wrap">
+        <div class="component__wrap component__container">
             <div 
                 v-if="!componentData.optionsHidden"
                 class="component__options component__options--individual"
@@ -8,7 +8,7 @@
                 <textarea
                     v-model="componentData.elementData.paraText"
                     :style="'min-height: ' + componentData.optionsMinHeight[0] + ';'" 
-                    class="js__options__input page__para page__para--builder"
+                    class="js__options__input page__para"
                     @keyup="checkHeight()" 
                     type="text"
                 />
@@ -16,7 +16,14 @@
                     :componentData="componentData"
                 />
             </div>
-            <p @click="checkOptions" class="page__para" v-if="type === 'p'" style="white-space: pre-line;">{{ componentData.elementData.paraText }}</p>
+            <p 
+                @click="checkOptions"
+                v-if="type === 'p'"
+                style="white-space: pre-line;"
+                class="page__para site__element"
+            >
+                {{ componentData.elementData.paraText }}
+            </p>
         </div>
     </div>
 </template>
@@ -51,6 +58,6 @@ export default {
     cursor: pointer;
 }
 .page__para--builder {
-    margin: 0;
+    /* margin: 0; */
 }
 </style>

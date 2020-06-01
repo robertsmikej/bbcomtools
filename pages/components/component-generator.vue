@@ -70,22 +70,18 @@ export default {
     },
     created() {
         this.$nuxt.$on('changeHeight', data => {
-            let uniqueName = data.uniqueName;
-            this.currentComponentName = uniqueName;
+            this.currentComponentName = data.uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            let parent = document.querySelector("." + uniqueName);
-            let inputs = parent.querySelectorAll("input, textarea");
-            for (let i = 0; i < inputs.length; i++) {
-                let input = inputs[i];
-                let styles = window.getComputedStyle(parent);
-                let inputHeight = Math.ceil(parent.offsetHeight) + "px";
-                console.log(this.clickedElements.elements[findIn].optionsMinHeight);
-                this.clickedElements.elements[findIn].optionsMinHeight.splice(i, 1);
-                this.clickedElements.elements[findIn].optionsMinHeight.splice(i, 0, inputHeight);
-            }
+            let parent = document.querySelector("." + this.currentComponentName);
+            let child = parent.querySelectorAll(".site__element")[data.targetInputIndex];
+            let styles = window.getComputedStyle(child);
+            let inputHeight = Math.ceil(child.offsetHeight) + "px";
+            this.clickedElements.elements[findIn].optionsMinHeight.splice
+            (data.targetInputIndex, 1);
+            this.clickedElements.elements[findIn].optionsMinHeight.splice(data.targetInputIndex, 0, inputHeight);
+            let inputs = parent.querySelectorAll("input, textarea")[data.targetInputIndex];
         });
         this.$nuxt.$on('toggleOptions', data => {
-            // console.log(data);
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -135,6 +131,11 @@ export default {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
             let comptype = e.currentTarget.getAttribute("component-type");
+            let defaultData = this.components[compname].types[comptype].defaultData;
+            let optionsMinHeight = [];
+            for (let d in defaultData) {
+                optionsMinHeight.push("0px");
+            }
             let newComponent = {
                 name: compname,
                 uniqueName: compname + newNumber,
@@ -143,7 +144,8 @@ export default {
                 elementData: {},
                 defaultData: this.components[compname].types[comptype].defaultData,
                 optionsHidden: false,
-                optionsMinHeight: ["0px"],
+                optionsMinHeight: optionsMinHeight,
+                targetInputIndex: 0,
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
@@ -440,7 +442,9 @@ export default {
     }
 
     
-    
+    .page__para--builder {
+        margin: 0;
+    }
 
     
 

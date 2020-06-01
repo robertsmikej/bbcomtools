@@ -7,7 +7,7 @@
                     <Optionsbuttons :componentData="componentData"/>
                 </div>
                 <div class="component__wrap" @click="checkOptions">
-                    <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" class="banner__image"/>
+                    <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" class="banner__image site__element"/>
                 </div>
             </div>
             <div class="page__banner__text__container">
@@ -20,12 +20,12 @@
                         <Optionsbuttons :componentData="componentData"/>
                     </div>
                     <div class="component__wrap" @click="checkOptions">
-                        <h2 class="page__banner__header">
+                        <h2 class="page__banner__header site__element">
                             <span>{{ componentData.elementData.header_1 }}</span>
                             <span>{{ componentData.elementData.header_2 }}</span>
                             <span>{{ componentData.elementData.header_3 }}</span>
                         </h2>
-                        <p class="page__banner__para">{{ componentData.elementData.paraText }}</p>
+                        <p class="page__banner__para site__element">{{ componentData.elementData.paraText }}</p>
                     </div>
                 </div>
             </div>
@@ -63,6 +63,6 @@ export default {
     cursor: pointer;
 }
 .page__para--builder {
-    margin: 0;
+    /* margin: 0; */
 }
 </style>

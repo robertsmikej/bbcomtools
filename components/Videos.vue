@@ -1,13 +1,13 @@
 <template>
     <div class="page__video component__outer component__outer--max-width">
-        <div v-if="!componentData.optionsHidden" class="component__options--individual">
+        <div v-if="!componentData.optionsHidden" class="component__options component__options--video">
             <textarea v-model="componentData.elementData.videoCode" class="text__text__area" type="text" placeholder="Video URL"/>
             <Optionsbuttons :componentData="componentData"/>
         </div>
         <div class="component__remove" @click="checkOptions">
             <img src="../static/imgs/video-preview.jpg" alt="Video Preview" class="video__preview__img">
         </div>
-        <div class="component__wrap video__wrapper" @click="checkOptions" v-html="componentData.elementData.videoCode"></div>
+        <div class="component__wrap video__wrapper site__element" @click="checkOptions" v-html="componentData.elementData.videoCode"></div>
     </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
 
 <style>
 .page__video {
-    margin: 24px auto;
+    margin: 24px auto 0;
     width: 100%;
 }
 .video__preview__img {
@@ -47,5 +47,8 @@ export default {
 }
 .video__wrapper {
     display: none;
+}
+.component__options--video {
+    align-items: flex-end;
 }
 </style>

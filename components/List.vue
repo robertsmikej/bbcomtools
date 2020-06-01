@@ -1,58 +1,30 @@
 <template>
-    <div 
-        :data-list-name="componentData.uniqueName"
-        class="page__list component__outer component__outer--max-width"
-    >
-        <div 
-            v-if="!componentData.optionsHidden"
-            class="component__options component__options--individual"
-        >
+    <div :data-list-name="componentData.uniqueName" class="page__list component__outer component__outer--max-width">
+        <div v-if="!componentData.optionsHidden" class="component__options component__options__list">
             <div class="options__list__items">
-                <div class="options__list__item" 
-                    v-for="(item, index) in listItems" 
-                    :key="index + 1" 
+                <div class="options__list__item"
+                    v-for="(item, index) in listItems"
+                    :key="index + 1"
                     :list-item-number="index"
                 >
                     <input 
-                        v-model="listItems[index].text" 
-                        :style="'min-height: ' + componentData.optionsMinHeight[index] + ';'"
-                        class="options__list__input bb__list"
-                        value="item.text"
+                        v-model="listItems[index]"
+                        class="options__list__input list__li"
+                        value="item"
                         type="text"
-                    />
+                        :input="updateComponent()"
+                    >
                     <div class="component__options__buttons">
-                        <div 
-                            class="component__options--button"
-                            @click="addListItem"
-                        >
-                        +
-                        </div>
-                        <div 
-                            class="component__options--button"
-                            @click="deleteListItem"
-                        >
-                        X
-                        </div>
+                        <div class="component__options--button" @click="addListItem">+</div>
+                        <div class="component__options--button" @click="deleteListItem">X</div>
                     </div>
                 </div>
             </div>
-            <Optionsbuttons
-                :componentData="componentData"
-            />
+            <Optionsbuttons :componentData="componentData"/>
         </div>
-        <div class="component__wrap">
-            <ul 
-                @click="checkOptions" 
-                v-if=" type === 'list'"
-                :key="numberOfItems"
-                class="bb__list"
-            >
-                <li class="bb__list__li"
-                    v-for="(item, index) in listItems"
-                    :index-num="index"
-                    :key="item.text + index">
-                    {{ item.text }}
-                </li>
+        <div class="component__wrap component__container">
+            <ul @click="checkOptions" v-if=" type === 'list'" :key="numberOfItems" class="page__ul__list site__element">
+                <li v-for="(item, index) in listItems" :index-num="index" :key="item + index" class="list__li">{{ item }}</li>
             </ul>
         </div>
     </div>
@@ -79,6 +51,9 @@ export default {
         this.numberOfItems = this.listItems.length;
     },
     methods: {
+        updateComponent() {
+            this.componentData.elementData.listItems = this.listItems;
+        },
         checkHeight(e) {
             this.$nuxt.$emit("changeHeight", this.componentData);
         },
@@ -99,7 +74,7 @@ export default {
         addListItem(e) {
             let components = this.listItems;
             let listItem = parseInt(e.target.closest(".options__list__item").getAttribute("list-item-number")) + 1;
-            components.splice(listItem, 0, {text: "New List Item"});
+            components.splice(listItem, 0, "New List Item");
             this.componentData.elementData.listItems = components;
             this.numberOfItems += 1;
         }
@@ -111,7 +86,6 @@ export default {
 .bb__list {
     cursor: pointer;
 }
-
 .options__list__items {
     width: 100%;
     display: flex;

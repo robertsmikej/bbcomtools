@@ -8,7 +8,7 @@
 
 <style>
     :root {
-        --h1-size: 2.4em;
+        --h1-size: 36px;
         --h2-size: 1.8em;
         --h3-size: 1.6em;
         --h4-size: 1.4em;
@@ -119,23 +119,12 @@
     }
 
     .component__options {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: flex-start;
-        z-index: 1;
-        padding: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-    
-    .component__options {
+        width: 100%;
+        height: 100%;
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        padding: 0;
         z-index: 2;
         display: flex;
         flex-direction: row;
@@ -144,24 +133,52 @@
         align-items: center;
         justify-content: center;
     }
-    .component__options--individual {
-        
-    }
-    .component__options--group {
-
+    .component__options--bottom {
+        bottom: 0;
+        align-items: flex-end;
     }
     .component__options input, .component__options textarea {
         flex: 1;
-        border: none;
-        margin: 0;
+        border: 1px solid var(--bb-grey-light);
+        box-sizing: content-box;
+        z-index: 2;
     }
     .component__options--border {
         border: 1px solid #232323;
     }
-    .component__top__icon {
-        position: absolute;
-        top: 2px;
-        right: 5px;
+    .component__options__list {
+        top: 20px;
+    }
+
+    .component__options__buttons {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        flex: 0;
+        background: #FFF;
+        z-index: 1;
+    }
+    .component__options--button {
+        width: 24px;
+        height: 24px;
+        margin: 5px;
+        background: #FFF;
+        border: 1px solid var(--bb-grey);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: var(--bb-grey);
+        font-weight: 900;
         cursor: pointer;
+        align-self: center;;
     }
 </style>

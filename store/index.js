@@ -83,14 +83,7 @@ var allComponents = {
                 componentName: "List",
                 type: "list",
                 defaultData: {
-                    listItems: [
-                        {
-                            text: "New List Item 1"
-                        },
-                        {
-                            text: "New List Item 2"
-                        }
-                    ]
+                    listItems: ["New List Item 1", "New List Item 2"]
                 },
                 img: "list.png"
             }
@@ -100,12 +93,21 @@ var allComponents = {
         title: "spacers",
         pageTypes: ["product", "marketing"],
         types: {
+            "extra-small": {
+                title: "XS",
+                componentName: "Spacer",
+                type: "extra-small",
+                defaultData: {
+                    height: "10px"
+                },
+                img: ""
+            },
             "small": {
                 title: "S",
                 componentName: "Spacer",
                 type: "small",
                 defaultData: {
-                    headerText: "S New"
+                    height: "20px"
                 },
                 img: ""
             },
@@ -114,7 +116,7 @@ var allComponents = {
                 componentName: "Spacer",
                 type: "medium",
                 defaultData: {
-                    headerText: "M New"
+                    height: "40px"
                 },
                 img: ""
             },
@@ -123,7 +125,7 @@ var allComponents = {
                 componentName: "Spacer",
                 type: "large",
                 defaultData: {
-                    headerText: "L New"
+                    height: "60px"
                 },
                 img: ""
             },
@@ -132,7 +134,7 @@ var allComponents = {
                 componentName: "Spacer",
                 type: "extralarge",
                 defaultData: {
-                    headerText: "XL New"
+                    height: "80px"
                 },
                 img: ""
             }
@@ -149,8 +151,7 @@ var allComponents = {
                 defaultData: {
                     headerText: "New Header",
                     paraText: "New Para",
-                    imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
-                    imgAlt: "Img Alt"
+                    imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
                 },
                 img: "sidebysidewheader1.png"
             }

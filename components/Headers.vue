@@ -1,7 +1,7 @@
 <template>
     <div class="page__headers component__outer component__outer--max-width">
         <!-- <div class="component__wrap" :data-component-name="componentData.name" :data-component-type="componentData.type" data-component-data-name="headerText" :data-component-data="componentData.elementData.headerText"> -->
-        <div class="component__wrap">
+        <div class="component__wrap component__container">
             <div
                 v-if="!componentData.optionsHidden"
                 class="component__options component__options--individual"
@@ -18,7 +18,16 @@
                     :componentData="componentData"
                 />
             </div>
-            <component @click="checkOptions" :is="componentData.type" :data-component-name="componentData.name" :data-component-type="componentData.type" :class="'page__header--' + componentData.type.toLowerCase()">{{ componentData.elementData.headerText }}</component>
+            <component 
+                @click="checkOptions" 
+                :is="componentData.type" 
+                :data-component-name="componentData.name" 
+                :data-component-type="componentData.type" 
+                :class="'page__header--' + componentData.type.toLowerCase()"
+                class="site__element"
+                >
+                    {{ componentData.elementData.headerText }}
+                </component>
         </div>
     </div>
 </template>
@@ -58,12 +67,13 @@ export default {
     cursor: pointer;
     white-space: pre-line;
 }
-.page__headers .page__header--h1--builder,
-.page__headers .page__header--h2--builder,
-.page__headers .page__header--h3--builder,
-.page__headers .page__header--h4--builder,
-.page__headers .page__header--h5--builder,
-.page__headers .page__header--h6--builder {
+.page__header--h1--builder,
+.page__header--h2--builder,
+.page__header--h3--builder,
+.page__header--h4--builder,
+.page__header--h5--builder,
+.page__header--h6--builder {
+    /* margin-bottom: 0; */
     margin: 0;
 }
 

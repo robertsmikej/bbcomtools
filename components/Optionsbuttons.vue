@@ -10,7 +10,8 @@
 <script>
 export default {
     props: {
-        componentData: Object
+        componentData: Object,
+        type: String
     },
     methods: {
         sendInfo() {
@@ -44,34 +45,5 @@ export default {
 </script>
 
 <style>
-    .component__options__buttons {
-        width: auto;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        flex: 0;
-        background: #FFF;
-    }
-    .component__options--button {
-        width: 24px;
-        height: 24px;
-        margin: 5px;
-        background: #FFF;
-        border: 1px solid var(--bb-grey);
-        border-radius: 50%;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        text-transform: uppercase;
-        color: var(--bb-grey);
-        font-weight: 900;
-        cursor: pointer;
-        align-self: center;;
-    }
+    
 </style>

@@ -25,7 +25,7 @@
 .bb__page__headers {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 14px auto;
     padding: 0 10px;
     font-family: var(--font);
     position: relative;
@@ -43,8 +43,8 @@
 }
 .page__header--h1 {
     text-align: left;
-    font-size: 2.4em;
-    line-height: 1em;
+    font-size: 36px;
+    /* line-height: 36px; */
     margin: 16px 0 4px;
     font-weight: 700;
 }
@@ -53,30 +53,35 @@
     font-size: 1.8em;
     line-height: 1em;
     margin: 16px 0 0;
+    font-weight: 600;
     letter-spacing: -0.5px;
 }
 .page__header--h3 {
     text-align: left;
     font-size: 1.6em;
     line-height: 1em;
+    font-weight: 600;
     margin: 16px 0 4px;
 }
 .page__header--h4 {
     text-align: left;
     font-size: 1.6em;
     line-height: 1em;
+    font-weight: 300;
     margin: 16px 0 4px;
 }
 .page__header--h5 {
     text-align: left;
     font-size: 1.6em;
     line-height: 1em;
+    font-weight: 300;
     margin: 16px 0 4px;
 }
 .page__header--h6 {
     text-align: left;
     font-size: 1.6em;
     line-height: 1em;
+    font-weight: 300;
     margin: 16px 0 4px;
 }
 
@@ -102,7 +107,7 @@
 .side__by__side {
     width: 100%;
     padding: 0;
-    margin: 26px auto;
+    margin: 30px auto;
 }
 .side__by__side__inner {
     width: 100%;
@@ -112,13 +117,14 @@
 }
 .side__by__side__header {
     margin-top: 0;
+    margin-bottom: 0;
 }
 .side__by__side__text__container {
     display: flow-root;
 }
 .side__by__side__image__container {
     float: right;
-    max-width: 48%;
+    width: 48%;
     padding-left: 14px;
     padding-bottom: 14px;
 }
@@ -127,20 +133,20 @@
 }
 
 
-.bb__list {
+.page__ul__list {
     width: 100%;
     list-style-position: inside;
-    margin: 20px auto;
+    margin: 24px auto 0;
     font-size: 1.1em;
     line-height: 1.4em;
     font-weight: 400;
 }
-.bb__list li {
+.page__list .list__li {
     width: 100%;
     text-align: left;
     font-family: ProximaNova, "Proxima Nova", 'Helvetica Neue', arial, sans-serif;
-    font-size: 1.1em;
-    line-height: 1.4em;
+    font-size: 20px;
+    line-height: 26px;
     font-weight: 400;
     text-align: left;
 }
@@ -151,6 +157,9 @@
     max-width: 1200px;
     margin: 0 auto;
     background: transparent;
+}
+.component__spacer--extra-small {
+    height: 10px;
 }
 .component__spacer--small {
     height: 20px;
