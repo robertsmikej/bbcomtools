@@ -1,5 +1,5 @@
 <template>
-    <div class="page__paras component__outer component__outer--max-width">
+    <div class="page__paras page__component page__component--max-width">
         <div class="component__wrap component__container">
             <div 
                 v-if="!componentData.optionsHidden"
@@ -12,9 +12,7 @@
                     @keyup="checkHeight()" 
                     type="text"
                 />
-                <Optionsbuttons 
-                    :componentData="componentData"
-                />
+                <Optionsbuttons :componentData="componentData"/>
             </div>
             <p 
                 @click="checkOptions"

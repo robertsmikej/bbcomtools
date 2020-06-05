@@ -26,8 +26,6 @@
         --font: ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         --font-bold: ProximaNovaExCnSemiBold, ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         --text-color: #2B373C;
-
-
     }
     html {
         font-family: var(--font);
@@ -110,8 +108,9 @@
     }
     .component__wrap {
         position: relative;
+        cursor: pointer;
     }
-    .component__outer--max-width {
+    .page__component--max-width {
         width: 100%;
         max-width: 1200px;
         margin-left: auto;
@@ -125,7 +124,7 @@
         top: 0;
         left: 0;
         padding: 0;
-        z-index: 2;
+        z-index: 3;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -134,8 +133,25 @@
         justify-content: center;
     }
     .component__options--bottom {
-        bottom: 0;
+        bottom: -42px;
+        height: auto;
         align-items: flex-end;
+    }
+    .component__options--left {
+        left: 10px;
+        right: auto;
+        width: auto;
+        /* translate: transform(); */
+    }
+    .component__options--right {
+        right: 10px;
+        left: auto;
+        width: auto;
+        /* translate: transform(); */
+    }
+    
+    .component__options__advanced {
+
     }
     .component__options input, .component__options textarea {
         flex: 1;
@@ -148,6 +164,15 @@
     }
     .component__options__list {
         top: 20px;
+    }
+    .component__options--stacked {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+    .component__options--stacked input {
+        min-width: 280px;
     }
 
     .component__options__buttons {

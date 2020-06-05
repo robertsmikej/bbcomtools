@@ -1,5 +1,5 @@
 <template>
-    <div class="page__spacer component__outer component__outer--max-width">
+    <div class="page__spacer page__component page__component--max-width">
         <div class="component__options" v-if="!componentData.optionsHidden">
             <Optionsbuttons :componentData="componentData"/>
         </div>

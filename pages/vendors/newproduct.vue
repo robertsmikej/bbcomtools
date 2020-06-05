@@ -1,9 +1,9 @@
 <template>
     <section class="container new__product">
         <div class="built__elements__wrapper">
-            <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
+            <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
-                <div class="bb__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
+                <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
                     <component :is="element.componentName" :componentData="element" v-for="element in clickedElements.elements" :key="element.uniqueName" :type="element.type ? element.type : null"></component> 
                 </div>
             </div>

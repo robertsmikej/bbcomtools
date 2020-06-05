@@ -3,6 +3,9 @@ import Vue from 'vue';
 import Bannersheroes from '../components/Bannersheroes.vue';
 Vue.component('Bannersheroes', Bannersheroes);
 
+import Dropdownoptions from '../components/options/Dropdownoptions.vue';
+Vue.component('Dropdownoptions', Dropdownoptions);
+
 import Headers from '../components/Headers.vue';
 Vue.component('Headers', Headers);
 
@@ -12,7 +15,10 @@ Vue.component('List', List);
 import Nav from '../components/Nav.vue';
 Vue.component('Nav', Nav);
 
-import Optionsbuttons from '../components/Optionsbuttons.vue';
+import Optionsadvanced from '../components/options/Optionsadvanced.vue';
+Vue.component('Optionsadvanced', Optionsadvanced);
+
+import Optionsbuttons from '../components/options/Optionsbuttons.vue';
 Vue.component('Optionsbuttons', Optionsbuttons);
 
 import Paragraphs from '../components/Paragraphs.vue';

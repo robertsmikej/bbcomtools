@@ -1,36 +1,64 @@
 <template>
-    <a href="https://www.google.com" class="page__banner">
-        <div class="page__banner__inner">
+    <div :href="componentData.elementData.bannerLink" class="page__banner page__component component--to-link">
+        <div class="page__banner__inner component__container">
             <div class="page__banner__image__container">
-                <div class="component__options" v-if="!componentData.optionsHidden">
-                    <textarea v-model="componentData.elementData.imgSrc" class="text__input" type="text" placeholder="Background Image URL"/>
+                <div class="component__options component__options--bottom" v-if="!componentData.optionsHidden && showBackgroundURLOption">
+                    <textarea 
+                        v-model="componentData.elementData.backgroundImg.desktop" 
+                        class="text__input" 
+                        type="text" 
+                        placeholder="Background Image URL"
+                    />
                     <Optionsbuttons :componentData="componentData"/>
                 </div>
-                <div class="component__wrap" @click="checkOptions">
-                    <img :src="componentData.elementData.imgSrc" :alt="componentData.elementData.headerText" class="banner__image site__element"/>
-                </div>
+                <picture class="page__banner__image site__element" :key="componentData.elementData.desktop">
+                    <source :srcset="componentData.elementData.backgroundImg.desktop" media="(min-width: 768px)">
+                    <img :src="componentData.elementData.backgroundImg.mobile" :alt="componentData.elementData.headerText" class="page__banner__image"/>
+                </picture>
             </div>
             <div class="page__banner__text__container">
-                <div class="page__banner__text">
-                    <div class="component__options" v-if="!componentData.optionsHidden">
-                        <input v-model="componentData.elementData.header_1" class="text__input" type="text" placeholder="Header Text - Line 1"/>
-                        <input v-model="componentData.elementData.header_2" class="text__input" type="text" placeholder="Header Text - Line 2"/>
-                        <input v-model="componentData.elementData.header_3" class="text__input" type="text" placeholder="Header Text - Line 3"/>
-                        <input v-model="componentData.elementData.paraText" class="text__input" type="text" placeholder="Paragraph Text"/>
-                        <Optionsbuttons :componentData="componentData"/>
-                    </div>
-                    <div class="component__wrap" @click="checkOptions">
-                        <h2 class="page__banner__header site__element">
-                            <span>{{ componentData.elementData.header_1 }}</span>
-                            <span>{{ componentData.elementData.header_2 }}</span>
-                            <span>{{ componentData.elementData.header_3 }}</span>
-                        </h2>
-                        <p class="page__banner__para site__element">{{ componentData.elementData.paraText }}</p>
-                    </div>
+                <div class="component__options component__options--stacked" v-if="!componentData.optionsHidden">
+                    <input
+                        v-model="componentData.elementData.header_1"
+                        class="text__input"
+                        type="text"
+                        placeholder="Header Text - Line 1"
+                    />
+                    <input
+                        v-model="componentData.elementData.header_2"
+                        class="text__input"
+                        type="text"
+                        placeholder="Header Text - Line 3"
+                    />
+                    <input
+                        v-model="componentData.elementData.header_3"
+                        class="text__input"
+                        type="text"
+                        placeholder="Header Text - Line 3"
+                    />
+                    <input
+                        v-model="componentData.elementData.disclaimerText"
+                        class="text__input"
+                        type="text"
+                        placeholder="Disclaimer Text"
+                    />
+                    <Optionsbuttons :componentData="componentData"/>
                 </div>
+                <Optionsadvanced 
+                    :componentData="componentData"
+                    :dropdowns="componentData.defaultData.dropdowns"
+                    v-if="!componentData.optionsHidden"
+                    class="component__options--right component__options--stacked"
+                />
+                <h2 @click="checkOptions" :style="{'color': this.componentData.elementData.textColor.code}" class="page__banner__header site__element" >
+                    <span>{{ componentData.elementData.header_1 }}</span>
+                    <span>{{ componentData.elementData.header_2 }}</span>
+                    <span>{{ componentData.elementData.header_3 }}</span>
+                </h2>
+                <p @click="checkOptions" class="page__banner__disclaimer site__element">{{ componentData.elementData.disclaimerText }}</p>
             </div>
         </div>
-    </a>
+    </div>
 </template>
 
 <script>
@@ -41,8 +69,12 @@ export default {
     },
     data() {
         return {
-
+            selectedBackground: "",
+            showBackgroundURLOption: true
         };
+    },
+    computed: {
+
     },
     methods: {
         checkHeight(e) {

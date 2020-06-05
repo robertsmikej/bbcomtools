@@ -1,5 +1,5 @@
 <template>
-    <div class="side__by__side component__outer component__outer--max-width">
+    <div class="side__by__side page__component page__component--max-width">
         <div class="side__by__side__inner">
             <div class="side__by__side__image__container side__by__side__container component__container">
                 <div class="component__options component__options--group component__options--bottom" v-if="!componentData.optionsHidden">

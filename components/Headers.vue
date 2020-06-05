@@ -1,5 +1,5 @@
 <template>
-    <div class="page__headers component__outer component__outer--max-width">
+    <div class="page__headers page__component page__component--max-width">
         <!-- <div class="component__wrap" :data-component-name="componentData.name" :data-component-type="componentData.type" data-component-data-name="headerText" :data-component-data="componentData.elementData.headerText"> -->
         <div class="component__wrap component__container">
             <div

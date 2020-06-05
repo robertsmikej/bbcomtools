@@ -24,9 +24,9 @@
             </div>
         </div>
         <div class="built__elements__wrapper">
-            <div class="built__elements__wrapper__inner bb__content__outer" :class="'page__type--' + pageType">
+            <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
-                <div class="bb__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
+                <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
                     <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.name" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
                 </div>
             </div>
@@ -59,7 +59,7 @@ export default {
             currentComponentName: "",
             showCode: false,
             code: "",
-            pageType: "product",
+            pageType: "marketing",
             restrictions: []
         }
     },
@@ -114,6 +114,17 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.arrayMove(this.clickedElements.elements, findIn, findIn + 1);
         });
+        this.$nuxt.$on('toggleDropdown', d => {
+            this.currentComponentName = d.componentData.uniqueName;
+            let elements = this.clickedElements.elements;
+            for (let e in elements) {
+                let element = elements[e];
+                if (element === d.componentData) {;
+                    let dataNeeded = element.defaultData.dropdowns[d.index].data.find(x => x.name === d.selected);
+                    element.elementData[d.dropdown.updateName] = dataNeeded;
+                }
+            }
+        });
     },
     methods: {
         checkPageType: function (data) {
@@ -160,7 +171,7 @@ export default {
             this.clickedElements.elements.push(newComponent);
         },
         buildImportCode: function () {
-            let code = this.$el.querySelector(".bb__content");
+            let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
             codeCopy.querySelectorAll(".component__options").forEach(function (opt) {
                 opt.parentNode.removeChild(opt);
@@ -190,7 +201,6 @@ export default {
             text.select();
             document.execCommand('copy');
         },
-        
         importCode: function () {
             // let code = this.$el.querySelector(".code__text__area").value;
             // let codeDiv = document.createElement("div");
@@ -244,7 +254,7 @@ export default {
     },
     head() {
         return {
-            title: "Component Generator || Bodybuilding.com",
+            title: "Component Generator | Bodybuilding.com",
             meta: [
                 { 
                     hid: 'description',
@@ -259,6 +269,9 @@ export default {
 </script>
 
 <style>
+    .page__content, .page__content__outer {
+        min-height: 80vh;
+    }
     .component__generator .built__elements__wrapper {
         padding-left: 240px;
     }
@@ -277,7 +290,9 @@ export default {
         padding: 4px;
         border: 1px solid #232323;
     }
-
+    .page__type--marketing {
+        padding: 0;
+    }
     .page__type__buttons {
         display: flex;
         flex-direction: row;

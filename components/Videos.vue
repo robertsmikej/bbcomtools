@@ -1,5 +1,5 @@
 <template>
-    <div class="page__video component__outer component__outer--max-width">
+    <div class="page__video page__component page__component--max-width">
         <div v-if="!componentData.optionsHidden" class="component__options component__options--video">
             <textarea v-model="componentData.elementData.videoCode" class="text__text__area" type="text" placeholder="Video URL"/>
             <Optionsbuttons :componentData="componentData"/>

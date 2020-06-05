@@ -1,5 +1,5 @@
 <template>
-    <div :data-list-name="componentData.uniqueName" class="page__list component__outer component__outer--max-width">
+    <div :data-list-name="componentData.uniqueName" class="page__list page__component page__component--max-width">
         <div v-if="!componentData.optionsHidden" class="component__options component__options__list">
             <div class="options__list__items">
                 <div class="options__list__item"
