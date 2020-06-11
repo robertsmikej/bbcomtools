@@ -4,7 +4,7 @@
             <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component :is="element.componentName" :componentData="element" v-for="element in clickedElements.elements" :key="element.uniqueName" :type="element.type ? element.type : null"></component> 
+                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.componentName" :group="false" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component> 
                 </div>
             </div>
         </div>
@@ -78,52 +78,65 @@ export default {
                 type: "list",
                 elementData: {
                     listItems: [
-                        "New List Item",
-                        "New List Item"
+                        { 
+                            headerText: "New List Item 1"
+                        },
+                        {
+                            headerText: "New List Item 2"
+                        }
                     ]
                 }
             },
             {
-                componentName: "Sidebyside",
-                type: "sidebyside",
+                componentName: "Imageheaderpara",
+                type: "row",
                 elementData: {
-                    headerText: "Key Ingredients",
-                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
-                    imgAlt: "Key Ingredients"
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
                 }
             },
             {
-                componentName: "Sidebyside",
-                type: "sidebyside",
+                componentName: "Imageheaderpara",
+                type: "row",
                 elementData: {
-                    headerText: "Supports Your Goals",
-                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
-                    imgAlt: "Key Ingredients"
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
                 }
             },
             {
-                componentName: "Sidebyside",
-                type: "sidebyside",
+                componentName: "Imageheaderpara",
+                type: "row",
                 elementData: {
-                    headerText: "Good To Know",
-                    paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-                    imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
-                    imgAlt: "Key Ingredients"
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
                 }
             }
         ];
         let that = this;
         vendorPageStructure.forEach(function (el) {
             let newNumber = that.clickedElements.numberOfComponents;
+            console.log(el);
             let newComponent = {
                 componentName: el.componentName,
                 uniqueName: el.componentName + newNumber,
                 number: newNumber,
                 type: el.type,
                 elementData: {},
-                elementData: that.components[el.componentName].types[el.type].elementData,
                 optionsHidden: true,
                 alreadyCreated: false,
                 vendorRestricted: that.checkRestricted("vendors")
