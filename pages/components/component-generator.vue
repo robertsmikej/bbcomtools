@@ -10,7 +10,7 @@
                 <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
                     <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
                         <h4>{{ section.title }}</h4>
-                        <div v-for="component in section.types" :key="component.type + clickedElements.numberOfSections" class="create__element__cell__outer">
+                        <div v-for="component in section.types" :key="component.type" class="create__element__cell__outer">
                             <div @click="createComponent" :component-name="section.componentName" :component-type="component.type ? component.type : null" class="create__element__cell">
                                 <img class="create__element__img" v-if="component.img.length > 0" :src="'/imgs/' + component.img"/>
                                 <p class="create__element__para" v-if="component.img.length === 0">{{ component.title }}</p>
@@ -27,7 +27,7 @@
             <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.componentName" :group="false" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
+                    <component v-for="(element, index) in clickedElements.elements" :key="element.uniqueName + index" :is="element.componentName" :group="false" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
                 </div>
             </div>
         </div>
@@ -145,9 +145,9 @@ export default {
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            this.clickedElements.numberOfComponents += 1;
+            // this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
-            this.pageActions += 1;
+            // this.pageActions += 1;
             this.clickedElements.elements.push(newComponent);
         },
         buildImportCode: function () {
