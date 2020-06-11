@@ -1,7 +1,7 @@
 <template>
     <div class="video__component">
         <div
-            class="component__remove"
+            class="component__remove component__container"
         >
             <img
                 @click="toggleImgOptions"

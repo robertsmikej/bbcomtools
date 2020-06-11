@@ -70,6 +70,22 @@ var allComponents = [
         ]
     },
     {
+        title: "Videos",
+        componentName: "Videos",
+        pageTypes: ["product", "marketing"],
+        types: [
+            {
+                title: "VideoJW",
+                
+                type: "Video",
+                elementData: {
+                    videoCode: "PLACE VIDEO PLAYER CODE HERE"
+                },
+                img: "jwplayer.png"
+            }
+        ]
+    },
+    {
         title: "List",
         componentName: "List",
         pageTypes: ["product", "marketing"],
@@ -212,21 +228,6 @@ var allComponents = [
                     ]
                 },
                 img: "story-row.png"
-            }
-        ]
-    },
-    {
-        title: "Videos",
-        pageTypes: ["product", "marketing"],
-        types: [
-            {
-                title: "VideoJW",
-                componentName: "Videos",
-                type: "VideoJW",
-                elementData: {
-                    videoCode: "PLACE VIDEO PLAYER CODE HERE"
-                },
-                img: "jwplayer.png"
             }
         ]
     },

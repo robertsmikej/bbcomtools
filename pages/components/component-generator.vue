@@ -128,9 +128,13 @@ export default {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
             let comptype = e.currentTarget.getAttribute("component-type");
+
+            console.log(e.currentTarget.getAttribute("component-type"));
+            console.log(compname);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
+            console.log(component);
             let componentDetails = component.types.filter(obj => {
                 return obj.type === comptype
             })[0];

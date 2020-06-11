@@ -140,6 +140,9 @@
         background-color: #FFF;
     }
 
+    .component__container {
+        position: relative;
+    }
     .page__component {
         position: relative;
         width: 100%;
