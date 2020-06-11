@@ -130,7 +130,6 @@ export default {
         let that = this;
         vendorPageStructure.forEach(function (el) {
             let newNumber = that.clickedElements.numberOfComponents;
-            console.log(el);
             let newComponent = {
                 componentName: el.componentName,
                 uniqueName: el.componentName + newNumber,

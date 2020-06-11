@@ -103,7 +103,6 @@ export default {
     },
     methods: {
         addComponent(type) {
-            console.log(type);
             let componentDetails = this.elementComponents.types.filter(obj => {
                 return obj.type === type
             })[0];

@@ -106,7 +106,6 @@ export default {
         for (let e in elements) {
             this.elData[e] = elements[e]
         }
-        console.log(this.componentData);
     },
     mounted() {
         let els = this.$el.querySelectorAll(".site__element");

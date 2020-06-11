@@ -128,13 +128,9 @@ export default {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
             let comptype = e.currentTarget.getAttribute("component-type");
-
-            console.log(e.currentTarget.getAttribute("component-type"));
-            console.log(compname);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
-            console.log(component);
             let componentDetails = component.types.filter(obj => {
                 return obj.type === comptype
             })[0];
@@ -164,14 +160,12 @@ export default {
             codeCopy.querySelectorAll(".page__component").forEach(function (wrap) {
                 wrap.outerHTML = wrap.innerHTML;
             });
-            // codeCopy.querySelectorAll(".component__remove").forEach(function (el) {
-            //     el.parentNode.removeChild(el);
-            // });
+            codeCopy.querySelectorAll(".component__remove").forEach(function (el) {
+                el.parentNode.removeChild(el);
+            });
             codeCopy.querySelectorAll(".site__element").forEach(function (el) {
                 el.removeAttribute("contenteditable")
             })
-
-            console.log(codeCopy);
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
             
             this.code = codeCopy;
