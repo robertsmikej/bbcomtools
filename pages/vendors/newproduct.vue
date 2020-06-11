@@ -40,14 +40,14 @@ export default {
             {
                 componentName: "Headers",
                 type: "H2",
-                defaultData: {
+                elementData: {
                     headerText: "Signature 100% Whey Protein Powder",
                 }
             },
             {
                 componentName: "Paragraphs",
                 type: "p",
-                defaultData: {
+                elementData: {
                     paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                 }
             },
@@ -58,7 +58,7 @@ export default {
             {
                 componentName: "Videos",
                 type: "VideoJW",
-                defaultData: {
+                elementData: {
                     paraText: "",
                 }
             },
@@ -69,14 +69,14 @@ export default {
             {
                 componentName: "Headers",
                 type: "H3",
-                defaultData: {
+                elementData: {
                     headerText: "Product Benefits",
                 }
             },
             {
                 componentName: "List",
                 type: "list",
-                defaultData: {
+                elementData: {
                     listItems: [
                         "New List Item",
                         "New List Item"
@@ -86,7 +86,7 @@ export default {
             {
                 componentName: "Sidebyside",
                 type: "sidebyside",
-                defaultData: {
+                elementData: {
                     headerText: "Key Ingredients",
                     paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
@@ -96,7 +96,7 @@ export default {
             {
                 componentName: "Sidebyside",
                 type: "sidebyside",
-                defaultData: {
+                elementData: {
                     headerText: "Supports Your Goals",
                     paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
                     imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
@@ -106,7 +106,7 @@ export default {
             {
                 componentName: "Sidebyside",
                 type: "sidebyside",
-                defaultData: {
+                elementData: {
                     headerText: "Good To Know",
                     paraText: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
                     imgSrc: "https://www.bodybuilding.com/images/merchandising/february-2020-/02-03-on-bsn-isopure550x420-550x420-sale.jpg",
@@ -123,14 +123,14 @@ export default {
                 number: newNumber,
                 type: el.type,
                 elementData: {},
-                defaultData: that.components[el.componentName].types[el.type].defaultData,
+                elementData: that.components[el.componentName].types[el.type].elementData,
                 optionsHidden: true,
                 alreadyCreated: false,
                 vendorRestricted: that.checkRestricted("vendors")
             };
-            if (el.defaultData) {
-                for (let d in el.defaultData) {
-                    newComponent.elementData[d] = el.defaultData[d];
+            if (el.elementData) {
+                for (let d in el.elementData) {
+                    newComponent.elementData[d] = el.elementData[d];
                 }
             }
             that.clickedElements.elements.push(newComponent);

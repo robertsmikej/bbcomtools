@@ -1,186 +1,240 @@
-var allComponents = {
-    Headers: {
-        title: "text headers",
+var allComponents = [
+    {
+        title: "Headers",
+        componentName: "Headers",
         pageTypes: ["product", "marketing"],
-        types: {
-            "H1": {
+        types: [
+            {
                 title: "H1",
-                componentName: "Headers",
                 type: "H1",
-                defaultData: {
+                elementData: {
                     headerText: "New H1"
                 },
                 img: ""
             },
-            "H2": {
+            {
                 title: "H2",
-                componentName: "Headers",
                 type: "H2",
-                defaultData: {
+                elementData: {
                     headerText: "New H2"
                 },
                 img: ""
             },
-            "H3": {
+            {
                 title: "H3",
-                componentName: "Headers",
                 type: "H3",
-                defaultData: {
+                elementData: {
                     headerText: "New H3"
                 },
                 img: ""
             },
-            "H4": {
+            {
                 title: "H4",
-                componentName: "Headers",
                 type: "H4",
-                defaultData: {
+                elementData: {
                     headerText: "New H4"
                 },
                 img: ""
             },
-            "H5": {
+            {
                 title: "H5",
-                componentName: "Headers",
                 type: "H5",
-                defaultData: {
+                elementData: {
                     headerText: "New H5"
                 },
                 img: ""
             },
-            "H6": {
+            {
                 title: "H6",
-                componentName: "Headers",
                 type: "H6",
-                defaultData: {
+                elementData: {
                     headerText: "New H6"
                 },
                 img: ""
             }
-        }
+        ]
     },
-    Paragraphs: {
-        title: "paragraphs",
+    {
+        title: "Paragraphs",
+        componentName: "Paragraphs",
         pageTypes: ["product", "marketing"],
-        types: {
-            "p": {
+        types: [
+            {
                 title: "P",
-                componentName: "Paragraphs",
                 type: "p",
-                defaultData: {
+                elementData: {
                     paraText: "New Paragraph"
                 },
                 img: "paragraph.png"
             }
-        }
+        ]
     },
-    List: {
-        title: "list",
+    {
+        title: "List",
+        componentName: "List",
         pageTypes: ["product", "marketing"],
-        types: {
-            "list": {
+        types: [
+            {
                 title: "List",
-                componentName: "List",
                 type: "list",
-                defaultData: {
-                    listItems: ["New List Item 1", "New List Item 2"]
+                elementData: {
+                    listItems: [
+                        { 
+                            headerText: "New List Item 1"
+                        },
+                        {
+                            headerText: "New List Item 2"
+                        }
+                    ]
                 },
                 img: "list.png"
             }
-        }
+        ]
     },
-    Spacer: {
-        title: "spacers",
+    {
+        title: "Spacers",
+        componentName: "Spacers",
         pageTypes: ["product", "marketing"],
-        types: {
-            "extra-small": {
+        types: [
+            {
                 title: "XS",
-                componentName: "Spacer",
                 type: "extra-small",
-                defaultData: {
+                elementData: {
                     height: "10px"
                 },
                 img: ""
             },
-            "small": {
+            {
                 title: "S",
-                componentName: "Spacer",
                 type: "small",
-                defaultData: {
+                elementData: {
                     height: "20px"
                 },
                 img: ""
             },
-            "medium": {
+            {
                 title: "M",
-                componentName: "Spacer",
                 type: "medium",
-                defaultData: {
+                elementData: {
                     height: "40px"
                 },
                 img: ""
             },
-            "large": {
+            {
                 title: "L",
-                componentName: "Spacer",
                 type: "large",
-                defaultData: {
+                elementData: {
                     height: "60px"
                 },
                 img: ""
             },
-            "extralarge": {
+            {
                 title: "XL",
-                componentName: "Spacer",
                 type: "extralarge",
-                defaultData: {
+                elementData: {
                     height: "80px"
                 },
                 img: ""
             }
-        }
+        ]
     },
-    Sidebyside: {
-        title: "Side By Side",
+    {
+        title: "Image Header Paras",
+        componentName: "Imageheaderpara",
         pageTypes: ["product", "marketing"],
-        types: {
-            "sidebyside": {
-                title: "Side By Side",
-                componentName: "Sidebyside",
-                type: "sidebyside",
-                defaultData: {
-                    headerText: "New Header",
-                    paraText: "New Para",
-                    imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+        types: [
+            {
+                title: "Row",
+                type: "row",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "New Para",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
                 },
-                img: "sidebysidewheader1.png"
+                img: "iht-image-right3.png"
+            },
+            {
+                title: "Column",
+                type: "column",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "New Para",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
+                },
+                img: "iht-image-column.png"
+            },
+            {
+                title: "List",
+                type: "list",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            list: "New Para",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
+                },
+                img: "iht-image-list.png"
             }
-        }
+        ]
     },
-    Videos: {
+    {
+        title: "Story Row",
+        componentName: "Storyrow",
+        pageTypes: ["product", "marketing"],
+        types: [
+            {
+                title: "Row",
+                type: "Story",
+                elementData: {
+                    componentTypes: [
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "row"
+                        },
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "column"
+                        }
+                    ]
+                },
+                img: ""
+            }
+        ]
+    },
+    {
         title: "Videos",
         pageTypes: ["product", "marketing"],
-        types: {
-            "VideoJW": {
+        types: [
+            {
                 title: "VideoJW",
                 componentName: "Videos",
                 type: "VideoJW",
-                defaultData: {
-                    videoCode: ""
+                elementData: {
+                    videoCode: "PLACE VIDEO PLAYER CODE HERE"
                 },
                 img: "jwplayer.png"
             }
-        }
+        ]
     },
-    Bannersheroes: {
-        title: "banners",
+    {
+        title: "Banners",
         pageTypes: ["marketing"],
-        types: {
-            "Bannersheroes": {
+        types: [
+            {
                 title: "Banner",
                 componentName: "Bannersheroes",
                 type: "Bannersheroes",
-                defaultData: {
+                elementData: {
                     header_1: "Line 1",
                     header_2: "Line 2",
                     header_3: "Line 3",
@@ -192,8 +246,8 @@ var allComponents = {
                         mobile: "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-01-mobile.jpg"
                     },
                     textColor: {
-                        name: "Black",
-                        code: "#232323"
+                        name: "White",
+                        code: "#FFFFFF"
                     },
                     dropdowns: [
                         {
@@ -201,12 +255,12 @@ var allComponents = {
                             updateName: "textColor",
                             data: [
                                 {
-                                    name: "Black",
-                                    code: "#232323"
-                                },
-                                {
                                     name: "White",
                                     code: "#FFFFFF"
+                                },
+                                {
+                                    name: "Black",
+                                    code: "#232323"
                                 }
                             ]
                         },
@@ -280,9 +334,9 @@ var allComponents = {
                 },
                 img: ""
             }
-        }
+        ]
     },
-};
+];
 
 export const state = () => ({
     components: {}

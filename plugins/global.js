@@ -1,15 +1,18 @@
 import Vue from 'vue';
 
-import Bannersheroes from '../components/Bannersheroes.vue';
+import Bannersheroes from '../components/pagecomponents/Bannersheroes.vue';
 Vue.component('Bannersheroes', Bannersheroes);
 
 import Dropdownoptions from '../components/options/Dropdownoptions.vue';
 Vue.component('Dropdownoptions', Dropdownoptions);
 
-import Headers from '../components/Headers.vue';
+import Headers from '../components/pagecomponents/Headers.vue';
 Vue.component('Headers', Headers);
 
-import List from '../components/List.vue';
+import Imageheaderpara from '../components/rowcomponents/Imageheaderpara.vue';
+Vue.component('Imageheaderpara', Imageheaderpara);
+
+import List from '../components/pagecomponents/List.vue';
 Vue.component('List', List);
 
 import Nav from '../components/Nav.vue';
@@ -21,14 +24,14 @@ Vue.component('Optionsadvanced', Optionsadvanced);
 import Optionsbuttons from '../components/options/Optionsbuttons.vue';
 Vue.component('Optionsbuttons', Optionsbuttons);
 
-import Paragraphs from '../components/Paragraphs.vue';
+import Paragraphs from '../components/pagecomponents/Paragraphs.vue';
 Vue.component('Paragraphs', Paragraphs);
 
-import Sidebyside from '../components/Sidebyside.vue';
-Vue.component('Sidebyside', Sidebyside);
-
-import Spacer from '../components/Spacer.vue';
+import Spacer from '../components/pagecomponents/Spacer.vue';
 Vue.component('Spacer', Spacer);
 
-import Videos from '../components/Videos.vue';
+import Storyrow from '../components/rowcomponents/Storyrow.vue';
+Vue.component('Storyrow', Storyrow);
+
+import Videos from '../components/pagecomponents/Videos.vue';
 Vue.component('Videos', Videos);

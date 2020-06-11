@@ -46,7 +46,7 @@
                 </div>
                 <Optionsadvanced 
                     :componentData="componentData"
-                    :dropdowns="componentData.defaultData.dropdowns"
+                    :dropdowns="componentData.elementData.dropdowns"
                     v-if="!componentData.optionsHidden"
                     class="component__options--right component__options--stacked"
                 />
@@ -65,7 +65,8 @@
 export default {
     props: {
         type: String,
-        componentData: Object
+        componentData: Object,
+        group: Boolean
     },
     data() {
         return {

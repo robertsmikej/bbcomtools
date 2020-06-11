@@ -11,7 +11,7 @@
                     <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
                         <h4>{{ section.title }}</h4>
                         <div v-for="component in section.types" :key="component.type + clickedElements.numberOfSections" class="create__element__cell__outer">
-                            <div @click="createComponent" :component-name="component.componentName" :component-type="component.type ? component.type : null" class="create__element__cell">
+                            <div @click="createComponent" :component-name="section.componentName" :component-type="component.type ? component.type : null" class="create__element__cell">
                                 <img class="create__element__img" v-if="component.img.length > 0" :src="'/imgs/' + component.img"/>
                                 <p class="create__element__para" v-if="component.img.length === 0">{{ component.title }}</p>
                             </div>
@@ -27,7 +27,7 @@
             <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.name" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
+                    <component v-for="element in clickedElements.elements" :key="element.uniqueName" :is="element.componentName" :group="false" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@ export default {
             currentComponentName: "",
             showCode: false,
             code: "",
-            pageType: "marketing",
+            pageType: "product",
             restrictions: []
         }
     },
@@ -69,32 +69,25 @@ export default {
         }
     },
     created() {
-        this.$nuxt.$on('changeHeight', data => {
-            this.currentComponentName = data.uniqueName;
+        this.$nuxt.$on('optionsChange', data => {
+            let uniqueName = data.componentData.uniqueName;
+            this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            let parent = document.querySelector("." + this.currentComponentName);
-            let child = parent.querySelectorAll(".site__element")[data.targetInputIndex];
-            let styles = window.getComputedStyle(child);
-            let inputHeight = Math.ceil(child.offsetHeight) + "px";
-            this.clickedElements.elements[findIn].optionsMinHeight.splice
-            (data.targetInputIndex, 1);
-            this.clickedElements.elements[findIn].optionsMinHeight.splice(data.targetInputIndex, 0, inputHeight);
-            let inputs = parent.querySelectorAll("input, textarea")[data.targetInputIndex];
+            this.clickedElements.elements[findIn].optionsShown = data.optionsBool;
         });
         this.$nuxt.$on('toggleOptions', data => {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            this.clickedElements.elements[findIn].optionsHidden = !this.clickedElements.elements[findIn].optionsHidden;
-            this.pageActions += 1;
+            this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
-        this.$nuxt.$on('sendComponentInfo', data => {
-            let uniqueName = data.componentData.uniqueName;
-            this.currentComponentName = uniqueName;
-            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            this.clickedElements.elements[findIn] = data.componentData;
-            this.pageActions += 1;
-        });
+        // this.$nuxt.$on('sendComponentInfo', data => {
+        //     let uniqueName = data.componentData.uniqueName;
+        //     this.currentComponentName = uniqueName;
+        //     let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+        //     this.clickedElements.elements[findIn] = data.componentData;
+        //     this.pageActions += 1;
+        // });
         this.$nuxt.$on('removeElement', data => {
             if (this.clickedElements.elements && data) {
                 this.currentComponentName = data;
@@ -120,7 +113,7 @@ export default {
             for (let e in elements) {
                 let element = elements[e];
                 if (element === d.componentData) {;
-                    let dataNeeded = element.defaultData.dropdowns[d.index].data.find(x => x.name === d.selected);
+                    let dataNeeded = element.elementData.dropdowns[d.index].data.find(x => x.name === d.selected);
                     element.elementData[d.dropdown.updateName] = dataNeeded;
                 }
             }
@@ -142,33 +135,31 @@ export default {
             let newNumber = this.clickedElements.numberOfComponents;
             let compname = e.currentTarget.getAttribute("component-name");
             let comptype = e.currentTarget.getAttribute("component-type");
-            let defaultData = this.components[compname].types[comptype].defaultData;
-            let optionsMinHeight = [];
-            for (let d in defaultData) {
-                optionsMinHeight.push("0px");
-            }
+            let component = this.components.filter(obj => {
+                return obj.componentName === compname
+            })[0];
+            let componentDetails = component.types.filter(obj => {
+                return obj.type === comptype
+            })[0];
+            // console.log(componentDetails);
+            // console.log(newNumber);
             let newComponent = {
-                name: compname,
-                uniqueName: compname + newNumber,
+                componentName: component.componentName,
+                uniqueName: component.componentName + newNumber,
                 number: newNumber,
-                type: e.currentTarget.getAttribute("component-type"),
-                elementData: {},
-                defaultData: this.components[compname].types[comptype].defaultData,
-                optionsHidden: false,
-                optionsMinHeight: optionsMinHeight,
+                type: componentDetails.type,
+                elementData: componentDetails.elementData,
+                optionsShown: true,
                 targetInputIndex: 0,
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            if (this.components[compname].types[comptype].defaultData) {
-                for (let d in this.components[compname].types[comptype].defaultData) {
-                    newComponent.elementData[d] = this.components[compname].types[comptype].defaultData[d];
-                }
-            }
+            // console.log(newComponent);
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
             this.pageActions += 1;
             this.clickedElements.elements.push(newComponent);
+            // console.log(this.clickedElements);
         },
         buildImportCode: function () {
             let code = this.$el.querySelector(".page__content");
@@ -176,7 +167,7 @@ export default {
             codeCopy.querySelectorAll(".component__options").forEach(function (opt) {
                 opt.parentNode.removeChild(opt);
             });
-            codeCopy.querySelectorAll(".component__wrap").forEach(function (wrap) {
+            codeCopy.querySelectorAll(".page__component").forEach(function (wrap) {
                 wrap.outerHTML = wrap.innerHTML;
             });
             codeCopy.querySelectorAll(".component__remove").forEach(function (opt) {
@@ -232,8 +223,8 @@ export default {
             //                     dataName: data
             //                 }
             //             },
-            //             "defaultData": components[name].types[type].defaultData,
-            //             "optionsHidden": false,
+            //             "elementData": components[name].types[type].elementData,
+            //             "optionsShown": false,
             //             "alreadyCreated": false
             //         };
             //         actions += 1;
@@ -273,10 +264,10 @@ export default {
         min-height: 80vh;
     }
     .component__generator .built__elements__wrapper {
-        padding-left: 240px;
+        padding-left: 250px;
     }
     .element__bar {
-        width: 240px;
+        width: 250px;
         height: calc(100vh - 40px);
         display: flex;
         flex-direction: column;

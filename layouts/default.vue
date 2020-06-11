@@ -9,11 +9,11 @@
 <style>
     :root {
         --h1-size: 36px;
-        --h2-size: 1.8em;
-        --h3-size: 1.6em;
-        --h4-size: 1.4em;
-        --h5-size: 1.2em;
-        --h6-size: 1em;
+        --h2-size: 30px;
+        --h3-size: 26px;
+        --h4-size: 22px;
+        --h5-size: 18px;
+        --h6-size: 14px;
 
         --bb-white: #FFF;
         --bb-grey-very-light: #F9F9F9;
@@ -82,6 +82,25 @@
         background-color: #FFF;
     }
 
+    .page__component {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-content: flex-start;
+        justify-content: flex-start;
+    }
+    .small__component {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    [contenteditable] {
+        outline: 0px solid transparent;
+    }
+
     .build__code__button {
         position: relative;
         margin-left: auto;
@@ -119,7 +138,6 @@
 
     .component__options {
         width: 100%;
-        height: 100%;
         position: absolute;
         top: 0;
         left: 0;
@@ -131,6 +149,7 @@
         align-content: flex-start;
         align-items: center;
         justify-content: center;
+        opacity: .5;
     }
     .component__options--bottom {
         bottom: -42px;
@@ -149,6 +168,24 @@
         width: auto;
         /* translate: transform(); */
     }
+    .options__editable__bottom {
+        width: 100%;
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        padding: 5px;
+        z-index: 3;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        background: #FFF;
+        word-break: break-all;
+        border: 1px solid #232323;
+    }
     
     .component__options__advanced {
 
@@ -158,12 +195,15 @@
         border: 1px solid var(--bb-grey-light);
         box-sizing: content-box;
         z-index: 2;
+        padding: 0;
     }
     .component__options--border {
         border: 1px solid #232323;
     }
     .component__options__list {
-        top: 20px;
+        /* top: 20px; */
+        margin-top: 24px;
+        align-items: flex-start;
     }
     .component__options--stacked {
         display: flex;
@@ -175,6 +215,19 @@
         min-width: 280px;
     }
 
+    .component__options__buttons__outer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 3;
+    }
     .component__options__buttons {
         width: auto;
         display: flex;
@@ -186,11 +239,14 @@
         flex: 0;
         background: #FFF;
         z-index: 1;
+        position: absolute;
+        top: 3px;
+        right: 3px;
     }
     .component__options--button {
-        width: 24px;
-        height: 24px;
-        margin: 5px;
+        width: 16px;
+        height: 16px;
+        margin: 2px 5px;
         background: #FFF;
         border: 1px solid var(--bb-grey);
         border-radius: 50%;
@@ -199,11 +255,35 @@
         align-content: center;
         justify-content: center;
         align-items: center;
-        font-size: 16px;
+        font-size: 12px;
         text-transform: uppercase;
         color: var(--bb-grey);
         font-weight: 900;
         cursor: pointer;
-        align-self: center;;
+        align-self: center;
+    }
+    .component__options--clicker {
+        margin: 2px 5px;
+        background: #FFF;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: var(--bb-grey);
+        font-weight: 900;
+        cursor: pointer;
+        align-self: center;
+    }
+    .component__options__buttons--group {
+        display: flex;
+        flex-direction: row;
+        align-content: flex-start;
+        justify-content: flex-start;
+    }
+    .page__component__outline {
+        border: 1px solid var(--bb-grey-light);
     }
 </style>
