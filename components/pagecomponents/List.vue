@@ -14,8 +14,9 @@
                 class="component__wrapper"
             >
                 <li
-                    @input="onEdit($event)"
+
                     :data-component-list-number="index"
+                    @keydown.enter="enterPressed"
                     contenteditable
                     class="list__item"
                 >
@@ -61,7 +62,14 @@ export default {
         console.log(this.group);
     },
     methods: {
-        onEdit(event){
+        enterPressed(e) {
+            e.preventDefault();
+            this.onEdit(e);
+            this.addListItem(e);
+            console.log(event);
+        },
+        onEdit(event) {
+            //@input="onEdit($event)"
             let update = {
                 headerText: event.target.innerHTML.trim()
             };
