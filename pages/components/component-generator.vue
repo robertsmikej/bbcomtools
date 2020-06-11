@@ -81,13 +81,6 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
-        // this.$nuxt.$on('sendComponentInfo', data => {
-        //     let uniqueName = data.componentData.uniqueName;
-        //     this.currentComponentName = uniqueName;
-        //     let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-        //     this.clickedElements.elements[findIn] = data.componentData;
-        //     this.pageActions += 1;
-        // });
         this.$nuxt.$on('removeElement', data => {
             if (this.clickedElements.elements && data) {
                 this.currentComponentName = data;
@@ -141,8 +134,6 @@ export default {
             let componentDetails = component.types.filter(obj => {
                 return obj.type === comptype
             })[0];
-            // console.log(componentDetails);
-            // console.log(newNumber);
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + newNumber,
@@ -154,26 +145,31 @@ export default {
                 alreadyCreated: false,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            // console.log(newComponent);
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
             this.pageActions += 1;
             this.clickedElements.elements.push(newComponent);
-            // console.log(this.clickedElements);
         },
         buildImportCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
-            codeCopy.querySelectorAll(".component__options").forEach(function (opt) {
-                opt.parentNode.removeChild(opt);
+
+            codeCopy.querySelectorAll(".component__options, .component__remove").forEach(function (el) {
+                el.parentNode.removeChild(el);
             });
             codeCopy.querySelectorAll(".page__component").forEach(function (wrap) {
                 wrap.outerHTML = wrap.innerHTML;
             });
-            codeCopy.querySelectorAll(".component__remove").forEach(function (opt) {
-                opt.parentNode.removeChild(opt);
-            });
+            // codeCopy.querySelectorAll(".component__remove").forEach(function (el) {
+            //     el.parentNode.removeChild(el);
+            // });
+            codeCopy.querySelectorAll(".site__element").forEach(function (el) {
+                el.removeAttribute("contenteditable")
+            })
+
+            console.log(codeCopy);
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
+            
             this.code = codeCopy;
             this.showCode = true;
         },
@@ -263,61 +259,7 @@ export default {
     .page__content, .page__content__outer {
         min-height: 80vh;
     }
-    .component__generator .built__elements__wrapper {
-        padding-left: 250px;
-    }
-    .element__bar {
-        width: 250px;
-        height: calc(100vh - 40px);
-        display: flex;
-        flex-direction: column;
-        align-content: center;
-        align-items: center;
-        justify-content: flex-start;
-        position: fixed;
-        top: 40px;
-        left: 0;
-        background: #FFF;
-        padding: 4px;
-        border: 1px solid #232323;
-    }
-    .page__type--marketing {
-        padding: 0;
-    }
-    .page__type__buttons {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-        margin-right: auto;
-        width: 100%;
-        margin: 10px auto;
-    }
-    .page__type__buttons h4 {
-        width: 100%;
-        text-align: center;
-    }
-    .bar__button {
-        width: 100px;
-        background: #232323;
-        margin: 4px;
-        padding: 8px;
-        color: #FFF;
-        text-align: center;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-        font-size: 1em;
-        line-height: 1em;
-        text-transform: uppercase;
-        cursor: pointer;
-        border-radius: 3px;
-        align-self: center;
-    }
+    
 
     .element__sections {
         flex: 1;
@@ -374,7 +316,6 @@ export default {
         /* border: 1px solid #232323; */
     }
     .create__element__img {
-        max-width: 20px;
         max-height: 20px;
     }
     .create__element__para {
@@ -407,53 +348,9 @@ export default {
         line-height: 1em;
     }
     
-    .code__section {
-        width: 90%;
-        max-width: 1000px;
-        height: auto;
-        max-height: 1200px;
-        margin: auto auto 10px;
-        padding: 15px 15px 4px 15px;
-        border: 1px solid #232323;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 3;
-        background: #FFF;
-    }
-    .code__text__area {
-        width: 100%;
-        height: 80vh;
-        max-height: 600px;
-    }
-    .code__commands {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-    }
-    .code__command {
-        width: 100px;
-        margin: 5px;
-        padding: 6px 8px;
-        border: 1px solid #232323;
-        border-radius: 4px;
-        text-transform: uppercase;
-        font-size: 1em;
-        line-height: 1em;
-        cursor: pointer;
-        text-align: center;
-    }
-
     
+
     .page__para--builder {
         margin: 0;
     }
-
-    
-
-    
-    
 </style>

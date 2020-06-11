@@ -1,5 +1,5 @@
 <template>
-    <div class="component__options__buttons">
+    <div class="component__options__buttons component__remove">
         <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementUp">▲</div>
         <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementUpGroup">▲</div>
         <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementDown">▼</div>

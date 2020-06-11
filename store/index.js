@@ -93,7 +93,7 @@ var allComponents = [
     },
     {
         title: "Spacers",
-        componentName: "Spacers",
+        componentName: "Spacer",
         pageTypes: ["product", "marketing"],
         types: [
             {
@@ -204,10 +204,14 @@ var allComponents = [
                         {
                             componentName: "Imageheaderpara",
                             type: "column"
+                        },
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "list"
                         }
                     ]
                 },
-                img: ""
+                img: "story-row.png"
             }
         ]
     },

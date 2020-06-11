@@ -21,7 +21,10 @@
                 >
                     {{ item.headerText }}
                 </li>
-                <div v-if="componentData.optionsShown" class="component__options__buttons">
+                <div 
+                    v-if="componentData.optionsShown" 
+                    class="component__options__buttons component__remove"
+                >
                     <div @click="addListItem" class="component__options--button">+</div>
                     <div @click="deleteListItem" class="component__options--button">X</div>
                 </div>

@@ -14,9 +14,9 @@
                 <div
                     @input="onEdit($event)"
                     v-if="componentData.optionsShown"
-                    data-component-name="imgSrc"
+                    data-name="imgSrc"
                     contenteditable
-                    class="options__editable__bottom"
+                    class="options__editable__bottom component__remove"
                 >
                     {{ elData.imgSrc }}
                 </div>
@@ -28,7 +28,7 @@
                     class="page__ihp__text__header page__ihp__container component__container"
                 >
                     <h3
-                        data-component-name="headerText"
+                        data-name="headerText"
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
                     >
@@ -40,7 +40,7 @@
                     class="page__ihp__text__para page__ihp__container component__container"
                 >
                     <p
-                        data-component-name="paraText"
+                        data-name="paraText"
                         contenteditable
                         class="page__para site__element"
                     >
@@ -118,7 +118,7 @@ export default {
     },
     methods: {
         onEdit(event){
-            let componentName = event.target.getAttribute("data-component-name")
+            let componentName = event.target.getAttribute("data-name")
             this.elData[componentName] = event.target.innerHTML.trim();
             this.numberOfActions += 1;
         },

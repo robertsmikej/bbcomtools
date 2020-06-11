@@ -35,7 +35,7 @@ export default {
         align-content: center;
         align-items: center;
         justify-content: flex-start;
-        background-color: #313845;
+        background-color: var(--bb-blue-dark);
         color: #FFF;
         padding: 10px 10px;
         position: fixed;
@@ -54,5 +54,6 @@ export default {
     }
     nav a {
         color: #FFF;
+        margin: 3px 10px;
     }
 </style>

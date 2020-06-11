@@ -1,9 +1,9 @@
 <template>
-    <div class="page__component" :class="[this.componentData.optionsShown ? 'page__component__outline' : 'page__component__no__outline' ]">
-        <div class="page__story__row__outer">
+    <div class="page__component">
+        <div class="page__story__row__outer" :class="[this.componentData.optionsShown ? 'page__component__outline' : 'page__component__no__outline' ]">
             <div 
                 v-if="componentData.optionsShown"
-                class="component__options__buttons__outer"
+                class="component__options__buttons__outer component__remove"
             >
                 <Optionsbuttons
                     :componentData="componentData"
@@ -21,11 +21,12 @@
                 </div>
             </div>
             <div
+                @click="optionsTrue"
                 :key="rowElements.componentActions"
                 :style="gridStyle"
                 class="page__story__row"
             >
-                <component v-for="element in rowElements.elements" :key="element.uniqueName" :is="element.componentName" :group="true" :componentData="element" :type="element.type ? element.type : null" :class="componentData.uniqueName + '--' + element.uniqueName" @click="optionsTrue"></component>
+                <component v-for="element in rowElements.elements" :key="element.uniqueName" :is="element.componentName" :group="true" :componentData="element" :type="element.type ? element.type : null" :class="componentData.uniqueName + '--' + element.uniqueName"></component>
             </div>
         </div>
     </div>

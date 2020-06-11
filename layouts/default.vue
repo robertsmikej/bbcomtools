@@ -63,10 +63,68 @@
         padding: 40px 0 0;
     }
 
-    .container .page__type--selected {
-        border: 1px solid #232323;
+    .component__generator .built__elements__wrapper {
+        padding-left: 250px;
+    }
+    .element__bar {
+        width: 250px;
+        height: calc(100vh - 40px);
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        justify-content: flex-start;
+        position: fixed;
+        top: 40px;
+        left: 0;
         background: #FFF;
+        padding: 4px;
+        border: 1px solid var(--bb-blue-dark);
+    }
+    .page__type--marketing {
+        padding: 0;
+    }
+    .page__type__buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-right: auto;
+        width: 100%;
+        margin: 10px auto;
+    }
+    .page__type__buttons h4 {
+        width: 100%;
+        text-align: center;
+    }
+    .bar__button {
+        width: 100px;
+        border: 1px solid var(--bb-blue-dark);
+        background: var(--bb-blue-dark);
+        margin: 4px;
+        padding: 8px;
         color: #232323;
+        background-color: #FFF;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        font-size: 1em;
+        line-height: 1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        align-self: center;
+        transition: all .3s;
+    }
+    .bar__button:hover,
+    .container .page__type--selected {
+        background-color: var(--bb-blue-dark);
+        color: #FFF;
     }
 
     .container .page__type__header {
@@ -285,5 +343,51 @@
     }
     .page__component__outline {
         border: 1px solid var(--bb-grey-light);
+    }
+
+
+    .code__section {
+        width: 90%;
+        max-width: 1000px;
+        height: auto;
+        max-height: 1200px;
+        margin: auto auto 10px;
+        padding: 15px 15px 4px 15px;
+        border: 1px solid #232323;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        background: #FFF;
+    }
+    .code__text__area {
+        width: 100%;
+        height: 80vh;
+        max-height: 600px;
+    }
+    .code__commands {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+    }
+    .code__command {
+        width: 100px;
+        margin: 5px;
+        padding: 6px 8px;
+        border: 1px solid var(--bb-blue-dark);
+        border-radius: 4px;
+        text-transform: uppercase;
+        font-size: 1em;
+        line-height: 1em;
+        cursor: pointer;
+        text-align: center;
+        transition: all .3s;
+    }
+    .code__command:hover {
+        background-color: var(--bb-blue-dark);
+        color: var(--bb-white);
     }
 </style>
