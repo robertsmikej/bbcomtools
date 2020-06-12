@@ -197,8 +197,12 @@ var allComponents = [
                 elementData: {
                     listItems: [
                         {
-                            headerText: "New Header",
-                            paraText: "New Para",
+                            headerText: "New Header"
+                        },
+                        {
+                            paraText: "New Para"
+                        },
+                        {
                             imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
                         }
                     ]
@@ -211,8 +215,12 @@ var allComponents = [
                 elementData: {
                     listItems: [
                         {
-                            headerText: "New Header",
-                            paraText: "New Para",
+                            headerText: "New Header"
+                        },
+                        {
+                            paraText: "New Para"
+                        },
+                        {
                             imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
                         }
                     ]
@@ -225,8 +233,12 @@ var allComponents = [
                 elementData: {
                     listItems: [
                         {
-                            headerText: "New Header",
-                            list: "New Para",
+                            headerText: "New Header"
+                        },
+                        {
+                            paraText: "New Para"
+                        },
+                        {
                             imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
                         }
                     ]

@@ -104,7 +104,7 @@ export default {
             this.rowElements.elements[findIn] = data.newComponentData;
             this.componentActions += 1;
 
-            this.updateTarget(data);
+            // this.updateTarget(data);
         }),
         this.$nuxt.$on('removeElementFromGroup', data => {
             if (this.componentData.uniqueName === data.componentData.parentUniqueName) {
@@ -131,46 +131,27 @@ export default {
         });
     },
     methods: {
-        updateTarget(passed) {
-            let newComponentData = this.componentData;
-            if (!passed) {
-                if (event.target.getAttribute("data-type").toLowerCase() === "li") {
-                    let newLi = {li: event.target.innerHTML.trim()};
-                    newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
-                } else {
-                    newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
-                    newComponentData.componentChanges += 1;
-                }
-            } else {
-                for (let c in this.rowElements.elements) {
-                    
-                    if (this.rowElements.elements[c].uniqueName === passed.newComponentData.uniqueName) {
-                        console.log(newComponentData);
-                        newComponentData.rowElements.elements[c] = passed.newComponentData;
-                        
-                    }
-                }
-
+        // updateTarget() {
+        //     let newComponentData = this.componentData;
+        //     if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+        //         let newLi = {li: event.target.innerHTML.trim()};
+        //         newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+        //     } else {
+        //         newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+        //         newComponentData.componentChanges += 1;
+        //     }
+        //     let info = {
+        //         newComponentData: newComponentData,
+        //     };
+        //     if (!this.componentData.hasOwnProperty("parentData")) {
                 
-                console.log(this.rowElements.elements);
-                console.log(passed.newComponentData);
-
-            }
-            let info = {
-                newComponentData: newComponentData,
-                event: event
-            };
-            if (!this.componentData.hasOwnProperty("parentData")) {
-                console.log(info);
-                this.$nuxt.$emit("updateTarget", info);
-            } else {
-                if (this.componentData.parentUniqueName) {
-                    console.log(info);
-                    this.$nuxt.$emit("updateTargetGroup", info);
-                }
-            }
-            
-        },
+        //         this.$nuxt.$emit("updateTarget", info);
+        //     } else {
+        //         if (this.componentData.parentUniqueName) {
+        //             this.$nuxt.$emit("updateTargetGroup", info);
+        //         }
+        //     }
+        // },
         addComponent(type) {
             let newNumber = this.rowElements.numberOfComponents;
             let componentDetails = this.elementComponents.types.filter(obj => {
