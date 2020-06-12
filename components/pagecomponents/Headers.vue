@@ -1,12 +1,14 @@
 <template>
     <div class="page__component">
-        <component 
-            :is="componentData.type" 
-            @input="onEdit($event)"
+        <component
+            :is="componentData.type"
+            @blur="updateTarget"
+            @focus="focused"
+            data-type="headerText"
             contenteditable 
-            class="site__element"
+            class="page__header site__element"
         >
-            {{ componentData.elementData.headerText }}
+            {{ componentData.newElementData.listItems.headerText.text }}
         </component>
         <Optionsbuttons
             v-if="componentData.optionsShown"
@@ -22,28 +24,37 @@ export default {
         componentData: Object,
         group: Boolean
     },
+    computed: {
+        getComponentData: function () {
+            return this.componentData
+        }
+    },
     mounted: function () {
-        let els = this.$el.querySelectorAll(".site__element");
-        els.forEach((element, index) => {
-            element.setAttribute("data-component-number", index);
-        });
+        // console.log(this.componentData);
+        // let els = this.$el.querySelectorAll(".site__element");
+        // els.forEach((element, index) => {
+        //     element.setAttribute("data-component-number", index);
+        // });
     },
     methods: {
-        onEdit(event){
+        updateTarget() {
+            let newComponentData = this.componentData;
+            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+                let newLi = {li: event.target.innerHTML.trim()};
+                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+            } else {
+                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                newComponentData.componentChanges += 1;
+            }
             let info = {
-                componentData: this.componentData,
-                update: event.target.innerHTML.trim(),
-                componentIndex: event.target.getAttribute("data-component-number")
+                newComponentData: newComponentData,
             };
             this.$nuxt.$emit("updateTarget", info);
         },
-        optionsTrue() {
-            let info = {
-                componentData: this.componentData,
-                optionsBool: true
-            };
-            this.$nuxt.$emit("optionsChange", info);
-        }
+        focused(e) {
+            console.log(this.componentData);
+            // document.execCommand('selectAll', false, null);
+        },
     }
 }
 </script>

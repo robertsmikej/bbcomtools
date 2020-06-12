@@ -8,7 +8,11 @@ var allComponents = [
                 title: "H1",
                 type: "H1",
                 elementData: {
-                    headerText: "New H1"
+                    listItems: [
+                        { 
+                            headerText: "New H1"
+                        }
+                    ]
                 },
                 img: ""
             },
@@ -16,7 +20,11 @@ var allComponents = [
                 title: "H2",
                 type: "H2",
                 elementData: {
-                    headerText: "New H2"
+                    listItems: [
+                        { 
+                            headerText: "New H2"
+                        }
+                    ]
                 },
                 img: ""
             },
@@ -24,7 +32,11 @@ var allComponents = [
                 title: "H3",
                 type: "H3",
                 elementData: {
-                    headerText: "New H3"
+                    listItems: [
+                        { 
+                            headerText: "New H3"
+                        }
+                    ]
                 },
                 img: ""
             },
@@ -32,7 +44,11 @@ var allComponents = [
                 title: "H4",
                 type: "H4",
                 elementData: {
-                    headerText: "New H4"
+                    listItems: [
+                        { 
+                            headerText: "New H4"
+                        }
+                    ]
                 },
                 img: ""
             },
@@ -40,7 +56,11 @@ var allComponents = [
                 title: "H5",
                 type: "H5",
                 elementData: {
-                    headerText: "New H5"
+                    listItems: [
+                        { 
+                            headerText: "New H5"
+                        }
+                    ]
                 },
                 img: ""
             },
@@ -48,7 +68,11 @@ var allComponents = [
                 title: "H6",
                 type: "H6",
                 elementData: {
-                    headerText: "New H6"
+                    listItems: [
+                        { 
+                            headerText: "New H6"
+                        }
+                    ]
                 },
                 img: ""
             }
@@ -63,7 +87,11 @@ var allComponents = [
                 title: "P",
                 type: "p",
                 elementData: {
-                    paraText: "New Paragraph"
+                    listItems: [
+                        { 
+                            paraText: "New Para"
+                        }
+                    ]
                 },
                 img: "paragraph.png"
             }
@@ -79,7 +107,11 @@ var allComponents = [
                 
                 type: "Video",
                 elementData: {
-                    videoCode: "PLACE VIDEO PLAYER CODE HERE"
+                    listItems: [
+                        { 
+                            videoCode: "PLACE VIDEO PLAYER CODE HERE"
+                        }
+                    ]
                 },
                 img: "jwplayer.png"
             }
@@ -96,10 +128,10 @@ var allComponents = [
                 elementData: {
                     listItems: [
                         { 
-                            headerText: "New List Item 1"
+                            li: "New List Item 1"
                         },
                         {
-                            headerText: "New List Item 2"
+                            li: "New List Item 2"
                         }
                     ]
                 },

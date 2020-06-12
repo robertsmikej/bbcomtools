@@ -11,9 +11,23 @@
                     <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
                         <h4>{{ section.title }}</h4>
                         <div v-for="component in section.types" :key="component.type" class="create__element__cell__outer">
-                            <div @click="createComponent" :component-name="section.componentName" :component-type="component.type ? component.type : null" class="create__element__cell">
-                                <img class="create__element__img" v-if="component.img.length > 0" :src="'/imgs/' + component.img"/>
-                                <p class="create__element__para" v-if="component.img.length === 0">{{ component.title }}</p>
+                            <div 
+                                @click="createComponent"
+                                :component-name="section.componentName"
+                                :component-type="component.type ? component.type : null" 
+                                class="create__element__cell"
+                            >
+                                <img 
+                                    v-if="component.img.length > 0"
+                                    :src="'/imgs/' + component.img"
+                                    class="create__element__img"
+                                />
+                                <p 
+                                    v-if="component.img.length === 0"
+                                    class="create__element__para"
+                                >
+                                    {{ component.title }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -27,7 +41,15 @@
             <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
                 <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
-                    <component v-for="(element, index) in clickedElements.elements" :key="element.uniqueName + index" :is="element.componentName" :group="false" :componentData="element" :type="element.type ? element.type : null" :class="element.uniqueName"></component>
+                    <component 
+                        v-for="(element, index) in clickedElements.elements" 
+                        :key="element.uniqueName + element.componentChanges" 
+                        :is="element.componentName" 
+                        :group="false" 
+                        :componentData="element" 
+                        :type="element.type ? element.type : null"
+                        :class="element.uniqueName"
+                    ></component>
                 </div>
             </div>
         </div>
@@ -69,6 +91,13 @@ export default {
         }
     },
     created() {
+        this.$nuxt.$on('updateTarget', data => {
+            let uniqueName = data.newComponentData.uniqueName;
+            this.currentComponentName = uniqueName;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            this.clickedElements.elements[findIn] = data.newComponentData;
+            this.pageActions += 1;
+        }),
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -113,6 +142,7 @@ export default {
         });
     },
     methods: {
+        
         checkPageType: function (data) {
             return data.pageTypes.includes(this.pageType);
         },
@@ -134,26 +164,52 @@ export default {
             let componentDetails = component.types.filter(obj => {
                 return obj.type === comptype
             })[0];
+            componentDetails.newElementData = {};
+            for (let d in componentDetails.elementData) {
+                let dataPoint = componentDetails.elementData[d];
+                let newData;
+                // console.log(dataPoint)
+                if (d === "listItems") {
+                    newData = {
+                        type: d,
+                        listItems: componentDetails.elementData[d]
+                    }
+                    componentDetails.elementData[d].forEach(function (l) {
+                        if (!l.hasOwnProperty("li")) {
+                            for (let li in l) {
+                                let newListData = {
+                                    type: li,
+                                    text: l[li]
+                                }
+                                newData[li] = newListData;
+                            }
+                        }
+                    });
+                } else {
+                    newData = {
+                        type: d,
+                        text: dataPoint
+                    }
+                }
+                componentDetails.newElementData[d] = newData;
+            }
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + newNumber,
                 number: newNumber,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
+                newElementData: componentDetails.newElementData,
                 optionsShown: true,
-                targetInputIndex: 0,
-                alreadyCreated: false,
+                componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
-            };
-            // this.clickedElements.numberOfComponents += 1;
+            };;
             this.clickedElements.numberOfSections += 1;
-            // this.pageActions += 1;
             this.clickedElements.elements.push(newComponent);
         },
         buildImportCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
-
             codeCopy.querySelectorAll(".component__options, .component__remove").forEach(function (el) {
                 el.parentNode.removeChild(el);
             });
@@ -167,7 +223,6 @@ export default {
                 el.removeAttribute("contenteditable")
             })
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
-            
             this.code = codeCopy;
             this.showCode = true;
         },
@@ -187,48 +242,7 @@ export default {
             document.execCommand('copy');
         },
         importCode: function () {
-            // let code = this.$el.querySelector(".code__text__area").value;
-            // let codeDiv = document.createElement("div");
-            // codeDiv.innerHTML = code;
-            // let elements = codeDiv.querySelectorAll(".component__wrap");
-            // let clickedElements = this.clickedElements;
-            // let number = clickedElements.numberOfComponents;
-            // let components = this.components;
-            // let actions = 0;
-            // clickedElements.elements = [];
-            // clickedElements.numberOfComponents = 0;
-            // clickedElements.numberOfSections = 0;
-            // this.pageActions = 0;
-            // let newArr = [];
-            // if (elements.length > 0) {
-            //     elements.forEach(function (e) {
-            //         let el = e.childNodes[0];
-            //         let name = e.getAttribute("data-component-name");
-            //         let type = e.getAttribute("data-component-type");
-            //         let data = e.getAttribute("data-component-data");
-            //         let dataName = e.getAttribute("data-component-data-name");
-            //         let newComponent = {
-            //             "name": name,
-            //             "uniqueName": name + number,
-            //             "number": number,
-            //             "type": type,
-            //             "componentData": {
-            //                 "elementData": {
-            //                     dataName: data
-            //                 }
-            //             },
-            //             "elementData": components[name].types[type].elementData,
-            //             "optionsShown": false,
-            //             "alreadyCreated": false
-            //         };
-            //         actions += 1;
-            //         newArr.push(newComponent);
-            //     });
-            // }
-            // clickedElements.elements = newArr;
-            // clickedElements.numberOfComponents += actions;
-            // clickedElements.numberOfSections += actions;
-            // this.pageActions += actions;
+            
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();

@@ -1,12 +1,12 @@
 <template>
     <div class="component__options__buttons component__remove">
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementUp">▲</div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementUpGroup">▲</div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementDown">▼</div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementDownGroup">▼</div>
-        <div v-if="!group" class="component__options--button" @click="removeElement">X</div>
-        <div v-if="group" class="component__options--button" @click="removeElementFromGroup">X</div>
-        <div class="component__options--button" v-if="!componentData.vendorRestricted && groupParent" @click="optionsToggle">✓</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementUp()">▲</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementUpGroup()">▲</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && !group" @click="moveElementDown()">▼</div>
+        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementDownGroup()">▼</div>
+        <div v-if="!group" class="component__options--button" @click="removeElement()">X</div>
+        <div v-if="group" class="component__options--button" @click="removeElementFromGroup()">X</div>
+        <!-- <div class="component__options--button" v-if="!componentData.vendorRestricted && groupParent" @click="optionsToggle">✓</div> -->
     </div>
 </template>
 
@@ -26,6 +26,12 @@ export default {
             this.$nuxt.$emit("toggleOptions", info);
         },
         removeElement() {
+            let info = {
+                componentData: this.componentData,
+                uniqueName: this.componentData.uniqueName,
+                componentIndex: event.target.getAttribute("data-component-number")
+            };
+            this.$nuxt.$emit('updateTarget', info);
             this.$nuxt.$emit('removeElement', this.componentData.uniqueName);
         },
         moveElementUp() {

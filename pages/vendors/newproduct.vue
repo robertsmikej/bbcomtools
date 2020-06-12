@@ -137,7 +137,6 @@ export default {
                 type: el.type,
                 elementData: {},
                 optionsHidden: true,
-                alreadyCreated: false,
                 vendorRestricted: that.checkRestricted("vendors")
             };
             if (el.elementData) {

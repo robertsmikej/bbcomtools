@@ -6,21 +6,24 @@
             v-if="type === 'list'" 
             :key="numberOfItems" 
             class="page__ul__list site__element"
-        >
+        >  
             <div
-                v-for="(item, index) in listItems"
+                v-for="(item, index) in componentData.newElementData.listItems.listItems"
                 :data-list-item-number="index"
-                :key="item.headerText + index"
+                :key="item.li + index"
                 class="component__wrapper"
             >
                 <li
-
-                    :data-component-list-number="index"
+                    
+                    @focus="focused"
                     @keydown.enter="enterPressed"
+                    @blur="updateTarget"
+                    :data-component-list-number="index"
+                    data-type="li"
                     contenteditable
                     class="list__item"
                 >
-                    {{ item.headerText }}
+                    {{ item.li }}
                 </li>
                 <div 
                     v-if="componentData.optionsShown" 
@@ -48,34 +51,40 @@ export default {
     },
     data() {
         return {
-            numberOfItems: 0,
-            listItems: []
+            numberOfItems: 0
         };
     },
     created() {
-        let elements = this.componentData.elementData.listItems;
-        let that = this;
-        elements.forEach(function (el) {
-            that.listItems.push(el);
-        });
-        this.numberOfItems = this.listItems.length;
-        console.log(this.group);
+
     },
     methods: {
+        focused(e) {
+            console.log(e);
+        },
         enterPressed(e) {
             e.preventDefault();
             this.onEdit(e);
             this.addListItem(e);
-            console.log(event);
         },
-        onEdit(event) {
-            //@input="onEdit($event)"
-            let update = {
-                headerText: event.target.innerHTML.trim()
+        updateTarget() {
+            let newComponentData = this.componentData;
+            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+                let newLi = {li: event.target.innerHTML.trim()};
+                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+            } else {
+                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                newComponentData.componentChanges += 1;
+            }
+            let info = {
+                newComponentData: newComponentData,
             };
-            let componentIndex = event.target.getAttribute("data-component-list-number");
-            this.listItems[componentIndex] = update;
-            this.numberOfItems = this.listItems.length;
+            if (!this.componentData.hasOwnProperty("parentData")) {
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                if (this.componentData.parentUniqueName) {
+                    this.$nuxt.$emit("updateTargetGroup", info);
+                }
+            }
         },
         optionsTrue() {
             let info = {
@@ -85,16 +94,34 @@ export default {
             this.$nuxt.$emit("optionsChange", info);
         },
         deleteListItem(e) {
-            let components = this.listItems;
-            let listItem = e.target.closest(".component__wrapper").getAttribute("data-list-item-number");
-            components.splice(listItem, 1);
-            this.numberOfItems = this.listItems.length;
+            let listItem = parseInt(e.target.closest(".component__wrapper").getAttribute("data-list-item-number"));
+            let newListItems = [];
+            this.$el.querySelectorAll(".list__item").forEach(function (el) {
+                newListItems.push({li: el.innerHTML.trim()});
+            });
+            newListItems.splice(listItem, 1);
+            let newComponentData = this.componentData;
+            newComponentData.newElementData.listItems.listItems = newListItems;
+            newComponentData.componentChanges += 1;
+            let info = {
+                newComponentData: newComponentData
+            };
+            this.$nuxt.$emit("updateTarget", info);
         },
         addListItem(e) {
-            let components = this.listItems;
             let listItem = parseInt(e.target.closest(".component__wrapper").getAttribute("data-list-item-number")) + 1;
-            components.splice(listItem, 0, { headerText: "New List Item" });
-            this.numberOfItems = this.listItems.length;
+            let newListItems = [];
+            this.$el.querySelectorAll(".list__item").forEach(function (el) {
+                newListItems.push({li: el.innerHTML.trim()});
+            });
+            newListItems.splice(listItem, 0, {li: "New List Item"});
+            let newComponentData = this.componentData;
+            newComponentData.newElementData.listItems.listItems = newListItems;
+            newComponentData.componentChanges += 1;
+            let info = {
+                newComponentData: newComponentData
+            };
+            this.$nuxt.$emit("updateTarget", info);
         }
     }
 }

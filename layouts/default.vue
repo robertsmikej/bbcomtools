@@ -285,7 +285,7 @@
         justify-content: flex-start;
         align-items: center;
         position: absolute;
-        top: 0;
+        top: 16px;
         right: 0;
         z-index: 3;
     }

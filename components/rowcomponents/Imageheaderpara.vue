@@ -7,18 +7,18 @@
                 <img
                     @click="toggleImgOptions"
                     :key="numberOfActions"
-                    :src="elData.imgSrc"
-                    :alt="elData.headerText"
+                    :src="componentData.newElementData.listItems.imgSrc.text"
+                    :alt="componentData.newElementData.listItems.headerText.text"
                     class="page__ihp__image site__element"
                 />
                 <div
-                    @input="onEdit($event)"
+                    @blur="updateTarget"
                     v-if="componentData.optionsShown"
-                    data-name="imgSrc"
+                    data-type="imgSrc"
                     contenteditable
                     class="options__editable__bottom component__remove"
                 >
-                    {{ elData.imgSrc }}
+                    {{ componentData.newElementData.listItems.imgSrc.text }}
                 </div>
             </div>
             <div 
@@ -28,11 +28,12 @@
                     class="page__ihp__text__header page__ihp__container component__container"
                 >
                     <h3
-                        data-name="headerText"
+                        @blur="updateTarget"
+                        data-type="headerText"
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
                     >
-                        {{ elData.headerText }}
+                        {{ componentData.newElementData.listItems.headerText.text }}
                     </h3>
                 </div>
                 <div
@@ -40,11 +41,12 @@
                     class="page__ihp__text__para page__ihp__container component__container"
                 >
                     <p
-                        data-name="paraText"
+                        @blur="updateTarget"
+                        data-type="paraText"
                         contenteditable
                         class="page__para site__element"
                     >
-                        {{ elData.paraText }}
+                        {{ componentData.newElementData.listItems.paraText.text }}
                     </p>
                 </div>
                 <div
@@ -82,44 +84,41 @@ export default {
                 elementData: {
                     listItems: [
                         { 
-                            headerText: "New List Item 1"
+                            li: "New List Item 1"
                         },
                         {
-                            headerText: "New List Item 2"
+                            li: "New List Item 2"
                         }
                     ]
                 },
                 optionsShown: true
             },
-            elData: [
-                {
-                    headerText: "",
-                    paraText: "",
-                    imgSrc: ""
-                }
-            ]
         };
     },
-    created() {
-        let elements = this.componentData.elementData.listItems[0];
-        let that = this;
-        for (let e in elements) {
-            this.elData[e] = elements[e]
-        }
-    },
     mounted() {
-        let els = this.$el.querySelectorAll(".site__element");
-        els.forEach((element, index) => {
-            element.setAttribute("data-list-number", index);
-        });
-
         this.componentData.optionsShown = false;
     },
     methods: {
-        onEdit(event){
-            let componentName = event.target.getAttribute("data-name")
-            this.elData[componentName] = event.target.innerHTML.trim();
-            this.numberOfActions += 1;
+        updateTarget() {
+            let newComponentData = this.componentData;
+            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+                let newLi = {li: event.target.innerHTML.trim()};
+                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+            } else {
+                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                newComponentData.componentChanges += 1;
+            }
+            let info = {
+                newComponentData: newComponentData,
+                event: event
+            };
+            if (!this.componentData.hasOwnProperty("parentData")) {
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                if (this.componentData.parentUniqueName) {
+                    this.$nuxt.$emit("updateTargetGroup", info);
+                }
+            }
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

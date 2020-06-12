@@ -78,6 +78,20 @@ export default {
 
     },
     methods: {
+        updateTarget() {
+            let newComponentData = this.componentData;
+            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+                let newLi = {li: event.target.innerHTML.trim()};
+                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+            } else {
+                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                newComponentData.componentChanges += 1;
+            }
+            let info = {
+                newComponentData: newComponentData,
+            };
+            this.$nuxt.$emit("updateTarget", info);
+        },
         checkHeight(e) {
             this.$nuxt.$emit("changeHeight", this.componentData);
         },

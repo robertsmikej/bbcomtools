@@ -11,10 +11,12 @@
             >
             <div
                 v-if="componentData.optionsShown"
+                @blur="updateTarget"
+                data-type="videoCode"
                 contenteditable
                 class="options__editable__bottom"
             >
-                {{ componentData.elementData.videoCode }}
+                {{ componentData.newElementData.listItems.videoCode }}
             </div>
             <Optionsbuttons
                 v-if="componentData.optionsShown"
@@ -23,7 +25,7 @@
         </div>
         <div
             class="page__video__wrapper site__element"
-            v-html="componentData.elementData.videoCode"
+            v-html="componentData.newElementData.listItems.videoCode"
         ></div>
     </div>
 </template>
@@ -41,6 +43,27 @@ export default {
         };
     },
     methods: {
+        updateTarget() {
+            let newComponentData = this.componentData;
+            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+                let newLi = {li: event.target.innerHTML.trim()};
+                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+            } else {
+                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                newComponentData.componentChanges += 1;
+            }
+            let info = {
+                newComponentData: newComponentData,
+            };
+            if (!this.componentData.hasOwnProperty("parentData")) {
+                
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                if (this.componentData.parentUniqueName) {
+                    this.$nuxt.$emit("updateTargetGroup", info);
+                }
+            }
+        },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;
         }
