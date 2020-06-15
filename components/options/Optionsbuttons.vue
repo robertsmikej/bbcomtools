@@ -31,7 +31,7 @@ export default {
                 uniqueName: this.componentData.uniqueName,
                 componentIndex: event.target.getAttribute("data-component-number")
             };
-            this.$nuxt.$emit('updateTarget', info);
+            // this.$nuxt.$emit('updateTarget', info);
             this.$nuxt.$emit('removeElement', this.componentData.uniqueName);
         },
         moveElementUp() {

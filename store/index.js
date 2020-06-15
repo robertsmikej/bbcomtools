@@ -233,13 +233,10 @@ var allComponents = [
                 elementData: {
                     listItems: [
                         {
-                            headerText: "New Header"
+                            text: "New Li"
                         },
                         {
-                            paraText: "New Para"
-                        },
-                        {
-                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                            text: "New Li2"
                         }
                     ]
                 },
@@ -269,8 +266,28 @@ var allComponents = [
                             componentName: "Imageheaderpara",
                             type: "list"
                         }
+                    ],
+                    elements: {
+                        numberOfComponents: 0,
+                        componentActions: 0
+                    },
+                    childArr: [
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "row"
+                        },
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "column"
+                        },
+                        {
+                            componentName: "Imageheaderpara",
+                            type: "list"
+                        }
                     ]
                 },
+                group: true,
+                
                 img: "story-row.png"
             }
         ]

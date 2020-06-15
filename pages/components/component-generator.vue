@@ -92,6 +92,8 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
+            // console.log(data);
+            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -111,13 +113,12 @@ export default {
             this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
         this.$nuxt.$on('removeElement', data => {
-            if (this.clickedElements.elements && data) {
-                this.currentComponentName = data;
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                this.clickedElements.elements.splice(findIn, 1);
-                this.clickedElements.numberOfComponents -= 1;
-                this.clickedElements.numberOfSections -= 1;
-            }
+            console.log(data);
+            this.currentComponentName = data;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            this.clickedElements.elements.splice(findIn, 1);
+            this.clickedElements.numberOfComponents -= 1;
+            this.clickedElements.numberOfSections -= 1;
         });
         this.$nuxt.$on('moveElementUp', data => {
             this.currentComponentName = data;
@@ -142,7 +143,6 @@ export default {
         });
     },
     methods: {
-        
         checkPageType: function (data) {
             return data.pageTypes.includes(this.pageType);
         },
@@ -168,7 +168,6 @@ export default {
             for (let d in componentDetails.elementData) {
                 let dataPoint = componentDetails.elementData[d];
                 let newData;
-                // console.log(dataPoint)
                 if (d === "listItems") {
                     newData = {
                         type: d,
@@ -185,6 +184,41 @@ export default {
                             }
                         }
                     });
+                } else if (d === "childArr") {
+                    let comps = this.components;
+                    let newArr = [];
+                    componentDetails.elementData[d].forEach(function (comp, index) {
+                        let innerComponent = comps.filter(obj => {
+                            return obj.componentName === comp.componentName
+                        })[0];
+                        let innerComponentDetails = innerComponent.types.filter(obj => {
+                            return obj.type === comp.type
+                        })[0];
+                        let newInnerCompObj = {};
+                        for (let c in innerComponentDetails.elementData.listItems) {
+                            let innerDetail = innerComponentDetails.elementData.listItems[c];
+                            let type = Object.keys(innerDetail)[0];
+                            newInnerCompObj[type] = {
+                                type: type,
+                                text: innerDetail[type]
+                            };
+                        }
+                        let newInnerComponent = {
+                            componentName: comp.componentName,
+                            uniqueName: component.componentName + newNumber + index,
+                            number: newNumber + 1,
+                            type: comp.type,
+                            elementData: componentDetails.elementData,
+                            newElementData: {
+                                listItems: newInnerCompObj
+                            },
+                            optionsShown: true,
+                            componentChanges: 0,
+                            vendorRestricted: false
+                        };
+                        newArr.push(newInnerComponent);
+                    });
+                    newData = newArr;
                 } else {
                     newData = {
                         type: d,
@@ -203,7 +237,7 @@ export default {
                 optionsShown: true,
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
-            };;
+            };
             this.clickedElements.numberOfSections += 1;
             this.clickedElements.elements.push(newComponent);
         },

@@ -34,16 +34,16 @@
                 </div>
             </div>
             <div
-                :key="rowElements.componentActions"
+                :key="componentData.newElementData.elements.componentActions"
                 :style="gridStyle"
                 class="page__story__row"
             >
                 <component
-                    v-for="element in rowElements.elements"
+                    v-for="element in componentData.newElementData.childArr"
                     :key="element.uniqueName + element.componentChanges"
-                    :is="element.componentName" 
-                    :group="true" 
-                    :componentData="element" 
+                    :is="element.componentName"
+                    :group="true"
+                    :componentData="element"
                     :type="element.type ? element.type : null"
                     :class="componentData.uniqueName + '--' + element.uniqueName"
                 ></component>
@@ -60,15 +60,11 @@ export default {
     },
      data() {
         return {
+            numberOfComponents: 0,
+            componentActions: 0,
             elementComponents: {},
             currentComponentName: "",
-            rowElements: {
-                numberOfComponents: 0,
-                componentActions: 0,
-                elements: []
-            },
-            restrictions: []
-        };
+            restrictions: []        };
     },
     computed: {
         components: function () {
@@ -92,27 +88,25 @@ export default {
         },
         gridStyle() {
             return {
-                gridTemplateColumns: `repeat(${this.rowElements.numberOfComponents}, minmax(80px, 1fr))`
+                gridTemplateColumns: `repeat( ${ this.numberOfComponents }, minmax(80px, 1fr))`
             }
         }
     },
     created() {
-        this.$nuxt.$on('updateTargetGroup', data => {
-            let uniqueName = data.newComponentData.uniqueName;
-            this.currentComponentName = uniqueName;
-            let findIn = this.rowElements.elements.findIndex(this.findInArray);
-            this.rowElements.elements[findIn] = data.newComponentData;
-            this.componentActions += 1;
+        // console.log(this.componentData);
+        // console.log(this.componentData.newElementData);
+        // console.log(this.componentData.newElementData.childArr);
+        // this.componentData.newElementData.childArr.forEach(function (e) {
+        //     console.log(e);
+        // });
 
-            // this.updateTarget(data);
-        }),
         this.$nuxt.$on('removeElementFromGroup', data => {
             if (this.componentData.uniqueName === data.componentData.parentUniqueName) {
                 this.currentComponentName = data.uniqueName;
                 let findIn = this.rowElements.elements.findIndex(this.findInArray);
                 this.rowElements.elements.splice(findIn, 1);
                 this.rowElements.numberOfComponents -= 1;
-                this.rowElements.componentActions -= 1;
+                this.componentActions -= 1;
             }
         });
         this.$nuxt.$on('moveElementUpGroup', data => {
@@ -130,80 +124,89 @@ export default {
             }
         });
     },
+    mounted() {
+        // console.log(this.componentData.newElementData.childArr);
+        this.numberOfComponents = this.componentData.newElementData.childArr.length
+    },
     methods: {
-        // updateTarget() {
-        //     let newComponentData = this.componentData;
-        //     if (event.target.getAttribute("data-type").toLowerCase() === "li") {
-        //         let newLi = {li: event.target.innerHTML.trim()};
-        //         newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
-        //     } else {
-        //         newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
-        //         newComponentData.componentChanges += 1;
-        //     }
-        //     let info = {
-        //         newComponentData: newComponentData,
-        //     };
-        //     if (!this.componentData.hasOwnProperty("parentData")) {
-                
-        //         this.$nuxt.$emit("updateTarget", info);
-        //     } else {
-        //         if (this.componentData.parentUniqueName) {
-        //             this.$nuxt.$emit("updateTargetGroup", info);
-        //         }
-        //     }
-        // },
         addComponent(type) {
-            let newNumber = this.rowElements.numberOfComponents;
+            // console.log(type);
+            let newComponentData = this.componentData;
+            let el = this.componentData.elementData.rowElements;
+            let newNumber = this.numberOfComponents;
+            let compname = this.componentData.componentName;
+            // console.log(this.componentData);
+            let component = this.components.filter(obj => {
+                return obj.componentName === compname
+            })[0];
+            // console.log(component);
             let componentDetails = this.elementComponents.types.filter(obj => {
                 return obj.type === type
             })[0];
-            componentDetails.newElementData = {};
-            for (let d in componentDetails.elementData) {
-                let dataPoint = componentDetails.elementData[d];
-                let newData;
-                // console.log(dataPoint)
-                if (d === "listItems") {
-                    newData = {
-                        type: d,
-                        listItems: componentDetails.elementData[d]
-                    }
-                    componentDetails.elementData[d].forEach(function (l) {
-                        if (!l.hasOwnProperty("li")) {
-                            for (let li in l) {
-                                let newListData = {
-                                    type: li,
-                                    text: l[li]
-                                }
-                                newData[li] = newListData;
-                            }
-                        }
-                    });
-                } else {
-                    newData = {
-                        type: d,
-                        text: dataPoint
-                    }
-                }
-                componentDetails.newElementData[d] = newData;
-            }
+            // console.log(componentDetails);
             
             // componentDetails.newElementData = {};
+            // for (let d in componentDetails.elementData) {
+            //     let dataPoint = componentDetails.elementData[d];
+            //     let newData;
+            //     // console.log(dataPoint)
+            //     if (d === "listItems") {
+            //         newData = {
+            //             type: d,
+            //             listItems: componentDetails.elementData[d]
+            //         }
+            //         componentDetails.elementData[d].forEach(function (l) {
+            //             if (!l.hasOwnProperty("li")) {
+            //                 for (let li in l) {
+            //                     let newListData = {
+            //                         type: li,
+            //                         text: l[li]
+            //                     }
+            //                     newData[li] = newListData;
+            //                 }
+            //             }
+            //         });
+            //     } else {
+            //         newData = {
+            //             type: d,
+            //             text: dataPoint
+            //         }
+            //     }
+            //     componentDetails.newElementData[d] = newData;
+            // }
+            // console.log(componentDetails);
+            // componentDetails.newElementData = {};
+            
+            
+            // console.log(componentDetails);
+            // console.log(componentDetails.elementData);
+            let childArray = this.componentData.childArray;
+            console.log(childArray);
             let newComponent = {
-                componentName: this.elementComponents.componentName,
-                uniqueName: this.elementComponents.componentName + newNumber,
-                parentUniqueName: this.componentData.uniqueName,
-                parentData: this.componentData,
-                number: newNumber,
-                type: type,
-                elementData: componentDetails.elementData,
-                newElementData: componentDetails.newElementData,
+                componentName: this.componentData.componentName,
+                uniqueName: this.componentData.uniqueName,
+                number: this.componentData.number,
+                type: this.componentData.type,
+                elementData: this.componentData.elementData,
+                childArray: childArray,
+                newElementData: this.componentData.newElementData,
                 optionsShown: true,
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            this.rowElements.numberOfComponents += 1;
-            this.rowElements.componentActions += 1;
-            this.rowElements.elements.push(newComponent);
+            
+            // console.log(newComponent);
+            let info = {
+                componentData: this.componentData,
+                newComponentData: newComponent
+            };
+
+            // el.elements.push(newComponent);
+            
+            this.$nuxt.$emit("updateTarget", info);
+            this.numberOfComponents += 1;
+            this.componentActions += 1;
+            
         },
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];

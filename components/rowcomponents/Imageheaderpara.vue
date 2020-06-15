@@ -7,8 +7,8 @@
                 <img
                     @click="toggleImgOptions"
                     :key="numberOfActions"
-                    :src="componentData.newElementData.listItems.imgSrc.text"
-                    :alt="componentData.newElementData.listItems.headerText.text"
+                    :src="componentData.newElementData.listItems.imgSrc ? componentData.newElementData.listItems.imgSrc.text : imgSrc"
+                    :alt="componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText"
                     class="page__ihp__image site__element"
                 />
                 <div
@@ -18,7 +18,7 @@
                     contenteditable
                     class="options__editable__bottom component__remove"
                 >
-                    {{ componentData.newElementData.listItems.imgSrc.text }}
+                    {{ componentData.newElementData.listItems.imgSrc ? componentData.newElementData.listItems.imgSrc.text : imgSrc }}
                 </div>
             </div>
             <div 
@@ -33,9 +33,10 @@
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
                     >
-                        {{ componentData.newElementData.listItems.headerText.text }}
+                        {{ componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText }}
                     </h3>
                 </div>
+                
                 <div
                     v-if="componentData.type !== 'list'"
                     class="page__ihp__text__para page__ihp__container component__container"
@@ -46,7 +47,7 @@
                         contenteditable
                         class="page__para site__element"
                     >
-                        {{ componentData.newElementData.listItems.paraText.text }}
+                        {{ componentData.newElementData.listItems.paraText ? componentData.newElementData.listItems.paraText.text : paraText }}
                     </p>
                 </div>
                 <div
@@ -74,6 +75,9 @@ export default {
     data() {
         return {
             numberOfActions: 0,
+            headerText: "New Header",
+            paraText: "New Pararara",
+            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
             listComponent: {
                 componentName: "List",
                 uniqueName: "List" + this.numberOfActions,
@@ -81,15 +85,17 @@ export default {
                 parentData: this.componentData,
                 number: this.numberOfActions,
                 type: "list",
-                elementData: {
-                    listItems: [
-                        { 
-                            li: "New List Item 1"
-                        },
-                        {
-                            li: "New List Item 2"
-                        }
-                    ]
+                newElementData: {
+                    listItems: {
+                        listItems: [
+                            {
+                                li: "New List Item 1"
+                            },
+                            {
+                                li: "New List Item 2"
+                            }
+                        ]
+                    }    
                 },
                 optionsShown: true
             },
@@ -99,7 +105,15 @@ export default {
         this.componentData.optionsShown = false;
     },
     methods: {
+        getText(obj) {
+            if (obj) {
+                console.log(obj.text);
+                return obj.text; 
+            }
+            
+        },
         updateTarget() {
+            console.log('updating');
             let newComponentData = this.componentData;
             if (event.target.getAttribute("data-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
