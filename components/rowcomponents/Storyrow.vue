@@ -14,7 +14,7 @@
                 >
                     <div v-for="component in componentOptionsShow" :key="component.type" class="">
                         <div 
-                            @click="addComponent(component.type)"
+                            @click="addComponent(component)"
                             :component-name="component.componentName"
                             :component-type="component.type ? component.type : null"
                             class="component__options--clicker"
@@ -34,19 +34,20 @@
                 </div>
             </div>
             <div
-                :key="componentData.newElementData.elements.componentActions"
+                :key="componentActions"
                 :style="gridStyle"
                 class="page__story__row"
             >
                 <component
                     v-for="(element, index) in componentData.newElementData.childArr"
-                    :key="componentData.uniqueName + element.uniqueName + element.componentChanges"
+                    :key="componentData.uniqueName + element.uniqueName + index"
                     :is="element.componentName"
                     :group="true"
                     :componentData="element"
                     :parentData="componentData"
                     :type="element.type ? element.type : null"
                     :data-component-number="index"
+                    :data-idnum="componentData.uniqueName + element.uniqueName + index"
                     :class="componentData.uniqueName + '--' + element.uniqueName"
                 ></component>
             </div>
@@ -60,7 +61,7 @@ export default {
         type: String,
         componentData: Object
     },
-     data() {
+    data() {
         return {
             numberOfComponents: 0,
             componentActions: 0,
@@ -80,10 +81,13 @@ export default {
                 let component = that.components.filter(obj => {
                     return obj.componentName === type.componentName
                 })[0];
+                // console.log(component);
                 that.elementComponents = component;
                 let componentDetails = component.types.filter(obj => {
                     return obj.type === type.type
                 })[0];
+                // console.log(componentDetails);
+                componentDetails.componentName = component.componentName;
                 arr.push(componentDetails);
             });
             return arr;
@@ -95,13 +99,6 @@ export default {
         }
     },
     created() {
-        // console.log(this.componentData);
-        // console.log(this.componentData.newElementData);
-        // console.log(this.componentData.newElementData.childArr);
-        // this.componentData.newElementData.childArr.forEach(function (e) {
-        //     console.log(e);
-        // });
-
         this.$nuxt.$on('removeElementFromGroup', data => {
             if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
                 this.currentComponentName = data.uniqueName;
@@ -150,83 +147,58 @@ export default {
         });
     },
     mounted() {
+        // console.log(this.componentData.newElementData);
         this.numberOfComponents = this.componentData.newElementData.childArr.length
     },
     methods: {
-        addComponent(type) {
-            // console.log(type);
+        addComponent(comp) {
+            // console.log(this.componentData);
+            // console.log(comp);
             let newComponentData = this.componentData;
-            let el = this.componentData.elementData.rowElements;
-            let newNumber = this.numberOfComponents;
+            // console.log(newComponentData);
             let compname = this.componentData.componentName;
             // console.log(this.componentData);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
-            // console.log(component);
             let componentDetails = this.elementComponents.types.filter(obj => {
-                return obj.type === type
+                return obj.type === comp.type
             })[0];
+            let newArr = [];
+            newComponentData.newElementData.childArr.forEach(function (obj) {
+                newArr.push(obj);
+            });
+            // console.log(component);
             // console.log(componentDetails);
-            
-            // componentDetails.newElementData = {};
-            // for (let d in componentDetails.elementData) {
-            //     let dataPoint = componentDetails.elementData[d];
-            //     let newData;
-            //     // console.log(dataPoint)
-            //     if (d === "listItems") {
-            //         newData = {
-            //             type: d,
-            //             listItems: componentDetails.elementData[d]
-            //         }
-            //         componentDetails.elementData[d].forEach(function (l) {
-            //             if (!l.hasOwnProperty("li")) {
-            //                 for (let li in l) {
-            //                     let newListData = {
-            //                         type: li,
-            //                         text: l[li]
-            //                     }
-            //                     newData[li] = newListData;
-            //                 }
-            //             }
-            //         });
-            //     } else {
-            //         newData = {
-            //             type: d,
-            //             text: dataPoint
-            //         }
-            //     }
-            //     componentDetails.newElementData[d] = newData;
-            // }
-            // console.log(componentDetails);
-            // componentDetails.newElementData = {};
-            
-            
-            // console.log(componentDetails);
-            // console.log(componentDetails.elementData);
-            let childArray = this.componentData.childArray;
-            console.log(childArray);
-            let newComponent = {
-                componentName: this.componentData.componentName,
+            let newInnerCompObj = {};
+            for (let c in componentDetails.elementData.listItems) {
+                let innerDetail = componentDetails.elementData.listItems[c];
+                let type = Object.keys(innerDetail)[0];
+                newInnerCompObj[type] = {
+                    type: type,
+                    text: innerDetail[type]
+                };
+            }
+            let newInnerComponent = {
+                componentName: componentDetails.componentName,
                 uniqueName: this.componentData.uniqueName,
-                number: this.componentData.number,
-                type: this.componentData.type,
+                number: this.numberOfComponents + 1,
+                type: componentDetails.type,
                 elementData: this.componentData.elementData,
-                childArray: childArray,
-                newElementData: this.componentData.newElementData,
+                newElementData: {
+                    listItems: newInnerCompObj
+                },
                 optionsShown: true,
-                componentChanges: 0,
-                vendorRestricted: this.checkRestricted("vendors")
+                componentChanges: 0
             };
-            
-            // console.log(newComponent);
+            // console.log(newComponentData);
+            // console.log(newComponentData.newElementData);
+            // console.log(newComponentData.newElementData.listItems);
+            newArr.push(newInnerComponent);
+            newComponentData.newElementData.childArr = newArr;
             let info = {
-                componentData: this.componentData,
-                newComponentData: newComponent
+                newComponentData: newComponentData
             };
-
-            // el.elements.push(newComponent);
-            
             this.$nuxt.$emit("updateTarget", info);
             this.numberOfComponents += 1;
             this.componentActions += 1;
@@ -241,12 +213,9 @@ export default {
             return this.restrictions.includes(name);
         },
         findInArray: function (data) {
-            console.log(data.uniqueName);
-            console.log(this.currentComponentName);
             if (data.uniqueName === this.currentComponentName) {
                 return data.uniqueName === this.currentComponentName;
             }
-            
         },
         optionsToggle() {
             let info = {

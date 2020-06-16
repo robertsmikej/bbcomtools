@@ -210,8 +210,7 @@ export default {
                                 listItems: newInnerCompObj
                             },
                             optionsShown: true,
-                            componentChanges: 0,
-                            vendorRestricted: false
+                            componentChanges: 0
                         };
                         newArr.push(newInnerComponent);
                     });
@@ -235,6 +234,7 @@ export default {
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
+            this.clickedElements.numberOfComponents += 1;
             this.clickedElements.numberOfSections += 1;
             this.clickedElements.elements.push(newComponent);
         },
