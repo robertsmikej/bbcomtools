@@ -359,7 +359,9 @@ export default {
         align-content: center;
         align-items: flex-end;
         justify-content: center;
-        /* border: 1px solid #232323; */
+    }
+    .create__element__cell:hover {
+        background-color: rgb(224, 221, 221);
     }
     .create__element__img {
         max-height: 20px;
