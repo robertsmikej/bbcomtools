@@ -43,7 +43,7 @@
                 <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
                     <component 
                         v-for="(element, index) in clickedElements.elements" 
-                        :key="element.uniqueName + element.componentChanges" 
+                        :key="element.uniqueName + element.componentChanges + index" 
                         :is="element.componentName" 
                         :group="false" 
                         :componentData="element" 
@@ -92,8 +92,6 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
-            // console.log(data);
-            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -113,7 +111,6 @@ export default {
             this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
         this.$nuxt.$on('removeElement', data => {
-            console.log(data);
             this.currentComponentName = data;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements.splice(findIn, 1);

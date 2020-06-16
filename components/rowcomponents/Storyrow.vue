@@ -39,12 +39,14 @@
                 class="page__story__row"
             >
                 <component
-                    v-for="element in componentData.newElementData.childArr"
-                    :key="element.uniqueName + element.componentChanges"
+                    v-for="(element, index) in componentData.newElementData.childArr"
+                    :key="componentData.uniqueName + element.uniqueName + element.componentChanges"
                     :is="element.componentName"
                     :group="true"
                     :componentData="element"
+                    :parentData="componentData"
                     :type="element.type ? element.type : null"
+                    :data-component-number="index"
                     :class="componentData.uniqueName + '--' + element.uniqueName"
                 ></component>
             </div>
@@ -101,31 +103,53 @@ export default {
         // });
 
         this.$nuxt.$on('removeElementFromGroup', data => {
-            if (this.componentData.uniqueName === data.componentData.parentUniqueName) {
+            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
                 this.currentComponentName = data.uniqueName;
-                let findIn = this.rowElements.elements.findIndex(this.findInArray);
-                this.rowElements.elements.splice(findIn, 1);
-                this.rowElements.numberOfComponents -= 1;
-                this.componentActions -= 1;
+                let newParent = data.parentData;
+                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
+                if (findIn !== -1) {
+                    newParent.newElementData.childArr.splice(findIn, 1);
+                    let info = {
+                        newComponentData: newParent
+                    };
+                    this.numberOfComponents = newParent.newElementData.childArr.length;
+                    this.$nuxt.$emit('updateTarget', info);
+                    this.componentActions += 1;
+                }
             }
         });
         this.$nuxt.$on('moveElementUpGroup', data => {
-            if (this.componentData.uniqueName === data.componentData.parentUniqueName) {
+            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
                 this.currentComponentName = data.uniqueName;
-                let findIn = this.rowElements.elements.findIndex(this.findInArray);
-                this.arrayMove(this.rowElements.elements, findIn, findIn - 1);
+                let newParent = data.parentData;
+                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
+                if (findIn !== -1) {
+                    this.arrayMove(data.parentData.newElementData.childArr, findIn, findIn - 1);
+                    let info = {
+                        newComponentData: newParent
+                    }
+                    this.$nuxt.$emit('updateTarget', info);
+                    this.componentActions + 1;
+                }
             }
         });
         this.$nuxt.$on('moveElementDownGroup', data => {
-            if (this.componentData.uniqueName === data.componentData.parentUniqueName) {
+            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
                 this.currentComponentName = data.uniqueName;
-                let findIn = this.rowElements.elements.findIndex(this.findInArray);
-                this.arrayMove(this.rowElements.elements, findIn, findIn + 1);
+                let newParent = data.parentData;
+                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
+                if (findIn !== -1) {
+                this.arrayMove(data.parentData.newElementData.childArr, findIn, findIn + 1);
+                    let info = {
+                        newComponentData: newParent
+                    }
+                    this.$nuxt.$emit('updateTarget', info);
+                    this.componentActions += 1;
+                }
             }
         });
     },
     mounted() {
-        // console.log(this.componentData.newElementData.childArr);
         this.numberOfComponents = this.componentData.newElementData.childArr.length
     },
     methods: {
@@ -217,7 +241,12 @@ export default {
             return this.restrictions.includes(name);
         },
         findInArray: function (data) {
-            return data.uniqueName === this.currentComponentName;
+            console.log(data.uniqueName);
+            console.log(this.currentComponentName);
+            if (data.uniqueName === this.currentComponentName) {
+                return data.uniqueName === this.currentComponentName;
+            }
+            
         },
         optionsToggle() {
             let info = {

@@ -30,11 +30,7 @@ export default {
         }
     },
     mounted: function () {
-        // console.log(this.componentData);
-        // let els = this.$el.querySelectorAll(".site__element");
-        // els.forEach((element, index) => {
-        //     element.setAttribute("data-component-number", index);
-        // });
+
     },
     methods: {
         updateTarget() {

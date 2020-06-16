@@ -16,7 +16,8 @@ export default {
         componentData: Object,
         type: String,
         group: Boolean,
-        groupParent: Boolean
+        groupParent: Boolean,
+        parentData: Object
     },
     methods: {
         optionsToggle() {
@@ -34,33 +35,36 @@ export default {
             // this.$nuxt.$emit('updateTarget', info);
             this.$nuxt.$emit('removeElement', this.componentData.uniqueName);
         },
-        moveElementUp() {
-            this.$nuxt.$emit('moveElementUp', this.componentData.uniqueName);
-        },
-        moveElementDown() {
-            this.$nuxt.$emit('moveElementDown', this.componentData.uniqueName);
-        },
         removeElementFromGroup() {
             let info = {
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
-                componentIndex: event.target.getAttribute("data-component-number")
+                componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),
+                parentData: this.parentData
             };
             this.$nuxt.$emit('removeElementFromGroup', info);
+        },
+        moveElementUp() {
+            this.$nuxt.$emit('moveElementUp', this.componentData.uniqueName);
         },
         moveElementUpGroup() {
             let info = {
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
-                componentIndex: event.target.getAttribute("data-component-number")
+                componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),
+                parentData: this.parentData
             };
             this.$nuxt.$emit('moveElementUpGroup', info);
+        },
+        moveElementDown() {
+            this.$nuxt.$emit('moveElementDown', this.componentData.uniqueName);
         },
         moveElementDownGroup() {
             let info = {
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
-                componentIndex: event.target.getAttribute("data-component-number")
+                componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),
+                parentData: this.parentData
             };
             this.$nuxt.$emit('moveElementDownGroup', info);
         }

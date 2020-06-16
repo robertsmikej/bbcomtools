@@ -60,6 +60,7 @@
             <Optionsbuttons
                 :componentData="componentData"
                 :group="group"
+                :parentData="parentData ? parentData : null"
             />
         </div>
     </div>
@@ -70,7 +71,8 @@ export default {
     props: {
         type: String,
         componentData: Object,
-        group: Boolean
+        group: Boolean,
+        parentData: Object
     },
     data() {
         return {
@@ -130,6 +132,7 @@ export default {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
                 if (this.componentData.parentUniqueName) {
+                    console.log(info);
                     this.$nuxt.$emit("updateTargetGroup", info);
                 }
             }
