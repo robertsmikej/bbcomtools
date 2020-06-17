@@ -10,11 +10,15 @@
                 <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
                     <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
                         <h4>{{ section.title }}</h4>
-                        <div v-for="component in section.types" :key="component.type" class="create__element__cell__outer">
+                        <div 
+                            v-for="component in section.types" 
+                            :key="component.type" 
+                            class="create__element__cell__outer"
+                        >
                             <div 
                                 @click="createComponent"
                                 :component-name="section.componentName"
-                                :component-type="component.type ? component.type : null" 
+                                :component-type="component.type" 
                                 class="create__element__cell"
                             >
                                 <img 
@@ -44,12 +48,12 @@
                     @:removeElement="removeElement($event)"
                     :key="pageActions"
                     :class="'page__type--' + pageType"
-                    class="page__content">
+                    class="page__content"
+                >
                     <component 
                         v-for="(element, index) in clickedElements.elements"
                         :key="element.uniqueName + element.componentChanges + index"
                         :is="element.componentName"
-
                         :group="false"
                         :componentData="element"
                         :type="element.type ? element.type : null"
@@ -101,13 +105,12 @@ export default {
             //     console.log(data.uniqueName);
             //     return data.uniqueName === this.currentComponentName;
             // },
-            
-
+            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            console.log(findIn);
-            console.log(this.clickedElements.elements[findIn]);
+            // console.log(findIn);
+            // console.log(this.clickedElements.elements[findIn]);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),

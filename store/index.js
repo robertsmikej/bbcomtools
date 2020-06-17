@@ -104,7 +104,6 @@ var allComponents = [
         types: [
             {
                 title: "VideoJW",
-                
                 type: "Video",
                 elementData: {
                     listItems: [
@@ -123,8 +122,8 @@ var allComponents = [
         pageTypes: ["product", "marketing"],
         types: [
             {
-                title: "List",
-                type: "list",
+                title: "UL",
+                type: "ul",
                 elementData: {
                     listItems: [
                         { 

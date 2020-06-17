@@ -3,20 +3,17 @@
         class="page__component"
     >
         <ul 
-            v-if="type === 'list'" 
-            :key="componentActions"
+            v-if="type === 'ul'" 
+            :key="componentData.uniqueName + componentActions"
             class="page__ul__list site__element"
         >
-            {{componentData}}
             <div
                 v-for="(item, index) in componentData.newElementData.listItems.listItems"
                 :data-list-item-number="index"
-                :key="componentData.uniqueName + item.li + index"
+                :key="componentData.uniqueName + index"
                 class="component__wrapper"
             >
-                {{componentData.uniqueName}}
                 <li
-                    
                     @focus="focused"
                     @keydown.enter="enterPressed"
                     @blur="updateTarget"
@@ -79,7 +76,6 @@ export default {
                 newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }
-            // console.log(newComponentData);
             let info = {newComponentData: newComponentData};
             this.componentActions += 1;
             if (!this.componentData.hasOwnProperty("parentData")) {
