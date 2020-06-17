@@ -134,7 +134,7 @@
 }
 .page__ihp--list .page__ihp__text__container,
 .page__ihp--row .page__ihp__text__container {
-    display: flow-root;
+    /* display: flow-root; */
 }
 .page__ihp--column .page__ihp__text__container h3,
 .page__ihp--column .page__ihp__text__container p {

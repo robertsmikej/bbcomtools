@@ -206,8 +206,9 @@ export default {
                     });
                 } else if (d === "childArr") {
                     let newArr = [];
+                    let that = this;
                     componentDetails.elementData[d].forEach(function (comp, index) {
-                        let innerComponent = this.components.filter(obj => {
+                        let innerComponent = that.components.filter(obj => {
                             return obj.componentName === comp.componentName
                         })[0];
                         let innerComponentDetails = innerComponent.types.filter(obj => {
