@@ -112,18 +112,17 @@ export default {
             
         },
         updateTarget() {
-            let newComponentData = this.componentData;
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (event.target.getAttribute("data-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
-                newComponentData.newElementData.listItems.listItems[event.target.getAttribute("data-component-list-number")] = newLi;
+                let listItem = event.target.getAttribute("data-component-list-number");
+                newComponentData.newElementData.listItems.listItems[listItem] = newLi;
             } else {
-                newComponentData.newElementData.listItems[event.target.getAttribute("data-type")].text = event.target.innerHTML.trim();
+                let listType = event.target.getAttribute("data-type");
+                newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }
-            let info = {
-                newComponentData: newComponentData,
-                event: event
-            };
+            let info = {newComponentData: newComponentData};
             if (!this.componentData.hasOwnProperty("parentData")) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {

@@ -65,7 +65,6 @@ export default {
         },
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            // let newComponentData = this.componentData;
             if (event.target.getAttribute("data-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
@@ -83,7 +82,6 @@ export default {
                     this.$nuxt.$emit("updateTargetGroup", info);
                 }
             }
-            this.componentActions += 1;
         },
         // optionsTrue() {
         //     let info = {
