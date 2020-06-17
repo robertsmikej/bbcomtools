@@ -6,8 +6,8 @@
             @focus="focused"
             data-type="headerText"
             contenteditable 
-            class="page__header site__element"
             v-html="componentData.newElementData.listItems.headerText.text"
+            class="page__header site__element"
         ></component>
         <Optionsbuttons
             v-if="componentData.optionsShown"

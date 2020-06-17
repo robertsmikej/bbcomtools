@@ -4,8 +4,8 @@
             @blur="updateTarget"
             data-type="paraText"
             contenteditable
-            class="page__para site__element"
             v-html="componentData.newElementData.listItems.paraText.text"
+            class="page__para site__element"
         ></p>
         <Optionsbuttons
             v-if="componentData.optionsShown"

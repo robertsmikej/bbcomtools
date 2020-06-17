@@ -42,8 +42,16 @@
             </div>
         </div>
         <div class="built__elements__wrapper">
-            <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
-                <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
+            <div
+                :class="'page__type--' + pageType"
+                class="built__elements__wrapper__inner page__content__outer"
+            >
+                <h2
+                    v-if="pageType === 'product'"
+                    class="page__type__header"
+                >
+                    Product Overview
+                </h2>
                 <div
                     @:removeElement="removeElement($event)"
                     :key="pageActions"
@@ -52,18 +60,25 @@
                 >
                     <component 
                         v-for="(element, index) in clickedElements.elements"
-                        :key="element.uniqueName + element.componentChanges + index"
+                        :key="element.uniqueName + index"
                         :is="element.componentName"
                         :group="false"
                         :componentData="element"
-                        :type="element.type ? element.type : null"
+                        :type="element.type"
                         :class="element.uniqueName"
                     ></component>
                 </div>
             </div>
         </div>
-        <div class="code__section" v-if="showCode">
-            <textarea class="code__text__area" name="code" :value="code"></textarea>
+        <div
+            v-if="showCode"
+            class="code__section"
+        >
+            <textarea
+                name="code"
+                :value="code"
+                class="code__text__area"
+            ></textarea>
             <div class="code__commands">
                 <div @click="copyText" class="code__command">Copy</div>
                 <div @click="clearCode" class="code__command">Clear</div>
@@ -82,7 +97,6 @@ export default {
                 header_text: "Components"
             },
             clickedElements: {
-                numberOfSections: 0,
                 numberOfComponents: 0,
                 elements: []
             },
@@ -101,17 +115,9 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
-            // findInArray: function (data) {
-            //     console.log(data.uniqueName);
-            //     return data.uniqueName === this.currentComponentName;
-            // },
-            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            console.log(findIn);
-            console.log(this.clickedElements.elements);
-            console.log(this.clickedElements.elements[findIn]);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),
@@ -132,7 +138,6 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements.splice(findIn, 1);
             this.clickedElements.numberOfComponents -= 1;
-            this.clickedElements.numberOfSections -= 1;
         });
         this.$nuxt.$on('moveElementUp', data => {
             this.currentComponentName = data;
@@ -157,6 +162,10 @@ export default {
         });
     },
     methods: {
+        findInArray: function (data) {
+            // console.log(data);
+            return data.uniqueName === this.currentComponentName;
+        },
         checkPageType: function (data) {
             return data.pageTypes.includes(this.pageType);
         },
@@ -164,10 +173,6 @@ export default {
             var element = arr[fromIndex];
             arr.splice(fromIndex, 1);
             arr.splice(toIndex, 0, element);
-        },
-        findInArray: function (data) {
-            // console.log(data);
-            return data.uniqueName === this.currentComponentName;
         },
         createComponent: function (e, name) {
             let newNumber = this.clickedElements.numberOfComponents;
@@ -200,10 +205,9 @@ export default {
                         }
                     });
                 } else if (d === "childArr") {
-                    let comps = this.components;
                     let newArr = [];
                     componentDetails.elementData[d].forEach(function (comp, index) {
-                        let innerComponent = comps.filter(obj => {
+                        let innerComponent = this.components.filter(obj => {
                             return obj.componentName === comp.componentName
                         })[0];
                         let innerComponentDetails = innerComponent.types.filter(obj => {
@@ -221,7 +225,6 @@ export default {
                         let newInnerComponent = {
                             componentName: comp.componentName,
                             uniqueName: component.componentName + newNumber + index,
-                            // number: newNumber + 1,
                             type: comp.type,
                             elementData: componentDetails.elementData,
                             newElementData: {
@@ -244,7 +247,6 @@ export default {
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + parseInt(this.clickedElements.numberOfComponents),
-                // number: this.clickedElements.numberOfComponents,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
                 newElementData: componentDetails.newElementData,
@@ -253,7 +255,6 @@ export default {
                 vendorRestricted: this.checkRestricted("vendors")
             };
             this.clickedElements.numberOfComponents += 1;
-            this.clickedElements.numberOfSections += 1;
             this.clickedElements.elements.push(newComponent);
         },
         buildImportCode: function () {

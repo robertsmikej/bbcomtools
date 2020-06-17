@@ -2,8 +2,8 @@
     <div
         class="page__component"
     >
-        <ul 
-            v-if="type === 'ul'" 
+        <ul
+            v-if="type === 'ul'"
             :key="componentData.uniqueName + componentActions"
             class="page__ul__list site__element"
         >
@@ -14,8 +14,6 @@
                 class="component__wrapper"
             >
                 <li
-                    @focus="focused"
-                    @keydown.enter="enterPressed"
                     @blur="updateTarget"
                     :data-component-list-number="index"
                     data-type="li"
@@ -23,15 +21,14 @@
                     class="list__item"
                     v-html="item.li"
                 ></li>
-                <div 
-                    v-if="componentData.optionsShown" 
+                <div
+                    v-if="componentData.optionsShown"
                     class="component__options__buttons component__remove"
                 >
                     <div @click="addListItem" class="component__options--button">+</div>
                     <div @click="deleteListItem" class="component__options--button">X</div>
                 </div>
             </div>
-            
         </ul>
         <Optionsbuttons
             v-if="componentData.optionsShown && !group"
@@ -57,6 +54,8 @@ export default {
     },
     methods: {
         focused(e) {
+                    //             @focus="focused"
+                    // @keydown.enter="enterPressed"
             console.log(e);
         },
         enterPressed(e) {
@@ -65,7 +64,8 @@ export default {
             // this.addListItem(e);
         },
         updateTarget() {
-            let newComponentData = this.componentData;
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            // let newComponentData = this.componentData;
             if (event.target.getAttribute("data-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
@@ -76,7 +76,6 @@ export default {
                 newComponentData.componentChanges += 1;
             }
             let info = {newComponentData: newComponentData};
-            this.componentActions += 1;
             if (!this.componentData.hasOwnProperty("parentData")) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
@@ -84,15 +83,16 @@ export default {
                     this.$nuxt.$emit("updateTargetGroup", info);
                 }
             }
-        },
-        optionsTrue() {
-            let info = {
-                componentData: this.componentData,
-                optionsBool: true
-            };
             this.componentActions += 1;
-            this.$nuxt.$emit("optionsChange", info);
         },
+        // optionsTrue() {
+        //     let info = {
+        //         componentData: this.componentData,
+        //         optionsBool: true
+        //     };
+        //     this.componentActions += 1;
+        //     this.$nuxt.$emit("optionsChange", info);
+        // },
         deleteListItem(e) {
             let listItem = parseInt(e.target.closest(".component__wrapper").getAttribute("data-list-item-number"));
             let newListItems = [];
