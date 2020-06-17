@@ -5,9 +5,8 @@
             data-type="paraText"
             contenteditable
             class="page__para site__element"
-        >
-            {{ componentData.newElementData.listItems.paraText.text }}
-        </p>
+            v-html="componentData.newElementData.listItems.paraText.text"
+        ></p>
         <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"

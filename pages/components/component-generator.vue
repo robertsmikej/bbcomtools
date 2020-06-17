@@ -40,13 +40,18 @@
         <div class="built__elements__wrapper">
             <div class="built__elements__wrapper__inner page__content__outer" :class="'page__type--' + pageType">
                 <h2 class="page__type__header" v-if="pageType === 'product'">Product Overview</h2>
-                <div class="page__content" @:removeElement="removeElement($event)" :key="pageActions" :class="'page__type--' + pageType">
+                <div
+                    @:removeElement="removeElement($event)"
+                    :key="pageActions"
+                    :class="'page__type--' + pageType"
+                    class="page__content">
                     <component 
-                        v-for="(element, index) in clickedElements.elements" 
-                        :key="element.uniqueName + element.componentChanges + index" 
-                        :is="element.componentName" 
-                        :group="false" 
-                        :componentData="element" 
+                        v-for="(element, index) in clickedElements.elements"
+                        :key="element.uniqueName + element.componentChanges + index"
+                        :is="element.componentName"
+
+                        :group="false"
+                        :componentData="element"
                         :type="element.type ? element.type : null"
                         :class="element.uniqueName"
                     ></component>
@@ -92,9 +97,17 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
+            // findInArray: function (data) {
+            //     console.log(data.uniqueName);
+            //     return data.uniqueName === this.currentComponentName;
+            // },
+            
+
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            console.log(findIn);
+            console.log(this.clickedElements.elements[findIn]);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),
@@ -149,6 +162,7 @@ export default {
             arr.splice(toIndex, 0, element);
         },
         findInArray: function (data) {
+            // console.log(data);
             return data.uniqueName === this.currentComponentName;
         },
         createComponent: function (e, name) {
@@ -203,7 +217,7 @@ export default {
                         let newInnerComponent = {
                             componentName: comp.componentName,
                             uniqueName: component.componentName + newNumber + index,
-                            number: newNumber + 1,
+                            // number: newNumber + 1,
                             type: comp.type,
                             elementData: componentDetails.elementData,
                             newElementData: {
@@ -225,8 +239,8 @@ export default {
             }
             let newComponent = {
                 componentName: component.componentName,
-                uniqueName: component.componentName + newNumber,
-                number: newNumber,
+                uniqueName: component.componentName + parseInt(this.clickedElements.numberOfComponents),
+                // number: this.clickedElements.numberOfComponents,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
                 newElementData: componentDetails.newElementData,

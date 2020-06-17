@@ -32,9 +32,8 @@
                         data-type="headerText"
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
-                    >
-                        {{ componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText }}
-                    </h3>
+                        v-html="componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText"
+                    ></h3>
                 </div>
                 
                 <div
@@ -46,9 +45,8 @@
                         data-type="paraText"
                         contenteditable
                         class="page__para site__element"
-                    >
-                        {{ componentData.newElementData.listItems.paraText ? componentData.newElementData.listItems.paraText.text : paraText }}
-                    </p>
+                        v-html="componentData.newElementData.listItems.paraText ? componentData.newElementData.listItems.paraText.text : paraText"
+                    ></p>
                 </div>
                 <div
                     v-if="componentData.type === 'list'"
@@ -109,13 +107,11 @@ export default {
     methods: {
         getText(obj) {
             if (obj) {
-                console.log(obj.text);
                 return obj.text; 
             }
             
         },
         updateTarget() {
-            console.log('updating');
             let newComponentData = this.componentData;
             if (event.target.getAttribute("data-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
@@ -132,7 +128,6 @@ export default {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
                 if (this.componentData.parentUniqueName) {
-                    console.log(info);
                     this.$nuxt.$emit("updateTargetGroup", info);
                 }
             }

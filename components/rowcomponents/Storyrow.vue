@@ -81,12 +81,10 @@ export default {
                 let component = that.components.filter(obj => {
                     return obj.componentName === type.componentName
                 })[0];
-                // console.log(component);
                 that.elementComponents = component;
                 let componentDetails = component.types.filter(obj => {
                     return obj.type === type.type
                 })[0];
-                // console.log(componentDetails);
                 componentDetails.componentName = component.componentName;
                 arr.push(componentDetails);
             });
@@ -147,17 +145,12 @@ export default {
         });
     },
     mounted() {
-        // console.log(this.componentData.newElementData);
         this.numberOfComponents = this.componentData.newElementData.childArr.length
     },
     methods: {
         addComponent(comp) {
-            // console.log(this.componentData);
-            // console.log(comp);
             let newComponentData = this.componentData;
-            // console.log(newComponentData);
             let compname = this.componentData.componentName;
-            // console.log(this.componentData);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
@@ -168,8 +161,6 @@ export default {
             newComponentData.newElementData.childArr.forEach(function (obj) {
                 newArr.push(obj);
             });
-            // console.log(component);
-            // console.log(componentDetails);
             let newInnerCompObj = {};
             for (let c in componentDetails.elementData.listItems) {
                 let innerDetail = componentDetails.elementData.listItems[c];
@@ -191,9 +182,6 @@ export default {
                 optionsShown: true,
                 componentChanges: 0
             };
-            // console.log(newComponentData);
-            // console.log(newComponentData.newElementData);
-            // console.log(newComponentData.newElementData.listItems);
             newArr.push(newInnerComponent);
             newComponentData.newElementData.childArr = newArr;
             let info = {
@@ -202,7 +190,6 @@ export default {
             this.$nuxt.$emit("updateTarget", info);
             this.numberOfComponents += 1;
             this.componentActions += 1;
-            
         },
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];

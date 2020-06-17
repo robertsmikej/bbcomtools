@@ -7,9 +7,8 @@
             data-type="headerText"
             contenteditable 
             class="page__header site__element"
-        >
-            {{ componentData.newElementData.listItems.headerText.text }}
-        </component>
+            v-html="componentData.newElementData.listItems.headerText.text"
+        ></component>
         <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"
