@@ -45,8 +45,7 @@ export default {
     props: {
         type: String,
         componentData: Object,
-        group: Boolean,
-        index: Number
+        group: Boolean
     },
     data() {
         return {

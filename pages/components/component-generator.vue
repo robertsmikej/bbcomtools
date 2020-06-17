@@ -109,8 +109,9 @@ export default {
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            // console.log(findIn);
-            // console.log(this.clickedElements.elements[findIn]);
+            console.log(findIn);
+            console.log(this.clickedElements.elements);
+            console.log(this.clickedElements.elements[findIn]);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),
