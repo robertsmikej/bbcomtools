@@ -1,0 +1,19 @@
+{
+    "title": "Paragraphs",
+    "componentName": "Paragraphs",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "P",
+            "type": "p",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "paraText": "New Para"
+                    }
+                ]
+            },
+            "img": "paragraph.png"
+        }
+    ]
+}

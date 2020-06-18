@@ -1,0 +1,79 @@
+{
+    "title": "Headers",
+    "componentName": "Headers",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "H1",
+            "type": "H1",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H1"
+                    }
+                ]
+            },
+            "img": ""
+        },
+        {
+            "title": "H2",
+            "type": "H2",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H2"
+                    }
+                ]
+            },
+            "img": ""
+        },
+        {
+            "title": "H3",
+            "type": "H3",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H3"
+                    }
+                ]
+            },
+            "img": ""
+        },
+        {
+            "title": "H4",
+            "type": "H4",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H4"
+                    }
+                ]
+            },
+            "img": ""
+        },
+        {
+            "title": "H5",
+            "type": "H5",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H5"
+                    }
+                ]
+            },
+            "img": ""
+        },
+        {
+            "title": "H6",
+            "type": "H6",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "headerText": "New H6"
+                    }
+                ]
+            },
+            "img": ""
+        }
+    ]
+}

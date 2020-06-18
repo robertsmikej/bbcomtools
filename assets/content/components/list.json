@@ -1,0 +1,22 @@
+{
+    "title": "List",
+    "componentName": "List",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "UL",
+            "type": "ul",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "li": "New List Item 1"
+                    },
+                    {
+                        "li": "New List Item 2"
+                    }
+                ]
+            },
+            "img": "list.png"
+        }
+    ]
+}

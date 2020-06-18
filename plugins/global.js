@@ -33,5 +33,8 @@ Vue.component('Spacer', Spacer);
 import Storyrow from '../components/rowcomponents/Storyrow.vue';
 Vue.component('Storyrow', Storyrow);
 
+import Tooltip from '../components/options/Tooltip.vue';
+Vue.component('Tooltip', Tooltip);
+
 import Videos from '../components/pagecomponents/Videos.vue';
 Vue.component('Videos', Videos);

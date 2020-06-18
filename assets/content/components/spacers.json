@@ -1,0 +1,47 @@
+{
+    "title": "Spacers",
+    "componentName": "Spacer",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "XS",
+            "type": "extra-small",
+            "elementData": {
+                "height": "10px"
+            },
+            "img": ""
+        },
+        {
+            "title": "S",
+            "type": "small",
+            "elementData": {
+                "height": "20px"
+            },
+            "img": ""
+        },
+        {
+            "title": "M",
+            "type": "medium",
+            "elementData": {
+                "height": "40px"
+            },
+            "img": ""
+        },
+        {
+            "title": "L",
+            "type": "large",
+            "elementData": {
+                "height": "60px"
+            },
+            "img": ""
+        },
+        {
+            "title": "XL",
+            "type": "extralarge",
+            "elementData": {
+                "height": "80px"
+            },
+            "img": ""
+        }
+    ]
+}

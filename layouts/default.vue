@@ -8,12 +8,12 @@
 
 <style>
     :root {
-        --h1-size: 36px;
-        --h2-size: 30px;
-        --h3-size: 26px;
-        --h4-size: 22px;
-        --h5-size: 18px;
-        --h6-size: 14px;
+        --site-h1-size: 36px;
+        --site-h2-size: 30px;
+        --site-h3-size: 26px;
+        --site-h4-size: 22px;
+        --site-h5-size: 18px;
+        --site-h6-size: 14px;
 
         --bb-white: #FFF;
         --bb-grey-very-light: #F9F9F9;
@@ -322,6 +322,7 @@
         font-weight: 900;
         cursor: pointer;
         align-self: center;
+        position: relative;
     }
     .component__options--clicker {
         margin: 2px 5px;

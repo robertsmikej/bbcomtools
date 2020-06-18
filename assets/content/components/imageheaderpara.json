@@ -1,0 +1,58 @@
+{
+    "title": "Image Header Paras",
+    "componentName": "Imageheaderpara",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "Row",
+            "type": "row",
+            "elementData": {
+                "listItems": [
+                    {
+                        "headerText": "New Header"
+                    },
+                    {
+                        "paraText": "New Para"
+                    },
+                    {
+                        "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                    }
+                ]
+            },
+            "img": "iht-image-right3.png"
+        },
+        {
+            "title": "Column",
+            "type": "column",
+            "elementData": {
+                "listItems": [
+                    {
+                        "headerText": "New Header"
+                    },
+                    {
+                        "paraText": "New Para"
+                    },
+                    {
+                        "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                    }
+                ]
+            },
+            "img": "iht-image-column.png"
+        },
+        {
+            "title": "List",
+            "type": "list",
+            "elementData": {
+                "listItems": [
+                    {
+                        "text": "New Li"
+                    },
+                    {
+                        "text": "New Li2"
+                    }
+                ]
+            },
+            "img": "iht-image-list.png"
+        }
+    ]
+}

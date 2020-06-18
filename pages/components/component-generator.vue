@@ -389,27 +389,27 @@ export default {
         text-align: center;
     }
     [component-type="H1"] p {
-        font-size: var(--h1-size);
+        font-size: var(--site-h1-size);
         line-height: 1em;
     }
     [component-type="H2"] p {
-        font-size: var(--h2-size);
+        font-size: var(--site-h2-size);
         line-height: 1em;
     }
     [component-type="H3"] p {
-        font-size: var(--h3-size);
+        font-size: var(--site-h3-size);
         line-height: 1em;
     }
     [component-type="H4"] p {
-        font-size: var(--h4-size);
+        font-size: var(--site-h4-size);
         line-height: 1em;
     }
     [component-type="H5"] p {
-        font-size: var(--h5-size);
+        font-size: var(--site-h5-size);
         line-height: 1em;
     }
     [component-type="h6"] p {
-        font-size: var(--h6-size);
+        font-size: var(--site-h6-size);
         line-height: 1em;
     }
     

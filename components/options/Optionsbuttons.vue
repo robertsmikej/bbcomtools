@@ -1,18 +1,84 @@
 <template>
     <div class="component__options__buttons component__remove">
-        <div class="component__options--button options__arrows options__up" v-if="!componentData.vendorRestricted && !group" @click="moveElementUp()">▲
-             <span class="options__up--text">Move Up</span>
+        <div
+            @click="moveElementUp"
+            @mouseover="toggleTooltip('uparrow')"
+            @mouseleave="toggleTooltip('uparrow')"
+            v-if="!componentData.vendorRestricted && !group"
+            class="component__options--button options__arrows options__up"
+        >
+            ▲
+            <Tooltip
+                :key="toolTipShows"
+                v-show="showTooltips.uparrow"
+                :tip="tooltips.uparrow"
+            />
         </div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementUpGroup()">▲</div>
-        <div class="component__options--button options__arrows options__down" v-if="!componentData.vendorRestricted && !group" @click="moveElementDown()">▼
-             <span class='options__down--text'>Move Down</span>
+        <div
+            @click="moveElementUpGroup()"
+            @mouseover="toggleTooltip('uparrow')"
+            @mouseleave="toggleTooltip('uparrow')"
+            v-if="!componentData.vendorRestricted && group"
+            class="component__options--button options__arrows"
+        >
+            ▲
+            <Tooltip
+                v-show="showTooltips.uparrow"
+                :tip="tooltips.uparrow"
+            />
         </div>
-        <div class="component__options--button options__arrows" v-if="!componentData.vendorRestricted && group" @click="moveElementDownGroup()">▼</div>
-        <div v-if="!group" class="component__options--button options__remove" @click="removeElement()">X
-            <span class="options__remove--text">Remove</span>
+        <div
+            @click="moveElementDown()"
+            @mouseover="toggleTooltip('downarrow')"
+            @mouseleave="toggleTooltip('downarrow')"
+            v-if="!componentData.vendorRestricted && !group"
+            class="component__options--button options__arrows options__down"
+        >
+            ▼
+            <Tooltip
+                v-show="showTooltips.downarrow"
+                :tip="tooltips.downarrow"
+            />
         </div>
-        <div v-if="group" class="component__options--button" @click="removeElementFromGroup()">X</div>
-        <!-- <div class="component__options--button" v-if="!componentData.vendorRestricted && groupParent" @click="optionsToggle">✓</div> -->
+        <div
+            @click="moveElementDownGroup()"
+            @mouseover="toggleTooltip('downarrow')"
+            @mouseleave="toggleTooltip('downarrow')"
+            v-if="!componentData.vendorRestricted && group"
+            class="component__options--button options__arrows"
+        >
+            ▼
+            <Tooltip
+                v-show="showTooltips.downarrow"
+                :tip="tooltips.downarrow"
+            />
+        </div>
+        <div
+            @click="removeElement()"
+            @mouseover="toggleTooltip('remove')"
+            @mouseleave="toggleTooltip('remove')"
+            v-if="!group" 
+            class="component__options--button options__remove"
+        >
+            X
+            <Tooltip
+                v-show="showTooltips.remove"
+                :tip="tooltips.remove"
+            />
+        </div>
+        <div 
+            @click="removeElementFromGroup()"
+            @mouseover="toggleTooltip('remove')"
+            @mouseleave="toggleTooltip('remove')"
+            v-if="group" 
+            class="component__options--button"
+        >
+            X
+            <Tooltip
+                v-show="showTooltips.remove"
+                :tip="tooltips.remove"
+            />
+        </div>
     </div>
 </template>
 
@@ -25,7 +91,29 @@ export default {
         groupParent: Boolean,
         parentData: Object
     },
+    data() {
+        return {
+            showTooltips: {},
+            toolTipShows: 0
+        }
+    },
+    computed: {
+        tooltips: function () {
+            return this.$store.state.tooltips
+        }
+    },
+    created() {
+        for (let t in this.tooltips) {
+            this.showTooltips[this.tooltips[t].slug] = false;
+        }
+    },
     methods: {
+        toggleTooltip(name) {
+            setTimeout(() => { 
+                this.showTooltips[name] = !this.showTooltips[name];
+                this.toolTipShows += 1;
+            }, 500);
+        },
         optionsToggle() {
             let info = {
                 componentData: this.componentData
@@ -38,7 +126,6 @@ export default {
                 uniqueName: this.componentData.uniqueName,
                 componentIndex: event.target.getAttribute("data-component-number")
             };
-            // this.$nuxt.$emit('updateTarget', info);
             this.$nuxt.$emit('removeElement', this.componentData.uniqueName);
         },
         removeElementFromGroup() {
@@ -79,36 +166,5 @@ export default {
 </script>
 
 <style>
-    .options__up, .options__down, .options__remove {
-         position: relative;
 
-    }
-    .options__up--text, .options__down--text, .options__remove--text {
-        display: none;
-        width: 120px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 150%;
-        left: 50%;
-        margin-left: -60px;
-    }
-    .options__up--text::after, .options__down--text::after, .options__remove--text::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: black transparent transparent transparent;
-    }
-    .options__up:hover .options__up--text, .options__down:hover .options__down--text, .options__remove:hover .options__remove--text  {
-        display: inline;
-
-    }
 </style>

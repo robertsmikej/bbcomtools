@@ -1,0 +1,19 @@
+{
+    "title": "Videos",
+    "componentName": "Videos",
+    "pageTypes": ["product", "marketing"],
+    "types": [
+        {
+            "title": "VideoJW",
+            "type": "Video",
+            "elementData": {
+                "listItems": [
+                    { 
+                        "videoCode": "PLACE VIDEO PLAYER CODE HERE"
+                    }
+                ]
+            },
+            "img": "jwplayer.png"
+        }
+    ]
+}
