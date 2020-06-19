@@ -4,9 +4,11 @@
             :is="componentData.type"
             @blur="updateTarget"
             @focus="focused"
-            data-type="headerText"
-            contenteditable 
+            data-input-type="headerText"
+            contenteditable
             v-html="componentData.newElementData.listItems.headerText.text"
+            :data-component-name="componentData.componentName"
+            :data-component-type="componentData.type"
             class="page__header site__element"
         ></component>
         <Optionsbuttons
@@ -34,12 +36,12 @@ export default {
     methods: {
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
                 newComponentData.newElementData.listItems.listItems[listItem] = newLi;
             } else {
-                let listType = event.target.getAttribute("data-type");
+                let listType = event.target.getAttribute("data-input-type");
                 newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }

@@ -12,7 +12,7 @@
             <div
                 v-if="componentData.optionsShown"
                 @blur="updateTarget"
-                data-type="videoCode"
+                data-input-type="videoCode"
                 contenteditable
                 class="options__editable__bottom"
             >
@@ -24,8 +24,10 @@
             />
         </div>
         <div
-            class="page__video__wrapper site__element"
+            :data-component-name="componentData.componentName"
+            :data-component-type="componentData.type"
             v-html="componentData.newElementData.listItems.videoCode"
+            class="page__video__wrapper site__element"
         ></div>
     </div>
 </template>
@@ -45,12 +47,12 @@ export default {
     methods: {
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
                 newComponentData.newElementData.listItems.listItems[listItem] = newLi;
             } else {
-                let listType = event.target.getAttribute("data-type");
+                let listType = event.target.getAttribute("data-input-type");
                 newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }

@@ -16,7 +16,7 @@
                             class="create__element__cell__outer"
                         >
                             <div 
-                                @click="createComponent"
+                                @click="createComponent('normal')"
                                 :component-name="section.componentName"
                                 :component-type="component.type" 
                                 class="create__element__cell"
@@ -174,10 +174,17 @@ export default {
             arr.splice(fromIndex, 1);
             arr.splice(toIndex, 0, element);
         },
-        createComponent: function (e, name) {
+        createComponent: function (type, importData) {
+            let compname;
+            let comptype;
+            if (type === "normal") {
+                compname = event.currentTarget.getAttribute("component-name");
+                comptype = event.currentTarget.getAttribute("component-type");
+            } else if (type === "import") {
+                compname = importData.name;
+                comptype = importData.type;
+            }
             let newNumber = this.clickedElements.numberOfComponents;
-            let compname = e.currentTarget.getAttribute("component-name");
-            let comptype = e.currentTarget.getAttribute("component-type");
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
@@ -189,21 +196,30 @@ export default {
                 let dataPoint = componentDetails.elementData[d];
                 let newData;
                 if (d === "listItems") {
-                    newData = {
-                        type: d,
-                        listItems: componentDetails.elementData[d]
-                    }
-                    componentDetails.elementData[d].forEach(function (l) {
-                        if (!l.hasOwnProperty("li")) {
-                            for (let li in l) {
-                                let newListData = {
-                                    type: li,
-                                    text: l[li]
+                    if (type === "normal") {
+                        newData = {
+                            type: d,
+                            listItems: componentDetails.elementData[d]
+                        };
+                        componentDetails.elementData[d].forEach(function (l) {
+                            if (!l.hasOwnProperty("li")) {
+                                for (let li in l) {
+                                    let newListData = {
+                                        type: li,
+                                        text: l[li]
+                                    }
+                                    newData[li] = newListData;
                                 }
-                                newData[li] = newListData;
                             }
-                        }
-                    });
+                        });
+                    } else if (type === "import") {
+                        newData = {
+                            type: d,
+                            listItems: componentDetails.elementData[d]
+                        };
+                        Object.assign(newData, importData);
+                    }
+                    // console.log(newData);
                 } else if (d === "childArr") {
                     let newArr = [];
                     let that = this;
@@ -293,7 +309,21 @@ export default {
             document.execCommand('copy');
         },
         importCode: function () {
-            
+            this.clickedElements.elements = [];
+            let importZone = document.querySelector(".code__text__area");
+            var importCode = new DOMParser().parseFromString(importZone.value, "text/xml");
+            var initialElements = importCode.querySelector(".page__content").children;
+            Array.from(initialElements).forEach(element => { 
+                let el = {
+                    name: element.getAttribute("data-component-name"),
+                    type: element.getAttribute("data-component-type")
+                }
+                el[element.getAttribute("data-input-type")] = {
+                    text: element.innerHTML,
+                    type: element.getAttribute("data-input-type")
+                };
+                this.createComponent("import", el);
+            }); 
         },
         changePageType: function (e) {
             this.pageType = e.target.innerHTML.toLowerCase();

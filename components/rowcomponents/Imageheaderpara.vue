@@ -1,6 +1,11 @@
 <template>
     <div class="page__component">
-        <div class="page__ihp" :class="'page__ihp--' + componentData.type">
+        <div 
+            :data-component-name="componentData.componentName"
+            :data-component-type="componentData.type"
+            :class="'page__ihp--' + componentData.type"
+            class="page__ihp" 
+        >
             <div 
                 class="page__ihp__image__container"
             >
@@ -14,7 +19,7 @@
                 <div
                     @blur="updateTarget"
                     v-if="componentData.optionsShown"
-                    data-type="imgSrc"
+                    data-input-type="imgSrc"
                     contenteditable
                     class="options__editable__bottom component__remove"
                 >
@@ -29,7 +34,7 @@
                 >
                     <h3
                         @blur="updateTarget"
-                        data-type="headerText"
+                        data-input-type="headerText"
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
                         v-html="componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText"
@@ -42,7 +47,7 @@
                 >
                     <p
                         @blur="updateTarget"
-                        data-type="paraText"
+                        data-input-type="paraText"
                         contenteditable
                         class="page__para site__element"
                         v-html="componentData.newElementData.listItems.paraText ? componentData.newElementData.listItems.paraText.text : paraText"
@@ -113,12 +118,12 @@ export default {
         },
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
                 newComponentData.newElementData.listItems.listItems[listItem] = newLi;
             } else {
-                let listType = event.target.getAttribute("data-type");
+                let listType = event.target.getAttribute("data-input-type");
                 newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }

@@ -1,8 +1,10 @@
 <template>
     <div class="page__component">
         <div
-            class="page__spacer site__element"
+            :data-component-name="componentData.componentName"
+            :data-component-type="componentData.type"
             :class="'page__spacer--' + type"
+            class="page__spacer site__element"
         ></div>
         <Optionsbuttons
             v-if="componentData.optionsShown"

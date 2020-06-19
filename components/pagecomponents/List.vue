@@ -5,6 +5,8 @@
         <ul
             v-if="type === 'ul'"
             :key="componentData.uniqueName + componentActions"
+            :data-component-name="componentData.componentName"
+            :data-component-type="componentData.type"
             class="page__ul__list site__element"
         >
             <div
@@ -16,7 +18,7 @@
                 <li
                     @blur="updateTarget"
                     :data-component-list-number="index"
-                    data-type="li"
+                    data-input-type="li"
                     contenteditable
                     class="list__item"
                     v-html="item.li"
@@ -65,12 +67,12 @@ export default {
         },
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-type").toLowerCase() === "li") {
+            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
                 let newLi = {li: event.target.innerHTML.trim()};
                 let listItem = event.target.getAttribute("data-component-list-number");
                 newComponentData.newElementData.listItems.listItems[listItem] = newLi;
             } else {
-                let listType = event.target.getAttribute("data-type");
+                let listType = event.target.getAttribute("data-input-type");
                 newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
                 newComponentData.componentChanges += 1;
             }
