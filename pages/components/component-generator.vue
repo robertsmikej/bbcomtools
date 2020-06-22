@@ -174,99 +174,130 @@ export default {
             arr.splice(fromIndex, 1);
             arr.splice(toIndex, 0, element);
         },
-        createComponent: function (type, importData) {
+        createListItems: function (index, typeOfCreate, componentDetails) {
+            let newListItems = {};
+            if (typeOfCreate === "normal") {
+                newListItems.type = "listItems";
+                newListItems.listItems = componentDetails.elementData.listItems;
+                componentDetails.elementData.listItems.forEach(function (listData) {
+                    console.log(listData);
+                    // if (!listData.hasOwnProperty("li")) {
+                    
+                    for (let li in listData) {
+                        let newListData = {
+                            type: li,
+                            text: listData[li]
+                        };
+                        newData[li] = newListData;
+                    }
+                    // }
+                });
+            } else if (typeOfCreate === "import") {
+                // newData = {
+                //     type: d,
+                //     listItems: componentDetails.elementData[d]
+                // };
+
+                Object.assign(newData, importData);
+                // console.log(newData);
+            }
+            return newListItems;
+        },
+        createComponent: function (typeOfCreate, importData) {
+            let newNumber = this.clickedElements.numberOfComponents;
             let compname;
             let comptype;
-            if (type === "normal") {
+            if (typeOfCreate === "normal") {
                 compname = event.currentTarget.getAttribute("component-name");
                 comptype = event.currentTarget.getAttribute("component-type");
-            } else if (type === "import") {
+            } else if (typeOfCreate === "import") {
                 compname = importData.name;
                 comptype = importData.type;
             }
-            let newNumber = this.clickedElements.numberOfComponents;
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
             let componentDetails = component.types.filter(obj => {
                 return obj.type === comptype
             })[0];
-            componentDetails.newElementData = {};
-            for (let d in componentDetails.elementData) {
-                let dataPoint = componentDetails.elementData[d];
-                let newData;
-                if (d === "listItems") {
-                    if (type === "normal") {
-                        newData = {
-                            type: d,
-                            listItems: componentDetails.elementData[d]
-                        };
-                        componentDetails.elementData[d].forEach(function (l) {
-                            if (!l.hasOwnProperty("li")) {
-                                for (let li in l) {
-                                    let newListData = {
-                                        type: li,
-                                        text: l[li]
-                                    }
-                                    newData[li] = newListData;
-                                }
-                            }
-                        });
-                    } else if (type === "import") {
-                        newData = {
-                            type: d,
-                            listItems: componentDetails.elementData[d]
-                        };
-                        Object.assign(newData, importData);
-                    }
-                    // console.log(newData);
-                } else if (d === "childArr") {
-                    let newArr = [];
-                    let that = this;
-                    componentDetails.elementData[d].forEach(function (comp, index) {
-                        let innerComponent = that.components.filter(obj => {
-                            return obj.componentName === comp.componentName
-                        })[0];
-                        let innerComponentDetails = innerComponent.types.filter(obj => {
-                            return obj.type === comp.type
-                        })[0];
-                        let newInnerCompObj = {};
-                        for (let c in innerComponentDetails.elementData.listItems) {
-                            let innerDetail = innerComponentDetails.elementData.listItems[c];
-                            let type = Object.keys(innerDetail)[0];
-                            newInnerCompObj[type] = {
-                                type: type,
-                                text: innerDetail[type]
-                            };
-                        }
-                        let newInnerComponent = {
-                            componentName: comp.componentName,
-                            uniqueName: component.componentName + newNumber + index,
-                            type: comp.type,
-                            elementData: componentDetails.elementData,
-                            newElementData: {
-                                listItems: newInnerCompObj
-                            },
-                            optionsShown: true,
-                            componentChanges: 0
-                        };
-                        newArr.push(newInnerComponent);
-                    });
-                    newData = newArr;
-                } else {
-                    newData = {
-                        type: d,
-                        text: dataPoint
-                    }
-                }
-                componentDetails.newElementData[d] = newData;
+            if (componentDetails.elementData.hasOwnProperty("childArr")) {
+                let childArr = componentDetails.elementData.childArr;
+                componentDetails.elementData.childArray = [];
+                childArr.forEach((child, index) => {
+                    // console.log(child);
+                    let innerComponent = this.components.filter(obj => {
+                        return obj.componentName === child.componentName
+                    })[0];
+                    // console.log(innerComponent);
+                    let innerComponentDetails = innerComponent.types.filter(obj => {
+                        return obj.type === child.type
+                    })[0];
+                    // console.log(innerComponentDetails);
+                    let newChildComponent = {
+                        componentName: innerComponent.componentName,
+                        uniqueName: innerComponent.componentName + parseInt(this.clickedElements.numberOfComponents),
+                        type: innerComponentDetails.type,
+                        elementData: innerComponentDetails.elementData,
+                        optionsShown: true,
+                        componentChanges: 0,
+                        vendorRestricted: this.checkRestricted("vendors")
+                    };
+                    // console.log(newChildComponent)
+                    componentDetails.elementData.childArray.push(newChildComponent);
+                });
             }
+            // for (let d in componentDetails.elementData) {
+            //     let dataPoint = componentDetails.elementData[d];
+            //     let newData;
+            //     if (d === "childArr") {
+            //         let newArr = [];
+            //         let that = this;
+            //         componentDetails.elementData[d].forEach(function (comp, index) {
+            //             let innerComponent = that.components.filter(obj => {
+            //                 return obj.componentName === comp.componentName
+            //             })[0];
+            //             let innerComponentDetails = innerComponent.types.filter(obj => {
+            //                 return obj.type === comp.type
+            //             })[0];
+            //             let newInnerCompObj = {};
+            //             for (let c in innerComponentDetails.elementData.listItems) {
+            //                 let innerDetail = innerComponentDetails.elementData.listItems[c];
+            //                 let type = Object.keys(innerDetail)[0];
+            //                 newInnerCompObj[type] = {
+            //                     type: type,
+            //                     text: innerDetail[type]
+            //                 };
+            //             }
+            //             let newInnerComponent = {
+            //                 componentName: comp.componentName,
+            //                 uniqueName: component.componentName + newNumber + index,
+            //                 type: comp.type,
+            //                 elementData: componentDetails.elementData,
+            //                 newElementData: {
+            //                     listItems: newInnerCompObj
+            //                 },
+            //                 optionsShown: true,
+            //                 componentChanges: 0
+            //             };
+            //             newArr.push(newInnerComponent);
+            //         });
+            //         newData = newArr;
+            //     } 
+                
+            //     // else {
+            //     //     console.log('normal?');
+            //     //     newData = {
+            //     //         type: d,
+            //     //         text: dataPoint
+            //     //     }
+            //     // }
+            //     // componentDetails.newElementData[d] = newData;
+            // }
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + parseInt(this.clickedElements.numberOfComponents),
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
-                newElementData: componentDetails.newElementData,
                 optionsShown: true,
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
@@ -293,6 +324,81 @@ export default {
             this.code = codeCopy;
             this.showCode = true;
         },
+        
+        importCode: function () {
+            // let componentTypes = [
+            //     {
+            //         "type": "headers",
+            //         "elements" : ""
+            //     }
+            // ]
+            this.clickedElements.elements = [];
+            let importZone = document.querySelector(".code__text__area");
+            var importCode = new DOMParser().parseFromString(importZone.value, "text/xml");
+            var initialElements = importCode.querySelector(".page__content").children;
+            let componentSubDetails;
+            // console.log(initialElements);
+
+            // let components = Array.from(initialElements).map(function (element) {
+            //     return {
+            //         name: element.nodeName.toLowerCase(),
+            //         type: element.getAttribute("data-input-type")
+            //     }
+            // });
+
+            console.log(components);
+            Array.from(initialElements).forEach(element => {
+                console.group("Import Data - Element Level");
+                let componentInfo = this.components.filter(component => {
+                    let elNodeName = element.nodeName.toLowerCase();
+                    let types = component.types.filter(type => {
+                        if (type.type.toLowerCase() === elNodeName) {
+                            componentSubDetails = type;
+                            return type
+                        }
+                    });
+                    return types.length > 0;
+                })[0];
+                let el = {
+                    name: componentInfo.componentName,
+                    type: componentSubDetails.type,
+                    importElement: element
+                };
+                
+                console.log(componentInfo);
+                console.log(componentSubDetails);
+                console.log(el);
+
+                // el[element.getAttribute("data-input-type")] = {
+                //     text: element.innerHTML,
+                // };
+
+                // if (componentInfo.componentName.toLowerCase() === "list") {
+                //     let newListItems = [];
+                //     let elementLi = element.getElementsByTagName("li");
+                //     el.listItems = [];
+                //     Array.from(elementLi).forEach(element => {
+                //         newListItems.push(element.innerHTML);
+                //     });
+                //     el.listItems = newListItems;
+                // } else {
+                //     el[element.getAttribute("data-input-type")] = {
+                //         text: element.innerHTML,
+                //         type: element.getAttribute("data-input-type")
+                //     };
+                // }
+                // console.log(el);
+                
+                console.groupEnd("Import Data");
+                this.createComponent("import", el);
+            }); 
+        },
+        changePageType: function (e) {
+            this.pageType = e.target.innerHTML.toLowerCase();
+        },
+        checkRestricted: function (name) {
+            return this.restrictions.includes(name);
+        },
         toggleCode: function () {
             this.showCode = !this.showCode;
             if (this.showCode === false) {
@@ -308,29 +414,6 @@ export default {
             text.select();
             document.execCommand('copy');
         },
-        importCode: function () {
-            this.clickedElements.elements = [];
-            let importZone = document.querySelector(".code__text__area");
-            var importCode = new DOMParser().parseFromString(importZone.value, "text/xml");
-            var initialElements = importCode.querySelector(".page__content").children;
-            Array.from(initialElements).forEach(element => { 
-                let el = {
-                    name: element.getAttribute("data-component-name"),
-                    type: element.getAttribute("data-component-type")
-                }
-                el[element.getAttribute("data-input-type")] = {
-                    text: element.innerHTML,
-                    type: element.getAttribute("data-input-type")
-                };
-                this.createComponent("import", el);
-            }); 
-        },
-        changePageType: function (e) {
-            this.pageType = e.target.innerHTML.toLowerCase();
-        },
-        checkRestricted: function (name) {
-            return this.restrictions.includes(name);
-        }
     },
     head() {
         return {

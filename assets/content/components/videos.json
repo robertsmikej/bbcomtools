@@ -7,11 +7,7 @@
             "title": "VideoJW",
             "type": "Video",
             "elementData": {
-                "listItems": [
-                    { 
-                        "videoCode": "PLACE VIDEO PLAYER CODE HERE"
-                    }
-                ]
+                "videoCode": "PLACE VIDEO PLAYER CODE HERE"
             },
             "img": "jwplayer.png"
         }

@@ -12,11 +12,10 @@
             <div
                 v-if="componentData.optionsShown"
                 @blur="updateTarget"
-                data-input-type="videoCode"
                 contenteditable
                 class="options__editable__bottom"
             >
-                {{ componentData.newElementData.listItems.videoCode }}
+                {{ componentData.elementData.videoCode }}
             </div>
             <Optionsbuttons
                 v-if="componentData.optionsShown"
@@ -24,9 +23,8 @@
             />
         </div>
         <div
-            :data-component-name="componentData.componentName"
-            :data-component-type="componentData.type"
-            v-html="componentData.newElementData.listItems.videoCode"
+            data-input-type="videoCode"
+            v-html="componentData.elementData.videoCode"
             class="page__video__wrapper site__element"
         ></div>
     </div>
@@ -47,23 +45,20 @@ export default {
     methods: {
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
-                let newLi = {li: event.target.innerHTML.trim()};
-                let listItem = event.target.getAttribute("data-component-list-number");
-                newComponentData.newElementData.listItems.listItems[listItem] = newLi;
+            if (newComponentData.componentName === "List") {
+                newComponentData.elementData.listItems = this.getNewListItems(event);
             } else {
-                let listType = event.target.getAttribute("data-input-type");
-                newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
-                newComponentData.componentChanges += 1;
+                let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
+                let components = Array.from(textsToGrab).forEach(element => {
+                    let textType = element.getAttribute("data-input-type");
+                    newComponentData.elementData[textType] = element.innerHTML.trim();
+                });
             }
-            let info = {newComponentData: newComponentData};
-            if (!this.componentData.hasOwnProperty("parentData")) {
-                this.$nuxt.$emit("updateTarget", info);
-            } else {
-                if (this.componentData.parentUniqueName) {
-                    this.$nuxt.$emit("updateTargetGroup", info);
-                }
-            }
+            newComponentData.componentChanges += 1;
+            let info = {
+                newComponentData: newComponentData
+            };
+            this.$nuxt.$emit("updateTarget", info);
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

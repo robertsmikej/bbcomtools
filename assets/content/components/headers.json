@@ -7,71 +7,52 @@
             "title": "H1",
             "type": "H1",
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H1"
-                    }
-                ]
+                "headerText": "New H1"
             },
             "img": ""
         },
         {
             "title": "H2",
             "type": "H2",
+            "group": false,
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H2"
-                    }
-                ]
+                "headerText": "New H2"
             },
             "img": ""
         },
         {
             "title": "H3",
             "type": "H3",
+            "group": false,
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H3"
-                    }
-                ]
+                "headerText": "New H3"
             },
             "img": ""
         },
         {
             "title": "H4",
             "type": "H4",
+            "group": false,
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H4"
-                    }
-                ]
+                "headerText": "New H4"
             },
             "img": ""
         },
         {
             "title": "H5",
             "type": "H5",
+            "group": false,
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H5"
-                    }
-                ]
+                "headerText": "New H5"
             },
             "img": ""
         },
         {
             "title": "H6",
             "type": "H6",
+            "group": false,
             "elementData": {
-                "listItems": [
-                    { 
-                        "headerText": "New H6"
-                    }
-                ]
+                "headerText": "New H6"
             },
             "img": ""
         }

@@ -5,19 +5,16 @@
         <ul
             v-if="type === 'ul'"
             :key="componentData.uniqueName + componentActions"
-            :data-component-name="componentData.componentName"
-            :data-component-type="componentData.type"
             class="page__ul__list site__element"
         >
             <div
-                v-for="(item, index) in componentData.newElementData.listItems.listItems"
+                v-for="(item, index) in componentData.elementData.listItems"
                 :data-list-item-number="index"
                 :key="componentData.uniqueName + index"
                 class="component__wrapper"
             >
                 <li
                     @blur="updateTarget"
-                    :data-component-list-number="index"
                     data-input-type="li"
                     contenteditable
                     class="list__item"
@@ -67,41 +64,47 @@ export default {
         },
         updateTarget() {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
-                let newLi = {li: event.target.innerHTML.trim()};
-                let listItem = event.target.getAttribute("data-component-list-number");
-                newComponentData.newElementData.listItems.listItems[listItem] = newLi;
+            if (newComponentData.componentName === "List") {
+                newComponentData.elementData.listItems = this.getNewListItems(event);
             } else {
-                let listType = event.target.getAttribute("data-input-type");
-                newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
-                newComponentData.componentChanges += 1;
+                let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
+                let components = Array.from(textsToGrab).forEach(element => {
+                    let textType = element.getAttribute("data-input-type");
+                    newComponentData.elementData[textType] = element.innerHTML.trim();
+                });
             }
-            let info = {newComponentData: newComponentData};
-            if (!this.componentData.hasOwnProperty("parentData")) {
-                this.$nuxt.$emit("updateTarget", info);
-            } else {
-                if (this.componentData.parentUniqueName) {
-                    this.$nuxt.$emit("updateTargetGroup", info);
-                }
-            }
+            newComponentData.componentChanges += 1;
+            let info = {
+                newComponentData: newComponentData
+            };
+            this.$nuxt.$emit("updateTarget", info);
         },
-        // optionsTrue() {
-        //     let info = {
-        //         componentData: this.componentData,
-        //         optionsBool: true
-        //     };
-        //     this.componentActions += 1;
-        //     this.$nuxt.$emit("optionsChange", info);
-        // },
-        deleteListItem(e) {
-            let listItem = parseInt(e.target.closest(".component__wrapper").getAttribute("data-list-item-number"));
-            let newListItems = [];
-            this.$el.querySelectorAll(".list__item").forEach(function (el) {
-                newListItems.push({li: el.innerHTML.trim()});
+        getNewListItems(event) {
+            let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
+            let newLiArr = Array.from(newListItems).map(function (li) {
+                return {
+                    li: li.innerHTML
+                }
             });
-            newListItems.splice(listItem, 1);
-            let newComponentData = this.componentData;
-            newComponentData.newElementData.listItems.listItems = newListItems;
+            return newLiArr;
+        },
+        getClickedListItem(event, newListItems) {
+            let clickedItem = -1;
+            Array.from(newListItems).forEach((listItem, index) => {
+                let liText = listItem.li.trim().toLowerCase();
+                let eventText = event.target.closest(".component__wrapper").getElementsByTagName("li")[0].textContent.trim().toLowerCase();
+                if (liText === eventText) {
+                    clickedItem = index;
+                }
+            });
+            return clickedItem;
+        },
+        addListItem() {
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            let newListItems = this.getNewListItems(event);
+            let clickedItem = this.getClickedListItem(event, newListItems);
+            newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
+            newComponentData.elementData.listItems = newListItems;
             newComponentData.componentChanges += 1;
             let info = {
                 newComponentData: newComponentData
@@ -109,15 +112,12 @@ export default {
             this.componentActions += 1;
             this.$nuxt.$emit("updateTarget", info);
         },
-        addListItem(e) {
-            let listItem = parseInt(e.target.closest(".component__wrapper").getAttribute("data-list-item-number")) + 1;
-            let newListItems = [];
-            this.$el.querySelectorAll(".list__item").forEach(function (el) {
-                newListItems.push({li: el.innerHTML.trim()});
-            });
-            newListItems.splice(listItem, 0, {li: "New List Item"});
-            let newComponentData = this.componentData;
-            newComponentData.newElementData.listItems.listItems = newListItems;
+        deleteListItem(e) {
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            let newListItems = this.getNewListItems(event);
+            let clickedItem = this.getClickedListItem(event, newListItems);
+            newListItems.splice(clickedItem, 1);
+            newComponentData.elementData.listItems = newListItems;
             newComponentData.componentChanges += 1;
             let info = {
                 newComponentData: newComponentData

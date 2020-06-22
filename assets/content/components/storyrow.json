@@ -7,20 +7,6 @@
             "title": "Row",
             "type": "Story",
             "elementData": {
-                "componentTypes": [
-                    {
-                        "componentName": "Imageheaderpara",
-                        "type": "row"
-                    },
-                    {
-                        "componentName": "Imageheaderpara",
-                        "type": "column"
-                    },
-                    {
-                        "componentName": "Imageheaderpara",
-                        "type": "list"
-                    }
-                ],
                 "elements": {
                     "numberOfComponents": 0,
                     "componentActions": 0

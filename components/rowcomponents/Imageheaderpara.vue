@@ -1,8 +1,6 @@
 <template>
     <div class="page__component">
-        <div 
-            :data-component-name="componentData.componentName"
-            :data-component-type="componentData.type"
+        <div
             :class="'page__ihp--' + componentData.type"
             class="page__ihp" 
         >
@@ -12,8 +10,8 @@
                 <img
                     @click="toggleImgOptions"
                     :key="numberOfActions"
-                    :src="componentData.newElementData.listItems.imgSrc ? componentData.newElementData.listItems.imgSrc.text : imgSrc"
-                    :alt="componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText"
+                    :src="componentData.elementData.imgSrc"
+                    :alt="componentData.elementData.headerText"
                     class="page__ihp__image site__element"
                 />
                 <div
@@ -23,7 +21,7 @@
                     contenteditable
                     class="options__editable__bottom component__remove"
                 >
-                    {{ componentData.newElementData.listItems.imgSrc ? componentData.newElementData.listItems.imgSrc.text : imgSrc }}
+                    {{ componentData.elementData.imgSrc}}
                 </div>
             </div>
             <div 
@@ -37,7 +35,7 @@
                         data-input-type="headerText"
                         contenteditable
                         class="page__header--h3 page__ihp__header site__element"
-                        v-html="componentData.newElementData.listItems.headerText ? componentData.newElementData.listItems.headerText.text : headerText"
+                        v-html="componentData.elementData.headerText"
                     ></h3>
                 </div>
                 
@@ -50,14 +48,18 @@
                         data-input-type="paraText"
                         contenteditable
                         class="page__para site__element"
-                        v-html="componentData.newElementData.listItems.paraText ? componentData.newElementData.listItems.paraText.text : paraText"
+                        v-html="componentData.elementData.paraText"
                     ></p>
                 </div>
                 <div
                     v-if="componentData.type === 'list'"
                     class="page__ihp__list page__ihp__container component__container"
                 >
-                    <List :componentData="listComponent" type="list" :group="true" />
+                    <List
+                        :componentData="listComponent"
+                        type="ul"
+                        :group="true"
+                    />
                 </div>
             </div>
             <Optionsbuttons
@@ -86,21 +88,19 @@ export default {
             listComponent: {
                 componentName: "List",
                 uniqueName: "List" + this.numberOfActions,
+                type: "list",
                 parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
                 number: this.numberOfActions,
-                type: "list",
-                newElementData: {
-                    listItems: {
-                        listItems: [
-                            {
-                                li: "New List Item 1"
-                            },
-                            {
-                                li: "New List Item 2"
-                            }
-                        ]
-                    }    
+                elementData: {
+                    "listItems": [
+                        { 
+                            "li": "New List Item 1"
+                        },
+                        {
+                            "li": "New List Item 2"
+                        }
+                    ]
                 },
                 optionsShown: true
             },
@@ -108,33 +108,36 @@ export default {
     },
     mounted() {
         this.componentData.optionsShown = false;
+        // console.log(this.componentData);
     },
     methods: {
         getText(obj) {
             if (obj) {
                 return obj.text; 
             }
-            
         },
         updateTarget() {
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
-                let newLi = {li: event.target.innerHTML.trim()};
-                let listItem = event.target.getAttribute("data-component-list-number");
-                newComponentData.newElementData.listItems.listItems[listItem] = newLi;
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));            
+            if (newComponentData.componentName === "List") {
+                newComponentData.elementData.listItems = this.getNewListItems(event);
             } else {
-                let listType = event.target.getAttribute("data-input-type");
-                newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
-                newComponentData.componentChanges += 1;
+                let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
+                let components = Array.from(textsToGrab).forEach(element => {
+                    let textType = element.getAttribute("data-input-type");
+                    newComponentData.elementData[textType] = element.innerHTML.trim();
+                });
             }
-            let info = {newComponentData: newComponentData};
-            if (!this.componentData.hasOwnProperty("parentData")) {
+            newComponentData.componentChanges += 1;
+            let info = {
+                newComponentData: newComponentData,
+                event: event
+            };
+            if (!this.group) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
-                if (this.componentData.parentUniqueName) {
-                    this.$nuxt.$emit("updateTargetGroup", info);
-                }
+                this.$nuxt.$emit("updateGroupTarget", info);
             }
+            
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

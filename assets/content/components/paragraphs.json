@@ -7,11 +7,7 @@
             "title": "P",
             "type": "p",
             "elementData": {
-                "listItems": [
-                    { 
-                        "paraText": "New Para"
-                    }
-                ]
+                "paraText": "New Para"
             },
             "img": "paragraph.png"
         }
