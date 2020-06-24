@@ -23,6 +23,7 @@
             />
         </div>
         <div
+            :data-component-type="componentData.componentName"
             data-input-type="videoCode"
             v-html="componentData.elementData.videoCode"
             class="page__video__wrapper site__element"

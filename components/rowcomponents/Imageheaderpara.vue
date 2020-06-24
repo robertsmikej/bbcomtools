@@ -1,25 +1,28 @@
 <template>
     <div class="page__component">
         <div
+            data-input-types="['headerText', 'imgSrc', 'paraText', 'listItems']"
+            :data-component-type="componentData.componentName"
+            :data-component-sub-type="componentData.type"
             :class="'page__ihp--' + componentData.type"
             class="page__ihp" 
         >
             <div 
-                class="page__ihp__image__container"
+                class="page__ihp__image__container page__external__data__container"
             >
                 <img
                     @click="toggleImgOptions"
                     :key="numberOfActions"
                     :src="componentData.elementData.imgSrc"
                     :alt="componentData.elementData.headerText"
+                    data-input-type="imgSrc"
                     class="page__ihp__image site__element"
-                />
+                ></img>
                 <div
                     @blur="updateTarget"
-                    v-if="componentData.optionsShown"
-                    data-input-type="imgSrc"
+                    v-show="componentData.optionsShown"
                     contenteditable
-                    class="options__editable__bottom component__remove"
+                    class="options__editable options__editable__bottom component__remove"
                 >
                     {{ componentData.elementData.imgSrc}}
                 </div>
@@ -32,10 +35,10 @@
                 >
                     <h3
                         @blur="updateTarget"
-                        data-input-type="headerText"
                         contenteditable
-                        class="page__header--h3 page__ihp__header site__element"
                         v-html="componentData.elementData.headerText"
+                        data-input-type="headerText"
+                        class="page__header--h3 page__ihp__header site__element"
                     ></h3>
                 </div>
                 
@@ -45,10 +48,10 @@
                 >
                     <p
                         @blur="updateTarget"
-                        data-input-type="paraText"
                         contenteditable
-                        class="page__para site__element"
                         v-html="componentData.elementData.paraText"
+                        data-input-type="paraText"
+                        class="page__para site__element"
                     ></p>
                 </div>
                 <div
@@ -56,6 +59,7 @@
                     class="page__ihp__list page__ihp__container component__container"
                 >
                     <List
+                        data-input-type="listItems"
                         :componentData="listComponent"
                         type="ul"
                         :group="true"
@@ -124,20 +128,24 @@ export default {
                 let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
                 let components = Array.from(textsToGrab).forEach(element => {
                     let textType = element.getAttribute("data-input-type");
-                    newComponentData.elementData[textType] = element.innerHTML.trim();
-                });
-            }
+                    if (element.nodeName === "IMG") {
+                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").innerHTML.trim();
+                    } else {
+                        newComponentData.elementData[textType] = element.innerHTML.trim();
+                    }
+                });            }
             newComponentData.componentChanges += 1;
             let info = {
                 newComponentData: newComponentData,
+                oldComponentData: this.componentData,
                 event: event
             };
             if (!this.group) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
+                info.parentData = this.parentData;
                 this.$nuxt.$emit("updateGroupTarget", info);
             }
-            
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

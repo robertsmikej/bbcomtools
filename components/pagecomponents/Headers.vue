@@ -4,7 +4,9 @@
             :is="componentData.type"
             @blur="updateTarget"
             @focus="focused"
+            data-input-types="['headerText']"
             data-input-type="headerText"
+            :data-component-type="componentData.componentName"
             contenteditable
             v-html="componentData.elementData.headerText"
             class="page__header site__element"

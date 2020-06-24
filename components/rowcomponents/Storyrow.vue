@@ -1,6 +1,10 @@
 <template>
     <div class="page__component">
-        <div class="page__story__row__outer" :class="[this.componentData.optionsShown ? 'page__component__outline' : 'page__component__no__outline' ]">
+        <div
+            :data-component-type="componentData.componentName"
+            class="page__story__row__outer" 
+            :class="[this.componentData.optionsShown ? 'page__component__outline' : 'page__component__no__outline' ]"
+        >
             <div 
                 v-if="componentData.optionsShown"
                 class="component__options__buttons__outer component__remove"
@@ -12,7 +16,7 @@
                 <div
                     class="component__options__buttons--group"
                 >
-                    <div v-for="(component, index) in componentOptionsShow" :key="component.type + index">
+                    <div v-for="(component, index) in this.groupButtons" :key="component.type + index">
                         <div 
                             @click="addComponent(component)"
                             :component-name="component.componentName"
@@ -49,6 +53,7 @@
                     :data-component-number="index"
                     :data-idnum="componentData.uniqueName + element.uniqueName + index"
                     :class="componentData.uniqueName + '--' + element.uniqueName"
+                    class="page__group__component"
                 ></component>
             </div>
         </div>
@@ -67,28 +72,32 @@ export default {
             componentActions: 0,
             elementComponents: {},
             currentComponentName: "",
-            restrictions: []        };
+            restrictions: [],
+            groupButtons: []
+        };
     },
     computed: {
         components: function () {
             return this.$store.state.components
         },
         componentOptionsShow: function () {
-            let arr = [];
-            let types = this.componentData.elementData.childArray;
-            let that = this;
-            types.forEach(function (type) {
-                let component = that.components.filter(obj => {
-                    return obj.componentName === type.componentName
-                })[0];
-                that.elementComponents = component;
-                let componentDetails = component.types.filter(obj => {
-                    return obj.type === type.type
-                })[0];
-                componentDetails.componentName = component.componentName;
-                arr.push(componentDetails);
-            });
-            return arr;
+            // let arr = [];
+            // let types = JSON.parse(JSON.stringify(this.componentData.elementData.childArray));
+            // let that = this;
+            // types.forEach(type => {
+            //     let component = this.components.filter(obj => {
+            //         return obj.componentName === type.componentName
+            //     })[0];
+            //     this.elementComponents = component;
+            //     let componentDetails = component.types.filter(obj => {
+            //         return obj.type === type.type
+            //     })[0];
+            //     componentDetails.componentName = component.componentName;
+            //     this.groupButtons.push(componentDetails);
+            //     // arr.push(componentDetails);
+            // });
+            // console.log(this.groupButtons);
+            // return arr;
         },
         gridStyle() {
             return {
@@ -98,57 +107,63 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateGroupTarget', data => {
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-
-            
-            console.log(data);
-            let clickedItem = this.getClickedItem(data.event, newListItems);
-            console.log(clickedItem);
-
-            
+            if (data.parentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+                let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+                let clickedItem = this.getClickedItem(data.event, data.oldComponentData, newComponentData.elementData.childArray);
+                if (clickedItem >= 0) {
+                    let textsToGrab = this.$el.querySelectorAll(".page__group__component")[clickedItem].querySelectorAll("[data-input-type]");
+                    let components = Array.from(textsToGrab).forEach(element => {
+                        let textType = element.getAttribute("data-input-type");
+                        newComponentData.elementData.childArray[clickedItem].elementData[textType] = element.innerHTML.trim();
+                    });
+                    newComponentData.componentChanges += 1;
+                    let info = {
+                        newComponentData: newComponentData
+                    };
+                    this.$nuxt.$emit("updateTarget", info);
+                }
+            }
         });
         this.$nuxt.$on('removeElementFromGroup', data => {
-            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+            if (data.parentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+                let newComponentData = JSON.parse(JSON.stringify(this.componentData));
                 this.currentComponentName = data.uniqueName;
-                let newParent = data.parentData;
-
-                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
-                if (findIn !== -1) {
-                    newParent.newElementData.childArr.splice(findIn, 1);
+                if (data.componentIndex >= 0) {
+                    newComponentData.elementData.childArray.splice(data.componentIndex, 1);
                     let info = {
-                        newComponentData: newParent
+                        newComponentData: newComponentData
                     };
-                    this.numberOfComponents = newParent.newElementData.childArr.length;
+                    this.numberOfComponents = newComponentData.elementData.childArray.length;
                     this.$nuxt.$emit('updateTarget', info);
                     this.componentActions += 1;
                 }
             }
         });
         this.$nuxt.$on('moveElementUpGroup', data => {
-            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+            if (data.parentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+                let newComponentData = JSON.parse(JSON.stringify(this.componentData));
                 this.currentComponentName = data.uniqueName;
-                let newParent = data.parentData;
-                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
-                if (findIn !== -1) {
-                    this.arrayMove(data.parentData.newElementData.childArr, findIn, findIn - 1);
+                if (data.componentIndex >= 0) {
+                    this.arrayMove(newComponentData.elementData.childArray, data.componentIndex, data.componentIndex - 1);
                     let info = {
-                        newComponentData: newParent
+                        newComponentData: newComponentData
                     }
+                    this.numberOfComponents = newComponentData.elementData.childArray.length;
                     this.$nuxt.$emit('updateTarget', info);
-                    this.componentActions + 1;
+                    this.componentActions += 1;
                 }
             }
         });
         this.$nuxt.$on('moveElementDownGroup', data => {
-            if (data.componentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+            if (data.parentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
+                let newComponentData = JSON.parse(JSON.stringify(this.componentData));
                 this.currentComponentName = data.uniqueName;
-                let newParent = data.parentData;
-                let findIn = data.parentData.newElementData.childArr.findIndex(this.findInArray);
-                if (findIn !== -1) {
-                this.arrayMove(data.parentData.newElementData.childArr, findIn, findIn + 1);
+                if (data.componentIndex >= 0) {
+                    this.arrayMove(newComponentData.elementData.childArray, data.componentIndex, data.componentIndex + 1);
                     let info = {
-                        newComponentData: newParent
+                        newComponentData: newComponentData
                     }
+                    this.numberOfComponents = newComponentData.elementData.childArray.length;
                     this.$nuxt.$emit('updateTarget', info);
                     this.componentActions += 1;
                 }
@@ -156,9 +171,29 @@ export default {
         });
     },
     mounted() {
-        this.numberOfComponents = this.componentData.elementData.childArr.length
+        this.componentData.elementData.childArr.forEach(type => {
+            let component = this.components.filter(obj => {
+                return obj.componentName === type.componentName
+            })[0];
+            this.elementComponents = component;
+            let componentDetails = component.types.filter(obj => {
+                return obj.type === type.type
+            })[0];
+            componentDetails.componentName = component.componentName;
+            this.groupButtons.push(componentDetails);
+        });
+        this.numberOfComponents = this.componentData.elementData.childArr.length;
     },
     methods: {
+        getClickedItem(event, oldData, newData) {
+            let clickedItem = -1;
+            this.componentData.elementData.childArray.forEach((arrChild, index) => {
+                if (arrChild === oldData) {
+                    clickedItem = index;
+                }
+            });
+            return clickedItem;
+        },
         getNewListItems(event) {
             let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
             let newLiArr = Array.from(newListItems).map(function (li) {
@@ -167,17 +202,6 @@ export default {
                 }
             });
             return newLiArr;
-        },
-        getClickedItem(event, newListItems) {
-            let clickedItem = -1;
-            Array.from(newListItems).forEach((listItem, index) => {
-                let liText = listItem.li.trim().toLowerCase();
-                let eventText = event.target.closest(".component__wrapper").getElementsByTagName("li")[0].textContent.trim().toLowerCase();
-                if (liText === eventText) {
-                    clickedItem = index;
-                }
-            });
-            return clickedItem;
         },
         addComponent(comp) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
@@ -191,7 +215,7 @@ export default {
             })[0];
             let newChildComponent = {
                 componentName: componentDetails.componentName,
-                uniqueName: componentDetails.uniqueName + this.numberOfComponents,
+                uniqueName: this.componentData.uniqueName + "-" + componentDetails.uniqueName + this.numberOfComponents,
                 number: this.numberOfComponents + 1,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,

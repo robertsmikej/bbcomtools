@@ -5,6 +5,7 @@
         <ul
             v-if="type === 'ul'"
             :key="componentData.uniqueName + componentActions"
+            :data-component-type="componentData.componentName"
             class="page__ul__list site__element"
         >
             <div

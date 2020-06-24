@@ -7,7 +7,7 @@
             v-if="!componentData.vendorRestricted && !group"
             class="component__options--button options__arrows options__up"
         >
-            ▲
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
             <Tooltip
                 :key="toolTipShows"
                 v-show="showTooltips.uparrow"
@@ -19,9 +19,9 @@
             @mouseover="toggleTooltip('uparrow')"
             @mouseleave="toggleTooltip('uparrow')"
             v-if="!componentData.vendorRestricted && group"
-            class="component__options--button options__arrows"
+            class="component__options--button options__arrows options__left"
         >
-            ▲
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
             <Tooltip
                 v-show="showTooltips.uparrow"
                 :tip="tooltips.uparrow"
@@ -34,7 +34,7 @@
             v-if="!componentData.vendorRestricted && !group"
             class="component__options--button options__arrows options__down"
         >
-            ▼
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
             <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
@@ -45,9 +45,9 @@
             @mouseover="toggleTooltip('downarrow')"
             @mouseleave="toggleTooltip('downarrow')"
             v-if="!componentData.vendorRestricted && group"
-            class="component__options--button options__arrows"
+            class="component__options--button options__arrows options__right"
         >
-            ▼
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
             <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
@@ -71,7 +71,7 @@
             @mouseover="toggleTooltip('remove')"
             @mouseleave="toggleTooltip('remove')"
             v-if="group" 
-            class="component__options--button"
+            class="component__options--button options__remove"
         >
             X
             <Tooltip
@@ -130,6 +130,7 @@ export default {
         },
         removeElementFromGroup() {
             let info = {
+                event: event,
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
                 componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),
@@ -142,6 +143,7 @@ export default {
         },
         moveElementUpGroup() {
             let info = {
+                event: event,
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
                 componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),
@@ -154,6 +156,7 @@ export default {
         },
         moveElementDownGroup() {
             let info = {
+                event: event,
                 componentData: this.componentData,
                 uniqueName: this.componentData.uniqueName,
                 componentIndex: parseInt(event.target.closest(".page__component").getAttribute("data-component-number")),

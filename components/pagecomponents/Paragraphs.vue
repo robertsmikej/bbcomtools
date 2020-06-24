@@ -2,7 +2,9 @@
     <div class="page__component">
         <p
             @blur="updateTarget"
+            data-input-types="['paraText']"
             data-input-type="paraText"
+            :data-component-type="componentData.componentName"
             contenteditable
             v-html="componentData.elementData.paraText"
             class="page__para site__element"

@@ -80,6 +80,7 @@
         background: #FFF;
         padding: 4px;
         border: 1px solid var(--bb-blue-dark);
+        border-bottom: none;
     }
     .page__type--marketing {
         padding: 0;
@@ -303,20 +304,21 @@
         position: absolute;
         top: 3px;
         right: 3px;
+        padding: 1px 0;
     }
     .component__options--button {
         width: 16px;
         height: 16px;
         margin: 2px 5px;
         background: #FFF;
-        border: 1px solid var(--bb-grey);
+        /* border: 1px solid var(--bb-grey); */
         border-radius: 50%;
         display: flex;
         flex-direction: row;
         align-content: center;
         justify-content: center;
         align-items: center;
-        font-size: 12px;
+        font-size: 15px;
         text-transform: uppercase;
         color: var(--bb-grey);
         font-weight: 900;
@@ -332,7 +334,7 @@
         align-content: center;
         justify-content: center;
         align-items: center;
-        font-size: 12px;
+        font-size: 14px;
         text-transform: uppercase;
         color: var(--bb-grey);
         font-weight: 900;
@@ -345,9 +347,21 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    .page__component__outline {
-        border: 1px solid var(--bb-grey-light);
+    .options__arrow__img {
+        max-width: 18px;
     }
+    .component__options__buttons .options__up img {
+        transform: rotate(-90deg);
+    }
+    .component__options__buttons .options__down img {
+        transform: rotate(90deg);
+    }
+    .page__story__row .component__options__buttons .options__left img {
+        transform: rotate(180deg);
+    }
+    /* .page__component__outline {
+        border: 1px solid var(--bb-grey-light);
+    } */
 
 
     .code__section {

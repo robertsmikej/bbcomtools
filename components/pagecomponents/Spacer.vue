@@ -1,6 +1,7 @@
 <template>
     <div class="page__component">
         <div
+            :data-component-type="componentData.componentName"
             :class="'page__spacer--' + type"
             class="page__spacer site__element"
         ></div>
