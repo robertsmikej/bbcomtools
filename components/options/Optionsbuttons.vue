@@ -112,7 +112,7 @@ export default {
             setTimeout(() => { 
                 this.showTooltips[name] = !this.showTooltips[name];
                 this.toolTipShows += 1;
-            }, 500);
+            }, 800);
         },
         optionsToggle() {
             let info = {

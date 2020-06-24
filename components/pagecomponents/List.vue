@@ -16,10 +16,11 @@
             >
                 <li
                     @blur="updateTarget"
-                    data-input-type="li"
-                    contenteditable
-                    class="list__item"
+                    @keydown.enter="enterPressed"
                     v-html="item.li"
+                    data-input-type="li"
+                    class="list__item"
+                    contenteditable
                 ></li>
                 <div
                     v-if="componentData.optionsShown"
@@ -59,26 +60,39 @@ export default {
             console.log(e);
         },
         enterPressed(e) {
+            console.log(e);
             e.preventDefault();
+            this.updateTarget(e);
+            this.addListItem();
             // this.onEdit(e);
             // this.addListItem(e);
         },
         updateTarget() {
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));            
             if (newComponentData.componentName === "List") {
                 newComponentData.elementData.listItems = this.getNewListItems(event);
             } else {
                 let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
                 let components = Array.from(textsToGrab).forEach(element => {
                     let textType = element.getAttribute("data-input-type");
-                    newComponentData.elementData[textType] = element.innerHTML.trim();
-                });
-            }
+                    if (element.nodeName === "IMG") {
+                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                    } else {
+                        newComponentData.elementData[textType] = element.innerHTML.trim();
+                    }
+                });            }
             newComponentData.componentChanges += 1;
             let info = {
-                newComponentData: newComponentData
+                newComponentData: newComponentData,
+                oldComponentData: this.componentData,
+                event: event
             };
-            this.$nuxt.$emit("updateTarget", info);
+            if (!this.group) {
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                info.parentData = this.parentData;
+                this.$nuxt.$emit("updateGroupTarget", info);
+            }
         },
         getNewListItems(event) {
             let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
@@ -101,15 +115,20 @@ export default {
             return clickedItem;
         },
         addListItem() {
+            // console.log("addListItem");
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            // console.log(newComponentData);
             let newListItems = this.getNewListItems(event);
             let clickedItem = this.getClickedListItem(event, newListItems);
+            // console.log(clickedItem);
             newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
+            // console.log(newListItems);
             newComponentData.elementData.listItems = newListItems;
             newComponentData.componentChanges += 1;
             let info = {
                 newComponentData: newComponentData
             };
+            console.log(info);
             this.componentActions += 1;
             this.$nuxt.$emit("updateTarget", info);
         },

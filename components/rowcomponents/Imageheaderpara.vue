@@ -129,7 +129,7 @@ export default {
                 let components = Array.from(textsToGrab).forEach(element => {
                     let textType = element.getAttribute("data-input-type");
                     if (element.nodeName === "IMG") {
-                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").innerHTML.trim();
+                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
                     } else {
                         newComponentData.elementData[textType] = element.innerHTML.trim();
                     }

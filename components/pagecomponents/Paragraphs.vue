@@ -32,21 +32,31 @@ export default {
     },
     methods: {
         updateTarget() {
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));            
             if (newComponentData.componentName === "List") {
                 newComponentData.elementData.listItems = this.getNewListItems(event);
             } else {
                 let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
                 let components = Array.from(textsToGrab).forEach(element => {
                     let textType = element.getAttribute("data-input-type");
-                    newComponentData.elementData[textType] = element.innerHTML.trim();
-                });
-            }
+                    if (element.nodeName === "IMG") {
+                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                    } else {
+                        newComponentData.elementData[textType] = element.innerHTML.trim();
+                    }
+                });            }
             newComponentData.componentChanges += 1;
             let info = {
-                newComponentData: newComponentData
+                newComponentData: newComponentData,
+                oldComponentData: this.componentData,
+                event: event
             };
-            this.$nuxt.$emit("updateTarget", info);
+            if (!this.group) {
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                info.parentData = this.parentData;
+                this.$nuxt.$emit("updateGroupTarget", info);
+            }
         },
         optionsTrue() {
             let info = {

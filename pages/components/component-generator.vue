@@ -115,6 +115,7 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
+            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -212,17 +213,17 @@ export default {
                 compname = importData.componentName;
                 comptype = importData.elementType;
             }
-            console.log(importData);
+            // console.log(importData);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
-            console.log(component);
+            // console.log(component);
             let componentDetails = JSON.parse(JSON.stringify(component.types.filter(obj => {
-                console.log(obj.type);
-                console.log(comptype);
+                // console.log(obj.type);
+                // console.log(comptype);
                 return obj.type === comptype
             })[0]));
-            console.log(componentDetails);
+            // console.log(componentDetails);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
             }
@@ -340,13 +341,13 @@ export default {
                             elDatas[type] = element.innerHTML;
                         } else {
 
-                            console.log(element);
+                            // console.log(element);
                             let innerDatas = element.querySelectorAll("[data-input-type]");
-                            console.log(innerDatas);
+                            // console.log(innerDatas);
                             Array.from(innerDatas).forEach(innerEl => {
-                                console.log(innerEl);
-                                console.log(innerEl.getAttribute("data-input-type"));
-                                console.log(innerEl.getAttribute("src"));
+                                // console.log(innerEl);
+                                // console.log(innerEl.getAttribute("data-input-type"));
+                                // console.log(innerEl.getAttribute("src"));
                                 if (innerEl.nodeName === "IMG" && innerEl.src.length > 0) {
                                     elDatas[innerEl.getAttribute("data-input-type")] = innerEl.getAttribute("src");
                                 } else {
@@ -356,7 +357,7 @@ export default {
                             });
                         }
                     });
-                    console.log(elDatas);
+                    // console.log(elDatas);
                     let el = {
                         componentName: componentInfo.componentName,
                         elementType: componentSubDetails.type,
