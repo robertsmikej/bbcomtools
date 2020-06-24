@@ -60,14 +60,16 @@ export default {
             console.log(e);
         },
         enterPressed(e) {
-            console.log(e);
+            // console.log(e);
             e.preventDefault();
-            this.updateTarget(e);
+            this.updateTarget();
             this.addListItem();
             // this.onEdit(e);
             // this.addListItem(e);
+            this.componentActions += 1;
         },
         updateTarget() {
+            console.log(event);
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));            
             if (newComponentData.componentName === "List") {
                 newComponentData.elementData.listItems = this.getNewListItems(event);
@@ -80,13 +82,14 @@ export default {
                     } else {
                         newComponentData.elementData[textType] = element.innerHTML.trim();
                     }
-                });            }
-            newComponentData.componentChanges += 1;
+                });           
+            }
             let info = {
                 newComponentData: newComponentData,
                 oldComponentData: this.componentData,
                 event: event
             };
+            newComponentData.componentChanges += 1;
             if (!this.group) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
@@ -115,22 +118,19 @@ export default {
             return clickedItem;
         },
         addListItem() {
-            // console.log("addListItem");
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            // console.log(newComponentData);
             let newListItems = this.getNewListItems(event);
             let clickedItem = this.getClickedListItem(event, newListItems);
-            // console.log(clickedItem);
             newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
-            // console.log(newListItems);
             newComponentData.elementData.listItems = newListItems;
             newComponentData.componentChanges += 1;
             let info = {
                 newComponentData: newComponentData
             };
-            console.log(info);
-            this.componentActions += 1;
+            // console.log(info);
+            // this.componentActions += 1;
             this.$nuxt.$emit("updateTarget", info);
+            this.componentActions += 1;
         },
         deleteListItem(e) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));

@@ -115,12 +115,13 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
-            console.log(data);
+            // console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
+            console.log(this.clickedElements.elements[findIn].elementData.listItems);
         }),
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
