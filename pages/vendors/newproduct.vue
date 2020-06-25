@@ -36,97 +36,97 @@ export default {
         }
     },
     created() {
-        // let vendorPageStructure = [
-        //     {
-        //         componentName: "Headers",
-        //         type: "H2",
-        //         elementData: {
-        //             headerText: "Signature 100% Whey Protein Powder",
-        //         }
-        //     },
-        //     {
-        //         componentName: "Paragraphs",
-        //         type: "p",
-        //         elementData: {
-        //             paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        //         }
-        //     },
-        //     {
-        //         componentName: "Spacer",
-        //         type: "small"
-        //     },
-        //     {
-        //         componentName: "Videos",
-        //         type: "VideoJW",
-        //         elementData: {
-        //             paraText: "",
-        //         }
-        //     },
-        //     {
-        //         componentName: "Spacer",
-        //         type: "small"
-        //     },
-        //     {
-        //         componentName: "Headers",
-        //         type: "H3",
-        //         elementData: {
-        //             headerText: "Product Benefits",
-        //         }
-        //     },
-        //     {
-        //         componentName: "List",
-        //         type: "list",
-        //         elementData: {
-        //             listItems: [
-        //                 { 
-        //                     headerText: "New List Item 1"
-        //                 },
-        //                 {
-        //                     headerText: "New List Item 2"
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         componentName: "Imageheaderpara",
-        //         type: "row",
-        //         elementData: {
-        //             listItems: [
-        //                 {
-        //                     headerText: "New Header",
-        //                     paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        //                     imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         componentName: "Imageheaderpara",
-        //         type: "row",
-        //         elementData: {
-        //             listItems: [
-        //                 {
-        //                     headerText: "New Header",
-        //                     paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        //                     imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         componentName: "Imageheaderpara",
-        //         type: "row",
-        //         elementData: {
-        //             listItems: [
-        //                 {
-        //                     headerText: "New Header",
-        //                     paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        //                     imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
-        //                 }
-        //             ]
-        //         }
-        //     }
-        // ];
+        let vendorPageStructure = [
+            {
+                componentName: "Headers",
+                type: "H2",
+                elementData: {
+                    headerText: "Signature 100% Whey Protein Powder",
+                }
+            },
+            {
+                componentName: "Paragraphs",
+                type: "p",
+                elementData: {
+                    paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                }
+            },
+            {
+                componentName: "Spacer",
+                type: "small"
+            },
+            {
+                componentName: "Videos",
+                type: "VideoJW",
+                elementData: {
+                    paraText: "",
+                }
+            },
+            {
+                componentName: "Spacer",
+                type: "small"
+            },
+            {
+                componentName: "Headers",
+                type: "H3",
+                elementData: {
+                    headerText: "Product Benefits",
+                }
+            },
+            {
+                componentName: "List",
+                type: "list",
+                elementData: {
+                    listItems: [
+                        { 
+                            headerText: "New List Item 1"
+                        },
+                        {
+                            headerText: "New List Item 2"
+                        }
+                    ]
+                }
+            },
+            {
+                componentName: "Imageheaderpara",
+                type: "row",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
+                }
+            },
+            {
+                componentName: "Imageheaderpara",
+                type: "row",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
+                }
+            },
+            {
+                componentName: "Imageheaderpara",
+                type: "row",
+                elementData: {
+                    listItems: [
+                        {
+                            headerText: "New Header",
+                            paraText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                        }
+                    ]
+                }
+            }
+        ];
         // let that = this;
         // vendorPageStructure.forEach(function (el) {
         //     let newNumber = that.clickedElements.numberOfComponents;

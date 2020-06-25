@@ -93,6 +93,12 @@
 export default {
     data() {
         return {
+            pageInfo: {
+                title: "Component Generator | Bodybuilding.com",
+                description: "Component Generator for Bodybuilding.com Employees",
+                pageTypes: ["product", "marketing"],
+                initialElements: []
+            },
             page: {
                 header_text: "Components"
             },
@@ -111,9 +117,13 @@ export default {
     computed: {
         components: function () {
             return this.$store.state.components
+        },
+        pagetypes: function () {
+            return this.$store.state.pagetypes
         }
     },
     created() {
+        
         this.$nuxt.$on('updateTarget', data => {
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -160,6 +170,25 @@ export default {
                 }
             }
         });
+        
+        
+
+        let pageInfo = this.pagetypes.filter(obj => {
+            return obj.slug === this.$route.query.type
+        })[0];
+        if (pageInfo) {
+            this.pageInfo = pageInfo;
+            console.log(pageInfo);
+            this.pageType = pageInfo.pageTypes[0];
+
+            pageInfo.initialElements.forEach((el, index) => {
+                this.createComponent("import", el);
+                this.pageActions += 1;
+            });
+        }
+        
+        
+
     },
     methods: {
         findInArray: function (data) {
@@ -190,13 +219,7 @@ export default {
                     // }
                 });
             } else if (typeOfCreate === "import") {
-                // newData = {
-                //     type: d,
-                //     listItems: componentDetails.elementData[d]
-                // };
-
                 Object.assign(newData, importData);
-                // console.log(newData);
             }
             return newListItems;
         },
@@ -212,16 +235,20 @@ export default {
                 compname = importData.componentName;
                 comptype = importData.elementType;
             }
-            // console.log(importData);
+            console.log(importData);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
-            // console.log(component);
+            console.log(component);
+            console.log(component.types);
+            console.log(compname);
+            console.log(comptype);
             let componentDetails = JSON.parse(JSON.stringify(component.types.filter(obj => {
                 // console.log(obj.type);
                 // console.log(comptype);
-                return obj.type === comptype
+                return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
+
             // console.log(componentDetails);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
@@ -321,14 +348,6 @@ export default {
                             return types.length > 0;
                         })[0];
                     }
-                    
-                    // console.log(componentInfo);
-                    // console.log(element);
-                    // console.log(componentInfo);
-                    // console.log(componentSubDetails);
-                    // console.log(element.getAttribute("data-input-types"));
-                    // console.log(element.getAttribute("data-input-types").replace(/'/g,'"'));
-
                     let componentInputTypes = JSON.parse(element.getAttribute("data-input-types").replace(/'/g,'"'));
                     console.log(componentInputTypes);
                     let elDatas = {};
@@ -389,12 +408,12 @@ export default {
     },
     head() {
         return {
-            title: "Component Generator | Bodybuilding.com",
+            title: this.pageInfo.title,
             meta: [
                 { 
                     hid: 'description',
                     name: 'description',
-                    content: "Component Generator for Bodybuilding.com Employees"
+                    content: this.pageInfo.description
                 },
                 { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
             ]

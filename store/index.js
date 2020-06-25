@@ -1,6 +1,7 @@
 export const state = () => ({
     components: [],
-    tooltips: {}
+    tooltips: {},
+    pagetypes: {}
 });
 
 export const mutations = {
@@ -17,12 +18,16 @@ export const mutations = {
             newObj[obj.slug] = obj;
         });
         state.tooltips = newObj;
+    },
+    setPageTypes(state, data) {
+        state.pagetypes = data;
     }
 };
 
 export const getters = {
     sitewide: state => state.components,
-    tooltips: state => state.tooltips
+    tooltips: state => state.tooltips,
+    pagetypes: state => state.pagetypes
 };
 
 export const actions = {
@@ -43,5 +48,13 @@ export const actions = {
             return res;
         });
         await commit('setTooltips', d);
+
+        var pageTypes = await require.context('~/assets/content/pages', false, /\.json$/);
+        var d = pageTypes.keys().map(key => {
+            let res = pageTypes(key);
+            res.slug = key.slice(2, -5);
+            return res;
+        });
+        await commit('setPageTypes', d);
     }
 };

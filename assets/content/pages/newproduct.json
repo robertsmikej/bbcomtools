@@ -1,0 +1,84 @@
+{
+    "title": "New Product Page Editor",
+    "description": "",
+    "pageTypes": ["product"],
+    "initialElements": [
+        {
+            "componentName": "Headers",
+            "elementType": "H3",
+            "newElementData": {
+                "headerText": "Signature 100% Whey Protein Powder"
+            }
+        },
+        {
+            "componentName": "Paragraphs",
+            "elementType": "p",
+            "newElementData": {
+                "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            }
+        },
+        {
+            "componentName": "Spacer",
+            "elementType": "small"
+        },
+        {
+            "componentName": "Videos",
+            "elementType": "Video",
+            "newElementData": {
+                "videoCode": ""
+            }
+        },
+        {
+            "componentName": "Spacer",
+            "elementType": "small"
+        },
+        {
+            "componentName": "Headers",
+            "elementType": "H4",
+            "newElementData": {
+                "headerText": "Product Benefits"
+            }
+        },
+        {
+            "componentName": "List",
+            "elementType": "ul",
+            "newElementData": {
+                "listItems": [
+                    { 
+                        "li": "New List Item 1"
+                    },
+                    {
+                        "li": "New List Item 2"
+                    }
+                ]
+            }
+        },
+        {
+            "componentName": "Imageheaderpara",
+            "elementType": "row",
+            "newElementData": {
+                "headerText": "New Header",
+                "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+            }
+        },
+        {
+            "componentName": "Imageheaderpara",
+            "elementType": "row",
+            "newElementData": {
+                "headerText": "New Header",
+                "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+            }
+        },
+        {
+            "componentName": "Imageheaderpara",
+            "elementType": "row",
+            "newElementData": {
+                "headerText": "New Header",
+                "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+            }
+        }
+    ]
+}

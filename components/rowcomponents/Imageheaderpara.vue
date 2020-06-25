@@ -33,13 +33,13 @@
                 <div 
                     class="page__ihp__text__header page__ihp__container component__container"
                 >
-                    <h3
+                    <h4
                         @blur="updateTarget"
                         contenteditable
                         v-html="componentData.elementData.headerText"
                         data-input-type="headerText"
                         class="page__header--h3 page__ihp__header site__element"
-                    ></h3>
+                    ></h4>
                 </div>
                 
                 <div
