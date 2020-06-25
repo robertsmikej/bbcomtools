@@ -110,8 +110,8 @@
     max-width: 1200px;
     position: relative;
     font-family: ProximaNova, "Proxima Nova", 'Helvetica Neue', arial, sans-serif;
-    font-size: 18px;
-    line-height: 1.5em;
+    font-size: 16px;
+    line-height: 21px;
     text-align: left;
     margin: 12px 0 30px;
 }
@@ -121,8 +121,8 @@
     list-style-position: inside;
     margin: 12px auto 30px;
     padding: 0 10px;
-    font-size: 1.1em;
-    line-height: 1.5em;
+    font-size: 17px;
+    line-height: 23px;
     font-weight: 400;
 }
 .page__content li {
@@ -309,7 +309,7 @@
         padding: 0
     }
     .page__content li {
-    font-size: 16px;
+        font-size: 16px;
     }
     .page__content p {
         font-size: 16px;

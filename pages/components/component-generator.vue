@@ -235,7 +235,6 @@ export default {
                 compname = importData.componentName;
                 comptype = importData.elementType;
             }
-            console.log(importData);
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
@@ -288,6 +287,9 @@ export default {
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
+            codeCopy.querySelectorAll("[contenteditable]").forEach(el => {
+                el.removeAttribute("contenteditable");
+            });
             codeCopy.querySelectorAll(".component__options, .component__remove").forEach(function (el) {
                 el.parentNode.removeChild(el);
             });
