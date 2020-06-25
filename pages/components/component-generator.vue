@@ -115,13 +115,11 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateTarget', data => {
-            // console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
-            console.log(this.clickedElements.elements[findIn].elementData.listItems);
         }),
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
@@ -254,9 +252,6 @@ export default {
                     componentDetails.elementData.childArray.push(newChildComponent);
                 });
             }
-            // console.log(importData);
-            // console.log(componentDetails);
-
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + parseInt(this.clickedElements.numberOfComponents),
@@ -266,7 +261,6 @@ export default {
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            // console.log(newComponent);
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
             console.groupEnd("buildcomp");
@@ -300,6 +294,7 @@ export default {
             let componentSubDetails;
             Array.from(initialElements).forEach(element => {
                 console.group("1 - Import Data - Element Level");
+                console.log(element);
                 if (element.nodeName !== "parsererror") {
                     let componentType = element.getAttribute("data-component-type");
                     let componentInfo;
@@ -341,33 +336,30 @@ export default {
                         if (element.hasAttribute("data-input-type")) {
                             elDatas[type] = element.innerHTML;
                         } else {
-
-                            // console.log(element);
                             let innerDatas = element.querySelectorAll("[data-input-type]");
-                            // console.log(innerDatas);
+                            let listItemArray = [];
                             Array.from(innerDatas).forEach(innerEl => {
-                                // console.log(innerEl);
-                                // console.log(innerEl.getAttribute("data-input-type"));
-                                // console.log(innerEl.getAttribute("src"));
                                 if (innerEl.nodeName === "IMG" && innerEl.src.length > 0) {
                                     elDatas[innerEl.getAttribute("data-input-type")] = innerEl.getAttribute("src");
                                 } else {
-                                    elDatas[innerEl.getAttribute("data-input-type")] = innerEl.innerHTML;
+                                    if (innerEl.nodeName === "LI") {
+                                        listItemArray.push({li: innerEl.innerHTML});
+                                    } else {
+                                        elDatas[innerEl.getAttribute("data-input-type")] = innerEl.innerHTML;
+                                    }
+                                    
                                 }
-                                console.log(elDatas);
                             });
+                            if (listItemArray.length > 0) {
+                                elDatas.listItems = listItemArray;
+                            }
                         }
                     });
-                    // console.log(elDatas);
                     let el = {
                         componentName: componentInfo.componentName,
                         elementType: componentSubDetails.type,
                         newElementData: elDatas
                     };
-                    // console.log(componentInfo);
-                    // console.log(componentSubDetails);
-                    console.log(el);
-                    console.groupEnd("Import Data");
                     this.createComponent("import", el);
                 }
             });
@@ -415,7 +407,6 @@ export default {
     .page__content, .page__content__outer {
         min-height: 80vh;
     }
-    
 
     .element__sections {
         flex: 1;
