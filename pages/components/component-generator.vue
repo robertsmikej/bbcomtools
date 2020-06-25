@@ -239,16 +239,9 @@ export default {
             let component = this.components.filter(obj => {
                 return obj.componentName === compname
             })[0];
-            console.log(component);
-            console.log(component.types);
-            console.log(compname);
-            console.log(comptype);
             let componentDetails = JSON.parse(JSON.stringify(component.types.filter(obj => {
-                // console.log(obj.type);
-                // console.log(comptype);
                 return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
-
             // console.log(componentDetails);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);

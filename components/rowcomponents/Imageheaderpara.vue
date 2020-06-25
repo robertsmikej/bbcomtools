@@ -38,7 +38,7 @@
                         contenteditable
                         v-html="componentData.elementData.headerText"
                         data-input-type="headerText"
-                        class="page__header--h3 page__ihp__header site__element"
+                        class="page__header--h4 page__ihp__header site__element"
                     ></h4>
                 </div>
                 
