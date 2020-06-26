@@ -45,9 +45,12 @@ export default {
         },
         updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName.toLowerCase() === "list") {
+            if (newComponentData.componentName.toLowerCase() === "list" || 
+            newComponentData.componentName.toLowerCase() === "imageheaderpara") {
                 if (newListItems) {
+                    this.numberOfListActions += 1;
                     newComponentData.elementData.listItems = newListItems;
+                    this.numberOfListActions += 1;
                 } else {
                     Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
                 }
@@ -59,13 +62,15 @@ export default {
                 newComponentData: newComponentData,
                 oldComponentData: this.componentData
             };
-            newComponentData.componentChanges += 1;
-            if (!this.group) {
+            if (!this.group && !this.subgroup) {
                 this.$nuxt.$emit("updateTarget", info);
+            } else if (this.subgroup) {
+                this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
             } else {
                 info.parentData = this.parentData;
                 this.$nuxt.$emit("updateGroupTarget", info);
             }
+            newComponentData.componentChanges += 1;
         },
         optionsTrue() {
             let info = {

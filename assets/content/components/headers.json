@@ -2,6 +2,7 @@
     "title": "Headers",
     "componentName": "Headers",
     "pageTypes": ["product", "marketing"],
+    "showLive": true,
     "types": [
         {
             "title": "H1",

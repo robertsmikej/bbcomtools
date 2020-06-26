@@ -2,6 +2,7 @@
     "title": "Story Row",
     "componentName": "Storyrow",
     "pageTypes": ["product", "marketing"],
+    "showLive": false,
     "types": [
         {
             "title": "Row",

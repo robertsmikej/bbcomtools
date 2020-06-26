@@ -2,6 +2,7 @@
     "title": "Paragraphs",
     "componentName": "Paragraphs",
     "pageTypes": ["product", "marketing"],
+    "showLive": true,
     "types": [
         {
             "title": "P",

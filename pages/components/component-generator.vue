@@ -180,9 +180,7 @@ export default {
         })[0];
         if (pageInfo) {
             this.pageInfo = pageInfo;
-            console.log(pageInfo);
             this.pageType = pageInfo.pageTypes[0];
-
             pageInfo.initialElements.forEach((el, index) => {
                 this.createComponent("import", el);
                 this.pageActions += 1;
@@ -198,7 +196,9 @@ export default {
             return data.uniqueName === this.currentComponentName;
         },
         checkPageType: function (data) {
-            return data.pageTypes.includes(this.pageType);
+            if (data.showLive) {
+                return data.pageTypes.includes(this.pageType);
+            }
         },
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];

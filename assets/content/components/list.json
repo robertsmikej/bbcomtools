@@ -2,6 +2,7 @@
     "title": "List",
     "componentName": "List",
     "pageTypes": ["product", "marketing"],
+    "showLive": true,
     "types": [
         {
             "title": "UL",

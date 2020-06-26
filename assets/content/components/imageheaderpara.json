@@ -2,6 +2,7 @@
     "title": "Image Header Paras",
     "componentName": "Imageheaderpara",
     "pageTypes": ["product", "marketing"],
+    "showLive": true,
     "types": [
         {
             "title": "Row",
