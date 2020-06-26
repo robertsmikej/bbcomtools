@@ -17,7 +17,8 @@
                     :alt="componentData.elementData.headerText"
                     data-input-type="imgSrc"
                     class="page__ihp__image site__element"
-                ></img>
+                />
+                <!-- {{componentData.elementData}} -->
                 <div
                     @blur="updateTarget"
                     v-show="componentData.optionsShown"
@@ -58,17 +59,19 @@
                     v-if="componentData.type === 'list'"
                     class="page__ihp__list page__ihp__container component__container"
                 >
+                
                     <List
                         data-input-type="listItems"
                         :componentData="listComponent"
-                        :key="numberOfListActions"
-                        :items="componentData.elementData.listItems ? componentData.elementData.listItems : null"
+                        :key="this.componentData.uniqueName + numberOfListActions"
+                        :items="componentData"
                         type="ul"
-                        :group="this.group"
+                        :group=true
                         :subgroup=true
                         :parentData="this.componentData"
                     />
                 </div>
+                
             </div>
             <Optionsbuttons
                 :componentData="componentData"
@@ -96,7 +99,7 @@ export default {
             imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
             listComponent: {
                 componentName: "List",
-                uniqueName: "List" + this.numberOfActions,
+                uniqueName: this.componentData.uniqueName + "-List",
                 type: "list",
                 parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
@@ -120,8 +123,9 @@ export default {
         //     this.updateTarget(data);
         // }),
         this.$nuxt.$on('updateSubGroupList', data => {
-
-            this.updateTarget(event, data);
+            console.log(data);
+            console.log(event);
+            this.updateTarget(event, data.listItems);
         })
     },
     methods: {
@@ -132,44 +136,58 @@ export default {
         },
         grabTexts(els) {
             let newObj = {};
+            let listArr = [];
             Array.from(els).forEach(element => {
                 let textType = element.getAttribute("data-input-type");
                 if (element.nodeName === "IMG") {
                     newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else if (element.nodeName === "LI") {
+                    listArr.push({li: element.innerHTML.trim()});
                 } else {
                     newObj[textType] = element.innerHTML.trim();
                 }
             });
+            if (listArr.length > 0) {
+                newObj.listItems = listArr
+            }
             return newObj;
         },
         updateTarget(event, newListItems) {
+            console.log(newListItems);
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName.toLowerCase() === "list" || 
-            newComponentData.componentName.toLowerCase() === "imageheaderpara") {
-                if (newListItems) {
-                    this.numberOfListActions += 1;
-                    newComponentData.elementData.listItems = newListItems;
-                    this.numberOfListActions += 1;
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                if (newComponentData.componentName.toLowerCase() === "list") {
+                    console.log(3);
+                    if (newListItems) {
+                        newComponentData.elementData.listItems = newListItems;
+                        this.numberOfListActions += 1;
+                    } else {
+                        Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                    }
                 } else {
-                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                    console.log(4)
+                    let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+                    newComponentData.elementData = textsToGrab;
+                    if (newListItems) {
+                        newComponentData.elementData.listItems = newListItems;
+                    }
                 }
-            } else {
-                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-                Object.assign(newComponentData.elementData, textsToGrab);
+                let info = {
+                    newComponentData: newComponentData,
+                    oldComponentData: this.componentData
+                };
+                if (!this.group && !this.subgroup) {
+                    this.$nuxt.$emit("updateTarget", info);
+                } else if (this.subgroup) {
+                    info.newListItems = newComponentData.elementData.listItems;
+                    info.uniqueName = this.componentData.uniuqeName;
+                    this.$nuxt.$emit("updateSubGroupList", info);
+                } else {
+                    info.parentData = this.parentData;
+                    this.$nuxt.$emit("updateGroupTarget", info);
+                }
+                newComponentData.componentChanges += 1;
             }
-            let info = {
-                newComponentData: newComponentData,
-                oldComponentData: this.componentData
-            };
-            if (!this.group && !this.subgroup) {
-                this.$nuxt.$emit("updateTarget", info);
-            } else if (this.subgroup) {
-                this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
-            } else {
-                info.parentData = this.parentData;
-                this.$nuxt.$emit("updateGroupTarget", info);
-            }
-            newComponentData.componentChanges += 1;
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

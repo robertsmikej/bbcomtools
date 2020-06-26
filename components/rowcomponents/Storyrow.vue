@@ -188,14 +188,20 @@ export default {
     methods: {
         grabTexts(els) {
             let newObj = {};
+            let listArr = [];
             Array.from(els).forEach(element => {
                 let textType = element.getAttribute("data-input-type");
                 if (element.nodeName === "IMG") {
                     newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else if (element.nodeName === "LI") {
+                    listArr.push({li: element.innerHTML.trim()});
                 } else {
                     newObj[textType] = element.innerHTML.trim();
                 }
             });
+            if (listArr.length > 0) {
+                newObj.listItems = listArr
+            }
             return newObj;
         },
         getClickedItem(event, oldData, newData) {

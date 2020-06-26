@@ -48,7 +48,7 @@ export default {
         group: Boolean,
         subgroup: Boolean,
         parentData: Object,
-        items: Array
+        items: Object
     },
     data() {
         return {
@@ -58,9 +58,8 @@ export default {
     computed: {
         listItems: function () {
             if (this.items) {
-                return this.items;
+                return this.items.elementData.listItems;
             } else {
-                console.log(this.componentData);
                 return this.componentData.elementData.listItems;
             }
         }
@@ -77,14 +76,20 @@ export default {
         },
         grabTexts(els) {
             let newObj = {};
+            let listArr = [];
             Array.from(els).forEach(element => {
                 let textType = element.getAttribute("data-input-type");
                 if (element.nodeName === "IMG") {
                     newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else if (element.nodeName === "LI") {
+                    listArr.push({li: element.innerHTML.trim()});
                 } else {
                     newObj[textType] = element.innerHTML.trim();
                 }
             });
+            if (listArr.length > 0) {
+                newObj.listItems = listArr
+            }
             return newObj;
         },
         // updateParentTarget(parentData) {
@@ -104,32 +109,37 @@ export default {
         // },
         updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName.toLowerCase() === "list" || 
-            newComponentData.componentName.toLowerCase() === "imageheaderpara") {
-                if (newListItems) {
-                    this.numberOfListActions += 1;
-                    newComponentData.elementData.listItems = newListItems;
-                    this.numberOfListActions += 1;
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                if (newComponentData.componentName.toLowerCase() === "list") {
+                    console.log(1)
+                    if (newListItems) {
+                        newComponentData.elementData.listItems = newListItems;
+                        this.numberOfListActions += 1;
+                    } else {
+                        Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                    }
                 } else {
-                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                    console.log(2)
+                    let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+                    newComponentData.elementData = textsToGrab;
+                    if (newListItems) {
+                        newComponentData.elementData.listItems = newListItems;
+                    }
                 }
-            } else {
-                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-                Object.assign(newComponentData.elementData, textsToGrab);
+                let info = {
+                    newComponentData: newComponentData,
+                    oldComponentData: this.componentData
+                };
+                if (!this.group && !this.subgroup) {
+                    this.$nuxt.$emit("updateTarget", info);
+                } else if (this.subgroup) {
+                    this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
+                } else {
+                    info.parentData = this.parentData;
+                    this.$nuxt.$emit("updateGroupTarget", info);
+                }
+                newComponentData.componentChanges += 1;
             }
-            let info = {
-                newComponentData: newComponentData,
-                oldComponentData: this.componentData
-            };
-            if (!this.group && !this.subgroup) {
-                this.$nuxt.$emit("updateTarget", info);
-            } else if (this.subgroup) {
-                this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
-            } else {
-                info.parentData = this.parentData;
-                this.$nuxt.$emit("updateGroupTarget", info);
-            }
-            newComponentData.componentChanges += 1;
         },
         getNewListItems(event) {
             let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
@@ -153,38 +163,27 @@ export default {
         },
         addListItem() {
             console.log('adding');
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            let newListItems = this.getNewListItems(event);
-            let clickedItem = this.getClickedListItem(event, newListItems);
-            console.log(clickedItem);
-            newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
-            // newComponentData.elementData.listItems = newListItems;
-            // newComponentData.componentChanges += 1;
-            // let info = {
-            //     newComponentData: newComponentData,
-            //     oldComponentData: this.componentData,
-            //     event: event
-            // };
+            console.log(event);
             
-            this.updateTarget(event, newListItems);
-            this.componentActions += 1;
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                let newListItems = this.getNewListItems(event);
+                let clickedItem = this.getClickedListItem(event, newListItems);
+                newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
+                this.updateTarget(event, newListItems);
+                this.componentActions += 1;
+            }
         },
         deleteListItem() {
+            console.log('removing');
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            let newListItems = this.getNewListItems(event);
-            let clickedItem = this.getClickedListItem(event, newListItems);
-            console.log(clickedItem);
-            newListItems.splice(clickedItem, 1);
-            // newComponentData.elementData.listItems = newListItems;
-            // newComponentData.componentChanges += 1;
-            // let info = {
-            //     newComponentData: newComponentData,
-            //     oldComponentData: this.componentData,
-            //     event: event
-            // };
-            
-            this.updateTarget(event, newListItems);
-            this.componentActions += 1;
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                let newListItems = this.getNewListItems(event);
+                let clickedItem = this.getClickedListItem(event, newListItems);
+                newListItems.splice(clickedItem, 1);
+                this.updateTarget(event, newListItems);
+                this.componentActions += 1;
+            }
         }
     }
 }

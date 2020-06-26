@@ -125,11 +125,11 @@ export default {
     created() {
         
         this.$nuxt.$on('updateTarget', data => {
-            // console.log(data);
+            console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            // console.log(findIn);
+            console.log(findIn);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),
@@ -262,26 +262,27 @@ export default {
                     // console.log(innerComponentDetails);
                     let newChildComponent = {
                         componentName: innerComponent.componentName,
-                        uniqueName: innerComponent.componentName + parseInt(this.clickedElements.numberOfComponents),
+                        uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
                         type: innerComponentDetails.type,
                         elementData: innerComponentDetails.elementData,
                         optionsShown: true,
                         componentChanges: 0,
                         vendorRestricted: this.checkRestricted("vendors")
                     };
-                    // console.log(newChildComponent)
+                    
                     componentDetails.elementData.childArray.push(newChildComponent);
                 });
             }
             let newComponent = {
                 componentName: component.componentName,
-                uniqueName: component.componentName + parseInt(this.clickedElements.numberOfComponents),
+                uniqueName: component.componentName + this.clickedElements.numberOfComponents,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
                 optionsShown: true,
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
+            console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
             console.groupEnd("buildcomp");
