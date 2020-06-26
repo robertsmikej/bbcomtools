@@ -78,24 +78,28 @@ export default {
 
     },
     methods: {
-        updateTarget() {
+        updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (event.target.getAttribute("data-input-type").toLowerCase() === "li") {
-                let newLi = {li: event.target.innerHTML.trim()};
-                let listItem = event.target.getAttribute("data-component-list-number");
-                newComponentData.newElementData.listItems.listItems[listItem] = newLi;
+            if (newComponentData.componentName.toLowerCase() === "list") {
+                if (newListItems) {
+                    newComponentData.elementData.listItems = newListItems;
+                } else {
+                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                }
             } else {
-                let listType = event.target.getAttribute("data-input-type");
-                newComponentData.newElementData.listItems[listType].text = event.target.innerHTML.trim();
-                newComponentData.componentChanges += 1;
+                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+                Object.assign(newComponentData.elementData, textsToGrab);
             }
-            let info = {newComponentData: newComponentData};
-            if (!this.componentData.hasOwnProperty("parentData")) {
+            let info = {
+                newComponentData: newComponentData,
+                oldComponentData: this.componentData
+            };
+            newComponentData.componentChanges += 1;
+            if (!this.group) {
                 this.$nuxt.$emit("updateTarget", info);
             } else {
-                if (this.componentData.parentUniqueName) {
-                    this.$nuxt.$emit("updateTargetGroup", info);
-                }
+                info.parentData = this.parentData;
+                this.$nuxt.$emit("updateGroupTarget", info);
             }
         },
         checkHeight(e) {

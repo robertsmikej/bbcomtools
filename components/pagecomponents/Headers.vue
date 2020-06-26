@@ -34,25 +34,33 @@ export default {
 
     },
     methods: {
-        updateTarget() {
-            let newComponentData = JSON.parse(JSON.stringify(this.componentData));            
-            if (newComponentData.componentName === "List") {
-                newComponentData.elementData.listItems = this.getNewListItems(event);
+        grabTexts(els) {
+            let newObj = {};
+            Array.from(els).forEach(element => {
+                let textType = element.getAttribute("data-input-type");
+                if (element.nodeName === "IMG") {
+                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else {
+                    newObj[textType] = element.innerHTML.trim();
+                }
+            });
+            return newObj;
+        },
+        updateTarget(event, newListItems) {
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            if (newComponentData.componentName.toLowerCase() === "list") {
+                if (newListItems) {
+                    newComponentData.elementData.listItems = newListItems;
+                } else {
+                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                }
             } else {
-                let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
-                let components = Array.from(textsToGrab).forEach(element => {
-                    let textType = element.getAttribute("data-input-type");
-                    if (element.nodeName === "IMG") {
-                        newComponentData.elementData[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-                    } else {
-                        newComponentData.elementData[textType] = element.innerHTML.trim();
-                    }
-                });            }
-            newComponentData.componentChanges += 1;
+                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+                Object.assign(newComponentData.elementData, textsToGrab);
+            }
             let info = {
                 newComponentData: newComponentData,
-                oldComponentData: this.componentData,
-                event: event
+                oldComponentData: this.componentData
             };
             if (!this.group) {
                 this.$nuxt.$emit("updateTarget", info);

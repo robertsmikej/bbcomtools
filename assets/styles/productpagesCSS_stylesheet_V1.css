@@ -23,8 +23,9 @@
 .bbcom-wrapper {
 	padding: 20px;
 }
-.VendorBlock {
-	max-width: 750px;
+body .VendorBlock {
+    max-width: 750px;
+    width: 100%;
 }
 /* End Old Site Styles */
 /* End Old Site Styles */
@@ -148,6 +149,7 @@
 }
 .page__ihp__container {
     position: relative;
+    display: flex;
 }
 .page__ihp__header {
     margin-top: 0;

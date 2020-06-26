@@ -125,9 +125,11 @@ export default {
     created() {
         
         this.$nuxt.$on('updateTarget', data => {
+            // console.log(data);
             let uniqueName = data.newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            // console.log(findIn);
             this.clickedElements.elements[findIn] = data.newComponentData;
             this.pageActions += 1;
         }),

@@ -44,22 +44,41 @@ export default {
         };
     },
     methods: {
-        updateTarget() {
+        grabTexts(els) {
+            let newObj = {};
+            Array.from(els).forEach(element => {
+                let textType = element.getAttribute("data-input-type");
+                if (element.nodeName === "IMG") {
+                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else {
+                    newObj[textType] = element.innerHTML.trim();
+                }
+            });
+            return newObj;
+        },
+        updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName === "List") {
-                newComponentData.elementData.listItems = this.getNewListItems(event);
+            if (newComponentData.componentName.toLowerCase() === "list") {
+                if (newListItems) {
+                    newComponentData.elementData.listItems = newListItems;
+                } else {
+                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+                }
             } else {
-                let textsToGrab = this.$el.querySelectorAll("[data-input-type]");
-                let components = Array.from(textsToGrab).forEach(element => {
-                    let textType = element.getAttribute("data-input-type");
-                    newComponentData.elementData[textType] = element.innerHTML.trim();
-                });
+                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+                Object.assign(newComponentData.elementData, textsToGrab);
             }
-            newComponentData.componentChanges += 1;
             let info = {
-                newComponentData: newComponentData
+                newComponentData: newComponentData,
+                oldComponentData: this.componentData
             };
-            this.$nuxt.$emit("updateTarget", info);
+            newComponentData.componentChanges += 1;
+            if (!this.group) {
+                this.$nuxt.$emit("updateTarget", info);
+            } else {
+                info.parentData = this.parentData;
+                this.$nuxt.$emit("updateGroupTarget", info);
+            }
         },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;

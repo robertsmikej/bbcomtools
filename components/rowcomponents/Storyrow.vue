@@ -107,6 +107,7 @@ export default {
     },
     created() {
         this.$nuxt.$on('updateGroupTarget', data => {
+            console.log(data);
             if (data.parentData.uniqueName.indexOf(this.componentData.uniqueName) >= 0) {
                 let newComponentData = JSON.parse(JSON.stringify(this.componentData));
                 let clickedItem = this.getClickedItem(data.event, data.oldComponentData, newComponentData.elementData.childArray);
@@ -185,6 +186,18 @@ export default {
         this.numberOfComponents = this.componentData.elementData.childArr.length;
     },
     methods: {
+        grabTexts(els) {
+            let newObj = {};
+            Array.from(els).forEach(element => {
+                let textType = element.getAttribute("data-input-type");
+                if (element.nodeName === "IMG") {
+                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else {
+                    newObj[textType] = element.innerHTML.trim();
+                }
+            });
+            return newObj;
+        },
         getClickedItem(event, oldData, newData) {
             let clickedItem = -1;
             this.componentData.elementData.childArray.forEach((arrChild, index) => {
