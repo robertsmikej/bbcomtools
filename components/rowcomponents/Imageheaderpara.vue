@@ -65,6 +65,7 @@
                         :key="this.componentData.uniqueName + pageActions"
                         :items="componentData"
                         type="ul"
+                        :group=true
                         :parentData="this.componentData"
                     />
                 </div>
@@ -151,7 +152,6 @@ export default {
             return newObj;
         },
         updateTarget(action) {
-            
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;

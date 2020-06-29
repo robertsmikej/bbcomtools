@@ -196,9 +196,6 @@ export default {
                 let parentData = newComponentData.parentData;
                 let parentUniqueName = parentData.uniqueName;
                 this.currentComponentName = parentUniqueName;
-                // console.log(uniqueName);
-                // console.log(this.$el);
-                // console.log(this.$el.querySelector("." + parentUniqueName));
                 let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll("[data-input-type]"));
                 Object.assign(parentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);

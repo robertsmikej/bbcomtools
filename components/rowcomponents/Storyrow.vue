@@ -186,6 +186,18 @@ export default {
         this.numberOfComponents = this.componentData.elementData.childArr.length;
     },
     methods: {
+        updateTarget(action) {
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                newComponentData.componentChanges += 1;
+                let info = {
+                    newComponentData: newComponentData,
+                    event: event,
+                    action: action
+                };
+                this.$nuxt.$emit("updateTarget", info);
+            }
+        },
         grabTexts(els) {
             let newObj = {};
             let listArr = [];

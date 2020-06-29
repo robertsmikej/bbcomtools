@@ -91,7 +91,6 @@ export default {
         //     return newObj;
         // },
         updateTarget(action) {
-            
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
