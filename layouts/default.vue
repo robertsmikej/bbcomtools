@@ -15,17 +15,15 @@
         --site-h5-size: 18px;
         --site-h6-size: 14px;
 
-        --bb-white: #FFF;
-        --bb-grey-very-light: #F9F9F9;
-        --bb-grey-light: #919191;
-
-        --bb-grey: #232323;
-        --bb-blue: #00aeef;
-        --bb-blue-dark: #1A3D7A;
-        --bb-green: #62bd19;
-        --font: ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        --site-white: #FFF;
+        --site-grey: #919191;
+        --site-grey-dark: #232323;
+        --site-grey-very-light: #F9F9F9;
+        --site-blue: #00aeef;
+        --site-blue-dark: #1A3D7A;
+        --site-green: #62bd19;
+        --site-font: ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         --font-bold: ProximaNovaExCnSemiBold, ProximaNova, "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        --text-color: #2B373C;
     }
     html {
         font-family: var(--font);
@@ -52,7 +50,12 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    
+    .page__type--product {
+        max-width: 760px;
+    }
+    .page__type--marketing {
+        /* max-width: 1200px; */
+    }
     .container {
         width: 100%;
         display: flex;
@@ -79,7 +82,7 @@
         left: 0;
         background: #FFF;
         padding: 4px;
-        border: 1px solid var(--bb-blue-dark);
+        border: 1px solid var(--site-blue-dark);
         border-bottom: none;
     }
     .page__type--marketing {
@@ -102,8 +105,8 @@
     }
     .bar__button {
         width: 100px;
-        border: 1px solid var(--bb-blue-dark);
-        background: var(--bb-blue-dark);
+        border: 1px solid var(--site-blue-dark);
+        background: var(--site-blue-dark);
         margin: 4px;
         padding: 8px;
         color: #232323;
@@ -124,7 +127,7 @@
     }
     .bar__button:hover,
     .container .page__type--selected {
-        background-color: var(--bb-blue-dark);
+        background-color: var(--site-blue-dark);
         color: #FFF;
     }
 
@@ -254,7 +257,7 @@
     }
     .component__options input, .component__options textarea {
         flex: 1;
-        border: 1px solid var(--bb-grey-light);
+        border: 1px solid var(--site-grey-very-light);
         box-sizing: content-box;
         z-index: 2;
         padding: 0;
@@ -311,7 +314,6 @@
         height: 16px;
         margin: 2px 5px;
         background: #FFF;
-        /* border: 1px solid var(--bb-grey); */
         border-radius: 50%;
         display: flex;
         flex-direction: row;
@@ -320,7 +322,7 @@
         align-items: center;
         font-size: 15px;
         text-transform: uppercase;
-        color: var(--bb-grey);
+        color: var(--site-grey);
         font-weight: 900;
         cursor: pointer;
         align-self: center;
@@ -336,7 +338,7 @@
         align-items: center;
         font-size: 14px;
         text-transform: uppercase;
-        color: var(--bb-grey);
+        color: var(--site-grey);
         font-weight: 900;
         cursor: pointer;
         align-self: center;
@@ -359,9 +361,6 @@
     .page__story__row .component__options__buttons .options__left img {
         transform: rotate(180deg);
     }
-    /* .page__component__outline {
-        border: 1px solid var(--bb-grey-light);
-    } */
 
 
     .code__section {
@@ -395,7 +394,7 @@
         width: 100px;
         margin: 5px;
         padding: 6px 8px;
-        border: 1px solid var(--bb-blue-dark);
+        border: 1px solid var(--site-blue-dark);
         border-radius: 4px;
         text-transform: uppercase;
         font-size: 1em;
@@ -405,7 +404,7 @@
         transition: all .3s;
     }
     .code__command:hover {
-        background-color: var(--bb-blue-dark);
-        color: var(--bb-white);
+        background-color: var(--site-blue-dark);
+        color: var(--site-white);
     }
 </style>

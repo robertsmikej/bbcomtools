@@ -44,46 +44,14 @@ export default {
         };
     },
     methods: {
-        grabTexts(els) {
-            let newObj = {};
-            let listArr = [];
-            Array.from(els).forEach(element => {
-                let textType = element.getAttribute("data-input-type");
-                if (element.nodeName === "IMG") {
-                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-                } else if (element.nodeName === "LI") {
-                    listArr.push({li: element.innerHTML.trim()});
-                } else {
-                    newObj[textType] = element.innerHTML.trim();
-                }
-            });
-            if (listArr.length > 0) {
-                newObj.listItems = listArr
-            }
-            return newObj;
-        },
         updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName.toLowerCase() === "list") {
-                if (newListItems) {
-                    newComponentData.elementData.listItems = newListItems;
-                } else {
-                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
-                }
-            } else {
-                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-                Object.assign(newComponentData.elementData, textsToGrab);
-            }
-            let info = {
-                newComponentData: newComponentData,
-                oldComponentData: this.componentData
-            };
             newComponentData.componentChanges += 1;
-            if (!this.group) {
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                let info = {
+                    newComponentData: newComponentData
+                };
                 this.$nuxt.$emit("updateTarget", info);
-            } else {
-                info.parentData = this.parentData;
-                this.$nuxt.$emit("updateGroupTarget", info);
             }
         },
         toggleImgOptions() {

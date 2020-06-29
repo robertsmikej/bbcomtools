@@ -35,7 +35,7 @@ export default {
         align-content: center;
         align-items: center;
         justify-content: flex-start;
-        background-color: var(--bb-blue-dark);
+        background-color: var(--site-blue-dark);
         color: #FFF;
         padding: 10px 10px;
         position: fixed;

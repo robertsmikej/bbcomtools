@@ -59,19 +59,15 @@
                     v-if="componentData.type === 'list'"
                     class="page__ihp__list page__ihp__container component__container"
                 >
-                
                     <List
                         data-input-type="listItems"
                         :componentData="listComponent"
-                        :key="this.componentData.uniqueName + numberOfListActions"
+                        :key="this.componentData.uniqueName + pageActions"
                         :items="componentData"
                         type="ul"
-                        :group=true
-                        :subgroup=true
                         :parentData="this.componentData"
                     />
                 </div>
-                
             </div>
             <Optionsbuttons
                 :componentData="componentData"
@@ -87,6 +83,7 @@ export default {
     props: {
         type: String,
         componentData: Object,
+        pageActions: Number,
         group: Boolean,
         parentData: Object
     },
@@ -99,6 +96,7 @@ export default {
             imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
             listComponent: {
                 componentName: "List",
+                componentChanges: 0,
                 uniqueName: this.componentData.uniqueName + "-List",
                 type: "list",
                 parentUniqueName: this.componentData.uniqueName,
@@ -152,43 +150,56 @@ export default {
             }
             return newObj;
         },
-        updateTarget(event, newListItems) {
-            console.log(newListItems);
+        updateTarget(action) {
+            
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
-                if (newComponentData.componentName.toLowerCase() === "list") {
-                    console.log(3);
-                    if (newListItems) {
-                        newComponentData.elementData.listItems = newListItems;
-                        this.numberOfListActions += 1;
-                    } else {
-                        Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
-                    }
-                } else {
-                    console.log(4)
-                    let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-                    newComponentData.elementData = textsToGrab;
-                    if (newListItems) {
-                        newComponentData.elementData.listItems = newListItems;
-                    }
-                }
+                newComponentData.componentChanges += 1;
                 let info = {
                     newComponentData: newComponentData,
-                    oldComponentData: this.componentData
+                    event: event,
+                    action: action
                 };
-                if (!this.group && !this.subgroup) {
-                    this.$nuxt.$emit("updateTarget", info);
-                } else if (this.subgroup) {
-                    info.newListItems = newComponentData.elementData.listItems;
-                    info.uniqueName = this.componentData.uniuqeName;
-                    this.$nuxt.$emit("updateSubGroupList", info);
-                } else {
-                    info.parentData = this.parentData;
-                    this.$nuxt.$emit("updateGroupTarget", info);
-                }
-                newComponentData.componentChanges += 1;
+                this.$nuxt.$emit("updateTarget", info);
             }
         },
+        // updateTarget(event, newListItems) {
+        //     console.log(newListItems);
+        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
+        //         if (newComponentData.componentName.toLowerCase() === "list") { //IF IS LIST
+        //             console.log(3);
+        //             if (newListItems) {
+        //                 newComponentData.elementData.listItems = newListItems;
+        //                 this.numberOfListActions += 1;
+        //             } else {
+        //                 Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
+        //             }
+        //         } else {
+        //             console.log(4)
+        //             let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
+        //             newComponentData.elementData = textsToGrab;
+        //             if (newListItems) {
+        //                 newComponentData.elementData.listItems = newListItems;
+        //             }
+        //         }
+        //         let info = {
+        //             newComponentData: newComponentData,
+        //             oldComponentData: this.componentData
+        //         };
+        //         if (!this.group && !this.subgroup) {
+        //             this.$nuxt.$emit("updateTarget", info);
+        //         } else if (this.subgroup) {
+        //             info.newListItems = newComponentData.elementData.listItems;
+        //             info.uniqueName = this.componentData.uniuqeName;
+        //             this.$nuxt.$emit("updateSubGroupList", info);
+        //         } else {
+        //             info.parentData = this.parentData;
+        //             this.$nuxt.$emit("updateGroupTarget", info);
+        //         }
+        //         newComponentData.componentChanges += 1;
+        //     }
+        // },
         toggleImgOptions() {
             this.componentData.optionsShown = !this.componentData.optionsShown;
         }

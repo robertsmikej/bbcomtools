@@ -32,6 +32,6 @@ export default {
 
 <style>
 .page__spacer {
-    background-color: var(--bb-grey-very-light);
+    background-color: var(--site-grey-very-light);
 }
 </style>

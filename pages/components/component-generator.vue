@@ -60,9 +60,9 @@
                 >
                     <component 
                         v-for="(element, index) in clickedElements.elements"
-                        :key="element.uniqueName + index"
+                        :key="element.uniqueName + index + pageActions"
+                        :pageActions="pageActions"
                         :is="element.componentName"
-                        :group="false"
                         :componentData="element"
                         :type="element.type"
                         :class="element.uniqueName"
@@ -124,15 +124,15 @@ export default {
     },
     created() {
         
-        this.$nuxt.$on('updateTarget', data => {
-            console.log(data);
-            let uniqueName = data.newComponentData.uniqueName;
-            this.currentComponentName = uniqueName;
-            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            console.log(findIn);
-            this.clickedElements.elements[findIn] = data.newComponentData;
-            this.pageActions += 1;
-        }),
+        // this.$nuxt.$on('updateTarget', data => {
+        //     console.log(data);
+        //     let uniqueName = data.newComponentData.uniqueName;
+        //     this.currentComponentName = uniqueName;
+        //     let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+        //     console.log(findIn);
+        //     this.clickedElements.elements[findIn] = data.newComponentData;
+        //     this.pageActions += 1;
+        // }),
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -187,24 +187,130 @@ export default {
             });
         }
         
-        
+        this.$nuxt.$on('updateTarget', data => {
+            console.log(data);
+            let newComponentData = data.newComponentData;
+            let uniqueName = newComponentData.uniqueName;
+            this.currentComponentName = uniqueName;
+            if (newComponentData.parentData) {
+                let parentData = newComponentData.parentData;
+                let parentUniqueName = parentData.uniqueName;
+                this.currentComponentName = parentUniqueName;
+                // console.log(uniqueName);
+                // console.log(this.$el);
+                // console.log(this.$el.querySelector("." + parentUniqueName));
+                let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll("[data-input-type]"));
+                Object.assign(parentData.elementData, textsToGrab);
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                if (data.action === "addListItem" || data.action === "deleteListItem") {
+                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                    parentData.elementData.listItems = newListItems;
+                }
+                this.clickedElements.elements[findIn] = parentData;
+            } else if (data.action === "addListItem" || data.action === "deleteListItem") {
 
+                let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                newComponentData.elementData.listItems = newListItems;
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+            } else {
+                let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+                Object.assign(newComponentData.elementData, textsToGrab);
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+            }
+            this.pageActions += 1;
+        })
     },
     methods: {
-        findInArray: function (data) {
-            // console.log(data);
-            return data.uniqueName === this.currentComponentName;
+        arrayMove: function (arr, fromIndex, toIndex) {
+            var element = arr[fromIndex];
+            arr.splice(fromIndex, 1);
+            arr.splice(toIndex, 0, element);
+        },
+        changePageType: function (e) {
+            this.pageType = e.target.innerHTML.toLowerCase();
         },
         checkPageType: function (data) {
             if (data.showLive) {
                 return data.pageTypes.includes(this.pageType);
             }
         },
-        arrayMove: function (arr, fromIndex, toIndex) {
-            var element = arr[fromIndex];
-            arr.splice(fromIndex, 1);
-            arr.splice(toIndex, 0, element);
+        checkRestricted: function (name) {
+            return this.restrictions.includes(name);
         },
+        copyText: function () {
+            let text = this.$el.querySelector(".code__text__area");
+            text.focus();
+            text.select();
+            document.execCommand('copy');
+        },
+        findInArray: function (data) {
+            return data.uniqueName === this.currentComponentName;
+        },
+        grabTexts(els) {
+            let newObj = {};
+            let listArr = [];
+            Array.from(els).forEach(element => {
+                let textType = element.getAttribute("data-input-type");
+                if (element.nodeName === "IMG") {
+                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                } else if (element.nodeName === "LI") {
+                    listArr.push({li: element.innerHTML.trim()});
+                } else {
+                    newObj[textType] = element.innerHTML.trim();
+                }
+            });
+            if (listArr.length > 0) {
+                newObj.listItems = listArr
+            }
+            return newObj;
+        },
+        
+
+        //LIST FUNCTIONS
+        //LIST FUNCTIONS
+        //LIST FUNCTIONS
+        addListItem(event) {
+            let newListItems = this.getNewListItems(event);
+            let clickedItem = this.getClickedListItem(event, newListItems);
+            newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
+            return newListItems;
+        },
+        deleteListItem(event) {
+            let newListItems = this.getNewListItems(event);
+            let clickedItem = this.getClickedListItem(event, newListItems);
+            newListItems.splice(clickedItem, 1);
+            return newListItems;
+        },
+        getNewListItems(event) {
+            let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
+            let newLiArr = Array.from(newListItems).map(function (li) {
+                return {
+                    li: li.innerHTML
+                }
+            });
+            return newLiArr;
+        },
+        getClickedListItem(event, newListItems) {
+            let clickedItem = -1;
+            Array.from(newListItems).forEach((listItem, index) => {
+                let liText = listItem.li.trim().toLowerCase();
+                let eventText = event.target.closest(".component__wrapper").getElementsByTagName("li")[0].textContent.trim().toLowerCase();
+                if (liText === eventText) {
+                    clickedItem = index;
+                }
+            });
+            return clickedItem;
+        },
+        //END LIST FUNCTIONS
+        //END LIST FUNCTIONS
+        //END LIST FUNCTIONS
+
+        
+        //CREATE FUNCTIONS
+        //CREATE FUNCTIONS
+        //CREATE FUNCTIONS
         createListItems: function (index, typeOfCreate, componentDetails) {
             let newListItems = {};
             if (typeOfCreate === "normal") {
@@ -287,6 +393,16 @@ export default {
             this.clickedElements.elements.push(newComponent);
             console.groupEnd("buildcomp");
         },
+        //END CREATE FUNCTIONS
+        //END CREATE FUNCTIONS
+        //END CREATE FUNCTIONS
+
+        
+
+
+        //CODE FUNCTIONS
+        //CODE FUNCTIONS
+        //CODE FUNCTIONS
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
@@ -309,7 +425,6 @@ export default {
             this.code = codeCopy;
             this.showCode = true;
         },
-        
         importCode: function () {
             this.clickedElements.elements = [];
             let importZone = document.querySelector(".code__text__area");
@@ -382,11 +497,8 @@ export default {
             });
             this.toggleCode();
         },
-        changePageType: function (e) {
-            this.pageType = e.target.innerHTML.toLowerCase();
-        },
-        checkRestricted: function (name) {
-            return this.restrictions.includes(name);
+        clearCode: function () {
+            this.code = "";
         },
         toggleCode: function () {
             this.showCode = !this.showCode;
@@ -394,15 +506,9 @@ export default {
                 this.code = "";
             }
         },
-        clearCode: function () {
-            this.code = "";
-        },
-        copyText: function () {
-            let text = this.$el.querySelector(".code__text__area");
-            text.focus();
-            text.select();
-            document.execCommand('copy');
-        },
+        //END CODE FUNCTIONS
+        //END CODE FUNCTIONS
+        //END CODE FUNCTIONS
     },
     head() {
         return {
