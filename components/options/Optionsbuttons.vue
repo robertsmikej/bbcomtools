@@ -8,11 +8,11 @@
             class="component__options--button options__arrows options__up"
         >
             <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
-            <Tooltip
+            <!-- <Tooltip
                 :key="toolTipShows"
                 v-show="showTooltips.uparrow"
                 :tip="tooltips.uparrow"
-            />
+            /> -->
         </div>
         <div
             @click="moveElementUpGroup()"
@@ -22,10 +22,10 @@
             class="component__options--button options__arrows options__left"
         >
             <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
-            <Tooltip
+            <!-- <Tooltip
                 v-show="showTooltips.uparrow"
                 :tip="tooltips.uparrow"
-            />
+            /> -->
         </div>
         <div
             @click="moveElementDown()"
@@ -35,10 +35,10 @@
             class="component__options--button options__arrows options__down"
         >
             <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
-            <Tooltip
+            <!-- <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
-            />
+            /> -->
         </div>
         <div
             @click="moveElementDownGroup()"
@@ -48,10 +48,10 @@
             class="component__options--button options__arrows options__right"
         >
             <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
-            <Tooltip
+            <!-- <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
-            />
+            /> -->
         </div>
         <div
             @click="removeElement()"
@@ -61,10 +61,10 @@
             class="component__options--button options__remove"
         >
             X
-            <Tooltip
+            <!-- <Tooltip
                 v-show="showTooltips.remove"
                 :tip="tooltips.remove"
-            />
+            /> -->
         </div>
         <div 
             @click="removeElementFromGroup()"
@@ -74,10 +74,10 @@
             class="component__options--button options__remove"
         >
             X
-            <Tooltip
+            <!-- <Tooltip
                 v-show="showTooltips.remove"
                 :tip="tooltips.remove"
-            />
+            /> -->
         </div>
     </div>
 </template>
