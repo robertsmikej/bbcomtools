@@ -140,7 +140,8 @@ body .VendorBlock {
     margin-bottom: 0;
 }
 .page__ihp--list .page__ihp__text__container,
-.page__ihp--row .page__ihp__text__container {
+.page__ihp--row .page__ihp__text__container,
+.page__ihp--row--true .page__ihp__text__container {
   width: 100%;
 }
 .page__ihp--column .page__ihp__text__container h3,
@@ -153,6 +154,12 @@ body .VendorBlock {
     float: right;
     width: 48%;
     padding-left: 14px;
+    padding-bottom: 14px;
+}
+.page__ihp--row--true .page__ihp__image__container  {
+    float: left;
+    width: 48%;
+    padding-right: 16px;
     padding-bottom: 14px;
 }
 .page__ihp__image {

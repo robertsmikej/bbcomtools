@@ -10,7 +10,12 @@
             "elementData": {
                 "headerText": "New Header",
                 "paraText": "New Para",
-                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+                "elementOptions": {
+                    "flipped": {
+                        "boolean": false
+                    }
+                }  
             },
             "img": "iht-image-right3.png"
         },
@@ -20,20 +25,27 @@
             "elementData": {
                 "headerText": "New Header",
                 "paraText": "New Para",
-                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg"
+                "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+                "elementOptions": {
+                    "flipped": false
+                }
             },
             "img": "iht-image-column.png"
         },
         {
             "title": "List",
             "type": "list",
+            
             "elementData": {
                 "headerText": "New Header",
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "listItems": [
                     {"li": "New List Item 1"},
                     {"li": "New List Item 2"}
-                ]
+                ],
+                "elementOptions": {
+                    "flipped": false
+                }
             },
             "img": "iht-image-list.png"
         }

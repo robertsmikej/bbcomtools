@@ -133,6 +133,24 @@ export default {
         //     this.clickedElements.elements[findIn] = data.newComponentData;
         //     this.pageActions += 1;
         // }),
+        this.$nuxt.$on('elementAction', data => {
+            let uniqueName = data.componentData.uniqueName;
+            this.currentComponentName = uniqueName;
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            console.log(data);
+            // console.log(this.clickedElements.elements[findIn]);
+            if (data.actionName === "flipElement") {
+                console.log(data.componentData.elementData.elementOptions.flipped.boolean);
+                data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
+                console.log(data.componentData.elementData.elementOptions.flipped.boolean);
+            }
+            // console.log(data);
+            let newComponent = {
+                newComponentData: data.componentData
+            }
+            this.updateTarget(newComponent);
+            // this.clickedElements.elements[findIn].optionsShown = data.optionsBool;
+        });
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -172,8 +190,10 @@ export default {
                 }
             }
         });
-        
-        
+        this.$nuxt.$on('updateTarget', data => {
+            console.log(data);
+            this.updateTarget(data);
+        })
 
         let pageInfo = this.pagetypes.filter(obj => {
             return obj.slug === this.$route.query.type
@@ -186,9 +206,9 @@ export default {
                 this.pageActions += 1;
             });
         }
-        
-        this.$nuxt.$on('updateTarget', data => {
-            console.log(data);
+    },
+    methods: {
+        updateTarget: function (data) {
             let newComponentData = data.newComponentData;
             let uniqueName = newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -217,9 +237,7 @@ export default {
                 this.clickedElements.elements[findIn] = newComponentData;
             }
             this.pageActions += 1;
-        })
-    },
-    methods: {
+        },
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];
             arr.splice(fromIndex, 1);
@@ -329,7 +347,7 @@ export default {
             return newListItems;
         },
         createComponent: function (typeOfCreate, importData) {
-            console.group("buildcomp");
+            // console.group("buildcomp");
             let newNumber = this.clickedElements.numberOfComponents;
             let compname;
             let comptype;
@@ -385,10 +403,10 @@ export default {
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            console.log(newComponent)
+            // console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
-            console.groupEnd("buildcomp");
+            // console.groupEnd("buildcomp");
         },
         //END CREATE FUNCTIONS
         //END CREATE FUNCTIONS
@@ -430,8 +448,8 @@ export default {
             let initialElements = importCode.querySelector(".page__content").children;
             let componentSubDetails;
             Array.from(initialElements).forEach(element => {
-                console.group("1 - Import Data - Element Level");
-                console.log(element);
+                // console.group("1 - Import Data - Element Level");
+                // console.log(element);
                 if (element.nodeName !== "parsererror") {
                     let componentType = element.getAttribute("data-component-type");
                     let componentInfo;
@@ -459,7 +477,7 @@ export default {
                         })[0];
                     }
                     let componentInputTypes = JSON.parse(element.getAttribute("data-input-types").replace(/'/g,'"'));
-                    console.log(componentInputTypes);
+                    // console.log(componentInputTypes);
                     let elDatas = {};
                     componentInputTypes.forEach(type => {
                         if (element.hasAttribute("data-input-type")) {

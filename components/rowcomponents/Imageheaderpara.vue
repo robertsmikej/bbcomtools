@@ -4,7 +4,7 @@
             data-input-types="['headerText', 'imgSrc', 'paraText', 'listItems']"
             :data-component-type="componentData.componentName"
             :data-component-sub-type="componentData.type"
-            :class="'page__ihp--' + componentData.type"
+            :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--' + componentData.elementData.elementOptions.flipped.boolean]"
             class="page__ihp" 
         >
             <div 

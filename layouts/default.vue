@@ -349,7 +349,7 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    .options__arrow__img {
+    .component__options__buttons img {
         max-width: 18px;
     }
     .component__options__buttons .options__up img {

@@ -1,6 +1,14 @@
 <template>
     <div class="component__options__buttons component__remove">
         <div
+            @click="elementAction('flipElement')"
+            v-if="componentData.elementData.elementOptions"
+            class="component__options--button options__arrows options__action"
+        >
+            <img src="~/static/imgs/flip-icon.png" class="options__flip__img"/>
+        </div>
+
+        <div
             @click="moveElementUp"
             @mouseover="toggleTooltip('uparrow')"
             @mouseleave="toggleTooltip('uparrow')"
@@ -108,24 +116,34 @@ export default {
         }
     },
     methods: {
+        elementAction(actionName) {
+            let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            newComponentData.componentChanges += 1;
+            let info = {
+                componentData: newComponentData,
+                uniqueName: newComponentData.uniqueName,
+                actionName: actionName
+            };
+            this.$nuxt.$emit('elementAction', info);
+        },
         toggleTooltip(name) {
             setTimeout(() => { 
                 this.showTooltips[name] = !this.showTooltips[name];
                 this.toolTipShows += 1;
             }, 800);
         },
-        optionsToggle() {
-            let info = {
-                componentData: this.componentData
-            };
-            this.$nuxt.$emit("toggleOptions", info);
-        },
+        // optionsToggle() {
+        //     let info = {
+        //         componentData: this.componentData
+        //     };
+        //     this.$nuxt.$emit("toggleOptions", info);
+        // },
         removeElement() {
-            let info = {
-                componentData: this.componentData,
-                uniqueName: this.componentData.uniqueName,
-                componentIndex: event.target.getAttribute("data-component-number")
-            };
+            // let info = {
+            //     componentData: this.componentData,
+            //     uniqueName: this.componentData.uniqueName,
+            //     componentIndex: event.target.getAttribute("data-component-number")
+            // };
             this.$nuxt.$emit('removeElement', this.componentData.uniqueName);
         },
         removeElementFromGroup() {

@@ -1,0 +1,8 @@
+{
+    "elementOptions": {
+        "flipped": {
+            "boolean": true,
+            "description": "Flip Element Over Visually"
+        }
+    }
+}
