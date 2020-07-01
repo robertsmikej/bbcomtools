@@ -28,9 +28,9 @@
                     {{ componentData.elementData.imgSrc}}
                 </div>
             </div>
-            <div 
+            <!-- <div 
                 class="page__ihp__text__container"
-            >
+            > -->
                 <div 
                     class="page__ihp__text__header page__ihp__container component__container"
                 >
@@ -69,7 +69,7 @@
                         :parentData="this.componentData"
                     />
                 </div>
-            </div>
+            <!-- </div> -->
             <Optionsbuttons
                 :componentData="componentData"
                 :group="group"

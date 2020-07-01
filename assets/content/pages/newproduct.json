@@ -38,7 +38,7 @@
             "componentName": "Imageheaderpara",
             "elementType": "row",
             "newElementData": {
-                "headerText": "New Header",
+                "headerText": "Key Ingredients",
                 "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "elementOptions": {
@@ -52,7 +52,7 @@
             "componentName": "Imageheaderpara",
             "elementType": "row",
             "newElementData": {
-                "headerText": "New Header",
+                "headerText": "Support Your Goals",
                 "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "elementOptions": {
@@ -66,7 +66,7 @@
             "componentName": "Imageheaderpara",
             "elementType": "row",
             "newElementData": {
-                "headerText": "New Header",
+                "headerText": "Good To Know",
                 "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "elementOptions": {
@@ -80,14 +80,14 @@
             "componentName": "Imageheaderpara",
             "elementType": "row",
             "newElementData": {
-                "headerText": "New Header",
+                "headerText": "About The Brand",
                 "paraText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "elementOptions": {
                     "flipped": {
                         "boolean": true
                     }
-                }  
+                }
             }
         }
     ]

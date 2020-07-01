@@ -18,6 +18,7 @@
                 <li
                     @blur="updateTarget()"
                     @keydown.enter="enterPressed"
+                    @paste="onListPaste"
                     v-html="item.li"
                     data-input-type="li"
                     class="list__item"
@@ -64,6 +65,20 @@ export default {
         }
     },
     methods: {
+        onListPaste (e) {
+            let pastedData = e.clipboardData.getData('text/html');
+            if (pastedData && pastedData.length > 1000) {
+                let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
+                let dataObj = {
+                    type: "listItems",
+                    newListItems: []
+                };
+                pastedDoc.querySelectorAll("p").forEach(item => {
+                    dataObj.newListItems.push({li: item.textContent.trim()});
+                });
+                this.updateTarget("pasted", dataObj);
+            }
+        },
         focused(e) {
             console.log(e);
         },
@@ -90,14 +105,15 @@ export default {
         //     }
         //     return newObj;
         // },
-        updateTarget(action) {
+        updateTarget(action, pasted) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
                 let info = {
                     newComponentData: newComponentData,
                     event: event,
-                    action: action
+                    action: action,
+                    pasted: pasted
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }

@@ -39,6 +39,7 @@
             </div>
             <div class="bar__buttons">
                 <div class="bar__button" @click="buildCode">Code</div>
+                <div class="bar__button" @click="togglePaste">Paste</div>
             </div>
         </div>
         <div class="built__elements__wrapper">
@@ -86,6 +87,19 @@
                 <div @click="importCode" class="code__command">Import</div>
             </div>
         </div>
+        <div
+            v-if="showPasteBox"
+            class="code__section"
+        >
+            <textarea
+                name="pasteBox"
+                class="code__text__area"
+                @paste="pasteInput"
+            ></textarea>
+            <div class="code__commands">
+                <div @click="togglePaste" class="code__command">Close</div>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -109,6 +123,7 @@ export default {
             pageActions : 0,
             currentComponentName: "",
             showCode: false,
+            showPasteBox: false,
             code: "",
             pageType: "product",
             restrictions: []
@@ -137,19 +152,13 @@ export default {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            console.log(data);
-            // console.log(this.clickedElements.elements[findIn]);
             if (data.actionName === "flipElement") {
-                console.log(data.componentData.elementData.elementOptions.flipped.boolean);
                 data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
-                console.log(data.componentData.elementData.elementOptions.flipped.boolean);
             }
-            // console.log(data);
             let newComponent = {
                 newComponentData: data.componentData
             }
             this.updateTarget(newComponent);
-            // this.clickedElements.elements[findIn].optionsShown = data.optionsBool;
         });
         this.$nuxt.$on('optionsChange', data => {
             let uniqueName = data.componentData.uniqueName;
@@ -191,7 +200,7 @@ export default {
             }
         });
         this.$nuxt.$on('updateTarget', data => {
-            console.log(data);
+            // console.log(data);
             this.updateTarget(data);
         })
 
@@ -223,9 +232,14 @@ export default {
                     let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
                     parentData.elementData.listItems = newListItems;
                 }
+                if (data.action === "pasted" && data.pasted.type === "listItems") {
+                    parentData.elementData.listItems = data.pasted.newListItems;
+                }
                 this.clickedElements.elements[findIn] = parentData;
+            } else if (data.action === "pasted" && data.pasted.type === "listItems") {
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn].elementData.listItems = data.pasted.newListItems;
             } else if (data.action === "addListItem" || data.action === "deleteListItem") {
-
                 let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
                 newComponentData.elementData.listItems = newListItems;
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -418,6 +432,33 @@ export default {
         //CODE FUNCTIONS
         //CODE FUNCTIONS
         //CODE FUNCTIONS
+        togglePaste: function () {
+            this.showPasteBox = !this.showPasteBox;
+        },
+        pasteInput: function (e) {
+            let pastedData = e.clipboardData.getData('text/html');
+            if (pastedData && pastedData.length > 1000) {
+                let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
+                let pastedChildren = pastedDoc.children;
+
+                Array.from(pastedChildren).forEach(el => {
+                    console.log(el);
+                    
+                });
+                console.log(pastedDoc);
+                console.log(pastedDoc.children);
+
+
+                // let dataObj = {
+                //     type: "listItems",
+                //     newListItems: []
+                // };
+                // pastedDoc.querySelectorAll("p").forEach(item => {
+                //     dataObj.newListItems.push({li: item.textContent.substr(1).trim()});
+                // });
+                // this.updateTarget("pasted", dataObj);
+            }
+        },
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
