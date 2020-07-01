@@ -1,0 +1,112 @@
+{
+  "title": "Chart",
+  "componentName": "Chart",
+  "pageTypes": ["product", "marketing"],
+  "showLive": true,
+  "types": [
+      {
+          "title": "chart",
+          "type": "chart",
+          "elementData": {
+              "chartRows": [
+                {
+                  "headerRow": [
+                    {
+                      "span": "Size"
+                    },
+                    {
+                      "span": "S"
+                    },
+                    {
+                      "span": "M"
+                    },
+                    {
+                      "span": "L"
+                    },
+                    {
+                      "span": "XL"
+                    }
+                  ]
+                },
+                {
+                  "chartRow": [
+                    {
+                      "span": "Neck"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    }
+                  ]
+                },
+                {
+                  "chartRow": [
+                    {
+                      "span": "Chest"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    }
+                  ]
+                },
+                {
+                  "chartRow": [
+                    {
+                      "span": "Sleeve"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    }
+                  ]
+                },
+                {
+                  "chartRow": [
+                    {
+                      "span": "length"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    },
+                    {
+                      "span": "0"
+                    }
+                  ]
+                }   
+              ]
+          },
+          "img": ""
+      }
+  ]
+}
