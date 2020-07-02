@@ -1,9 +1,21 @@
 <template>
   <div class="page__component">
-    <div v-for="(chartRow, index) in chartRows" 
-    :key="componentData.uniqueName + index"
+    <component
+            :is="componentData.type"
+            @blur="updateTarget"
+            @focus="focused"
+            data-input-types="['chartRows']"
+            data-input-type="chartRows"
+            :data-component-type="componentData.componentName"
+            contenteditable
+            v-html="componentData.elementData.chartRows"
+            class="page__chart site__element"
     >
-    </div>
+            <Optionsbuttons
+            v-if="componentData.optionsShown"
+            :componentData="componentData"
+        />
+    </component>
   </div>
 </template>
 

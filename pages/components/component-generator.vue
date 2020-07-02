@@ -362,6 +362,7 @@ export default {
         },
         createComponent: function (typeOfCreate, importData) {
             // console.group("buildcomp");
+            // console.log(event.currentTarget)
             let newNumber = this.clickedElements.numberOfComponents;
             let compname;
             let comptype;
