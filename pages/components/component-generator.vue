@@ -309,8 +309,8 @@ export default {
 
         addChartRow(event) {
             let newChartRows = this.getNewChartRows(event);
-            let clickedRow = this.getClickedChartRow(event, newChartRows);
-            newChartRows.splice(clickedRow + 1, 0, { type: "chartRow",
+            // let clickedRow = this.getClickedChartRow(event, newChartRows);
+            newChartRows.push({ type: "chartRow",
                   row: [
                     { span: "Other" },
                     { span: "0" },
@@ -323,28 +323,34 @@ export default {
         },
         deleteChartRow(event) {
             let newChartRows = this.getNewChartRows(event);
-            let clickedRow = this.getClickedChartRow(event, newChartRows);
-            newChartRows.splice(clickedRow, 1);
+            // let clickedRow = this.getClickedChartRow(event, newChartRows);
+            // newChartRows.splice(clickedRow, 1);
             return newChartRows;
         },
         getNewChartRows(event) {
-            let newChartRows = event.target.closest(".site__element").getElementsByTagName("div");
-            console.log(newChartRows);
-            // let newChartArr = Array.from(newChartRows).map(function (div) {
-            //     return {
-            //         { type: "chartRow",
-            //         row: [
-            //         { span: "Other" },
-            //         { span: "0" },
-            //         { span: "0" },
-            //         { span: "0" },
-            //         { span: "0" }
-            //       ]
-            //     ,}
-            //     }
-            // });
-        },
+            let newChartRows = event.target.closest(".site__element").getElementsByClassName("chart__row");
+            
+            console.log(Array.from(newChartRows));
+            let newChartArr = Array.from(newChartRows).map(function (div) {
+                let children = Array.from(div.children);
 
+                return {
+                     row: [
+                         {span: children[0].innerText},
+                         {span: children[1].innerText},
+                         {span: children[2].innerText},
+                         {span: children[3].innerText},
+                         {span: children[4].innerText},
+                     ]
+                }
+            });
+            console.log(newChartArr)
+            return newChartArr;
+        },
+        // getClickedChartRow(event, newChartRows) {
+        //     let clickedItem = -1;
+
+        // },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
@@ -366,6 +372,7 @@ export default {
             return newListItems;
         },
         getNewListItems(event) {
+            console.log(event.target.closest(".site__element").getElementsByTagName("li"))
             let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
             let newLiArr = Array.from(newListItems).map(function (li) {
                 return {

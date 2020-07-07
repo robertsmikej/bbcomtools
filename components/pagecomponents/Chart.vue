@@ -39,10 +39,10 @@
                 </div>
                 </div>
     </div>
-                <Optionsbuttons
+                <!-- <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"
-        />
+        /> -->
   </div>
 </template>
 
@@ -100,6 +100,6 @@ export default {
   margin:0 2px ;
 }
 .page__chart {
-  width: 90%
+  width: 95%
 }
 </style>
