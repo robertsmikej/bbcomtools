@@ -244,7 +244,13 @@ export default {
                 newComponentData.elementData.listItems = newListItems;
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
-            } else {
+            } else if (data.action === "addChartRow" || data.action === "deleteChartRow") {
+                let newChartRows = data.action === "addChartRow" ? this.addChartRow(data.event) : this.deleteChartRow(data.event);
+                newComponentData.elementData.chartRows = newChartRows;
+               let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+                }
+            else {
                 let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -295,6 +301,53 @@ export default {
             }
             return newObj;
         },
+
+
+        //CHART FUNCTIONS
+        //CHART FUNCTIONS
+        //CHART FUNCTIONS
+
+        addChartRow(event) {
+            let newChartRows = this.getNewChartRows(event);
+            let clickedRow = this.getClickedChartRow(event, newChartRows);
+            newChartRows.splice(clickedRow + 1, 0, { type: "chartRow",
+                  row: [
+                    { span: "Other" },
+                    { span: "0" },
+                    { span: "0" },
+                    { span: "0" },
+                    { span: "0" }
+                  ]
+                ,});
+                return newChartRows;
+        },
+        deleteChartRow(event) {
+            let newChartRows = this.getNewChartRows(event);
+            let clickedRow = this.getClickedChartRow(event, newChartRows);
+            newChartRows.splice(clickedRow, 1);
+            return newChartRows;
+        },
+        getNewChartRows(event) {
+            let newChartRows = event.target.closest(".site__element").getElementsByTagName("div");
+            console.log(newChartRows);
+            // let newChartArr = Array.from(newChartRows).map(function (div) {
+            //     return {
+            //         { type: "chartRow",
+            //         row: [
+            //         { span: "Other" },
+            //         { span: "0" },
+            //         { span: "0" },
+            //         { span: "0" },
+            //         { span: "0" }
+            //       ]
+            //     ,}
+            //     }
+            // });
+        },
+
+        //END CHART FUNCTIONS
+        //END CHART FUNCTIONS
+        //END CHART FUNCTIONS
         
 
         //LIST FUNCTIONS

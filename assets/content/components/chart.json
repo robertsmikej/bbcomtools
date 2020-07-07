@@ -10,7 +10,8 @@
           "elementData": {
               "chartRows": [
                 {
-                  "headerRow": [
+                  "type": "headerRow",
+                  "row": [
                     {
                       "span": "Size"
                     },
@@ -28,8 +29,8 @@
                     }
                   ]
                 },
-                {
-                  "chartRow": [
+                { "type": "chartRow",
+                  "row": [
                     {
                       "span": "Neck"
                     },
@@ -47,8 +48,8 @@
                     }
                   ]
                 },
-                {
-                  "chartRow": [
+                {"type": "chartRow",
+                  "row": [
                     {
                       "span": "Chest"
                     },
@@ -66,8 +67,8 @@
                     }
                   ]
                 },
-                {
-                  "chartRow": [
+                {"type": "chartRow",
+                  "row": [
                     {
                       "span": "Sleeve"
                     },
@@ -85,8 +86,8 @@
                     }
                   ]
                 },
-                {
-                  "chartRow": [
+                {"type": "chartRow",
+                  "row": [
                     {
                       "span": "length"
                     },
