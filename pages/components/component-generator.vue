@@ -417,7 +417,7 @@ export default {
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            // console.log(newComponent)
+            console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
             // console.groupEnd("buildcomp");

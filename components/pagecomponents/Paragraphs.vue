@@ -6,9 +6,10 @@
             data-input-type="paraText"
             :data-component-type="componentData.componentName"
             contenteditable
-            v-html="componentData.elementData.paraText"
             class="page__para site__element"
-        ></p>
+        >
+            {{ componentData.elementData.paraText }}
+        </p>
         <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"

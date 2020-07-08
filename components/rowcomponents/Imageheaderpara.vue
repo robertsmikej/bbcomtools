@@ -4,28 +4,39 @@
             data-input-types="['headerText', 'imgSrc', 'paraText', 'listItems']"
             :data-component-type="componentData.componentName"
             :data-component-sub-type="componentData.type"
-            :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--' + componentData.elementData.elementOptions.flipped.boolean]"
+            :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--flipped--' + componentData.elementData.elementOptions.flipped.boolean]"
             class="page__ihp" 
         >
             <div 
                 class="page__ihp__image__container page__external__data__container"
             >
                 <img
-                    @click="toggleImgOptions"
+                    @click="toggleOptions"
                     :key="numberOfActions"
                     :src="componentData.elementData.imgSrc"
-                    :alt="componentData.elementData.headerText"
+                    :alt="componentData.elementData.imgAlt"
                     data-input-type="imgSrc"
                     class="page__ihp__image site__element"
                 />
                 <!-- {{componentData.elementData}} -->
                 <div
-                    @blur="updateTarget"
-                    v-show="componentData.optionsShown"
-                    contenteditable
-                    class="options__editable options__editable__bottom component__remove"
+                    v-show="this.optionsShown"
+                    class="options__editable__bottom"
                 >
-                    {{ componentData.elementData.imgSrc}}
+                    <div
+                        @blur="updateTarget"
+                        contenteditable
+                        class="options__editable component__remove"
+                    >
+                        {{ componentData.elementData.imgAlt }}
+                    </div>
+                    <div
+                        @blur="updateTarget"
+                        contenteditable
+                        class="options__editable component__remove"
+                    >
+                        {{ componentData.elementData.imgSrc }}
+                    </div>
                 </div>
             </div>
             <!-- <div 
@@ -37,10 +48,11 @@
                     <h4
                         @blur="updateTarget"
                         contenteditable
-                        v-html="componentData.elementData.headerText"
                         data-input-type="headerText"
                         class="page__header--h4 page__ihp__header site__element"
-                    ></h4>
+                    >
+                        {{ componentData.elementData.headerText }}
+                    </h4>
                 </div>
                 
                 <div
@@ -50,10 +62,11 @@
                     <p
                         @blur="updateTarget"
                         contenteditable
-                        v-html="componentData.elementData.paraText"
                         data-input-type="paraText"
                         class="page__para site__element"
-                    ></p>
+                    >
+                        {{ componentData.elementData.paraText }}
+                    </p>
                 </div>
                 <div
                     v-if="componentData.type === 'list'"
@@ -92,9 +105,10 @@ export default {
         return {
             numberOfActions: 0,
             numberOfListActions: 0,
-            headerText: "New Header",
-            paraText: "New Pararara",
-            imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+            // headerText: "New Header",
+            // paraText: "New Pararara",
+            // imgSrc: "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+            // imgAlt: "",
             listComponent: {
                 componentName: "List",
                 componentChanges: 0,
@@ -111,6 +125,7 @@ export default {
                 },
                 optionsShown: true
             },
+            optionsShown: true
         };
     },
     mounted() {
@@ -128,29 +143,29 @@ export default {
         })
     },
     methods: {
-        getText(obj) {
-            if (obj) {
-                return obj.text; 
-            }
-        },
-        grabTexts(els) {
-            let newObj = {};
-            let listArr = [];
-            Array.from(els).forEach(element => {
-                let textType = element.getAttribute("data-input-type");
-                if (element.nodeName === "IMG") {
-                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-                } else if (element.nodeName === "LI") {
-                    listArr.push({li: element.innerHTML.trim()});
-                } else {
-                    newObj[textType] = element.innerHTML.trim();
-                }
-            });
-            if (listArr.length > 0) {
-                newObj.listItems = listArr
-            }
-            return newObj;
-        },
+        // getText(obj) {
+        //     if (obj) {
+        //         return obj.text; 
+        //     }
+        // },
+        // grabTexts(els) {
+        //     let newObj = {};
+        //     let listArr = [];
+        //     Array.from(els).forEach(element => {
+        //         let textType = element.getAttribute("data-input-type");
+        //         if (element.nodeName === "IMG") {
+        //             newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+        //         } else if (element.nodeName === "LI") {
+        //             listArr.push({li: element.innerHTML.trim()});
+        //         } else {
+        //             newObj[textType] = element.innerHTML.trim();
+        //         }
+        //     });
+        //     if (listArr.length > 0) {
+        //         newObj.listItems = listArr
+        //     }
+        //     return newObj;
+        // },
         updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
@@ -200,8 +215,9 @@ export default {
         //         newComponentData.componentChanges += 1;
         //     }
         // },
-        toggleImgOptions() {
-            this.componentData.optionsShown = !this.componentData.optionsShown;
+        toggleOptions() {
+            console.log('thiasdf')
+            this.optionsShown = !this.optionsShown;
         }
     }
 }

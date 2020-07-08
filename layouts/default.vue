@@ -235,23 +235,27 @@
     }
     .options__editable__bottom {
         width: 100%;
-        position: absolute;
+        /* position: absolute;
         bottom: 30px;
-        left: 0;
+        left: 0; */
         padding: 5px;
         z-index: 3;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-content: flex-start;
         align-items: center;
         justify-content: center;
         opacity: 1;
         background: #FFF;
-        word-break: break-all;
-        border: 1px solid #232323;
     }
-    
+    .options__editable {
+        width: 100%;
+        border: 1px solid #232323;
+        word-break: break-all;
+        padding: 5px;
+        margin-bottom: 4px;
+    }
     .component__options__advanced {
 
     }
