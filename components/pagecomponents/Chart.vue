@@ -75,7 +75,6 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-            console.log(newComponentData)
         },
                 focused(e) {
             console.log(e);

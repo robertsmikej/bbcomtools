@@ -252,15 +252,12 @@ export default {
                 }
             else if (newComponentData.type === "chart") {
                 let textsToGrab = this.getChartRows(data.event);
-                console.log(textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 newComponentData.elementData.chartRows = textsToGrab;
                 this.clickedElements.elements[findIn] = newComponentData;
-                console.log(data.event, findIn, textsToGrab);
             }
             else {
                 let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
-                console.log(newComponentData.elementData, textsToGrab);
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -301,9 +298,6 @@ export default {
                     newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
                 } else if (element.nodeName === "LI") {
                     listArr.push({li: element.innerHTML.trim()});
-                // else if (element.nodeName === "") {
-
-                // }
                 } else {
                     newObj[textType] = element.innerHTML.trim();
                 }
@@ -320,33 +314,31 @@ export default {
         //CHART FUNCTIONS
 
         addChartRow(event) {
-            let newChartRows = this.getChartRows(event);
-            // let clickedRow = this.getClickedChartRow(event, newChartRows);
-            newChartRows.push({ type: "chartRow",
-                  row: [
-                    { cell: "Other" },
-                    { cell: "0" },
-                    { cell: "0" },
-                    { cell: "0" },
-                    { cell: "0" }
-                  ]
-                ,});
-                return newChartRows;
+            let rowToAdd = {type: "chartRow", 
+            row: [
+                {cell: "Other"}
+            ]}
+            let chartRows = this.getChartRows(event);
+            console.log(chartRows)
+            let clickedRow = this.getClickedChartRow(event, chartRows);
+            for(let i = 0; i<chartRows[0].row.length -1; i++) {
+               rowToAdd.row.push({cell: "0"})
+            }
+            chartRows.splice(clickedRow + 1, 0, rowToAdd);
+            return chartRows;
         },
         deleteChartRow(event) {
-            let newChartRows = this.getChartRows(event);
-            // let clickedRow = this.getClickedChartRow(event, newChartRows);
-            // newChartRows.splice(clickedRow, 1);
-            return newChartRows;
+            let chartRows = this.getChartRows(event);
+            let clickedRow = this.getClickedChartRow(event, chartRows);
+            chartRows.splice(clickedRow, 1);
+            return chartRows;
         },
         getChartRows(event) {
             let newChartRows = event.target.closest(".site__element").getElementsByClassName("chart__row");
-            // let newChildren = this.getChartRowCells();
             let newChartArr = Array.from(newChartRows).map((div) => {
                 let newChildren = this.getChartRowCells(div.children);
                 return {row: newChildren}
             });
-            console.log(newChartArr)
             return newChartArr;
         },
         getChartRowCells(data) {
@@ -358,10 +350,19 @@ export default {
             }
             return newChildrenArray;
         },
-        // getClickedChartRow(event, newChartRows) {
-        //     let clickedItem = -1;
-
-        // },
+        getClickedChartRow(event, chartRows) {
+            let clickedItem = -1;
+           let chartRowArray = Array.from(chartRows);
+           chartRowArray.forEach((chartRow, index) => {
+               let chartText = chartRow.row[0].cell.trim().toLowerCase();
+               let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
+               console.log(chartText, eventText);
+               if(chartText === eventText) {
+                   clickedItem = index;
+               }
+           });
+           return clickedItem;
+        },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
@@ -383,7 +384,6 @@ export default {
             return newListItems;
         },
         getNewListItems(event) {
-            console.log(event.target.closest(".site__element").getElementsByTagName("li"))
             let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
             let newLiArr = Array.from(newListItems).map(function (li) {
                 return {
