@@ -2,7 +2,6 @@
   <div class="page__component">
     <div
       data-input-types="['chart']"
-      data-input-type="chart"
       :data-component-type="componentData.componentName"
       class="page__chart site__element component__wrapper"
     >
@@ -15,19 +14,17 @@
           <div
           v-for="(row,index) in chartRow.row" 
           :key="index"
-          data-input-type="row"
           class="chart__item"
                   >
-             <span
-             v-for="(span, index) in row"
+             <div
+             v-for="(cell, index) in row"
              :key="index"
              contenteditable
             @blur="updateTarget()"
-            @keydown.enter="enterPressed"
-            class="chart__item__span"
+            class="chart__item__cell"
              >
-             {{span}}
-             </span>
+             {{cell}}
+             </div>
                   </div>
       
                   <div
@@ -39,15 +36,21 @@
                 </div>
                 </div>
     </div>
-                <!-- <Optionsbuttons
+                <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"
-        /> -->
+        />
   </div>
 </template>
 
 <script>
 export default {
+  // data: {
+  //   styleObj: {
+  //       gridTemplateColumns: 'repeat(5, 1fr)',
+  //   },
+  //   numberOfRows: 5
+  // },
     props: {
         type: String,
         componentData: Object,
@@ -60,7 +63,8 @@ export default {
       }
     },
     methods: {
-        updateTarget(action, pasted) {
+        updateTarget(action) {
+          event.preventDefault();
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
@@ -71,7 +75,16 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        }
+            console.log(newComponentData)
+        },
+                focused(e) {
+            console.log(e);
+        },
+        //   enterPressed(e) {
+        //     e.preventDefault();
+        //     this.updateTarget("addChartRow");
+        //     this.componentData.componentChanges += 1;
+        // },
 
     }
 }
@@ -80,8 +93,9 @@ export default {
 <style>
 .chart__row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
   max-width: 750px;
+  grid-template-columns: repeat(5, 1fr);
+  position: relative;
 }
 .chart__row:nth-of-type(1) .chart__item:nth-of-type(1) {
   background-color: transparent;

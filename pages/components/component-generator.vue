@@ -250,8 +250,17 @@ export default {
                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
                 }
+            else if (newComponentData.type === "chart") {
+                let textsToGrab = this.getChartRows(data.event);
+                console.log(textsToGrab);
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                newComponentData.elementData.chartRows = textsToGrab;
+                this.clickedElements.elements[findIn] = newComponentData;
+                console.log(data.event, findIn, textsToGrab);
+            }
             else {
                 let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+                console.log(newComponentData.elementData, textsToGrab);
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -292,6 +301,9 @@ export default {
                     newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
                 } else if (element.nodeName === "LI") {
                     listArr.push({li: element.innerHTML.trim()});
+                // else if (element.nodeName === "") {
+
+                // }
                 } else {
                     newObj[textType] = element.innerHTML.trim();
                 }
@@ -308,44 +320,43 @@ export default {
         //CHART FUNCTIONS
 
         addChartRow(event) {
-            let newChartRows = this.getNewChartRows(event);
+            let newChartRows = this.getChartRows(event);
             // let clickedRow = this.getClickedChartRow(event, newChartRows);
             newChartRows.push({ type: "chartRow",
                   row: [
-                    { span: "Other" },
-                    { span: "0" },
-                    { span: "0" },
-                    { span: "0" },
-                    { span: "0" }
+                    { cell: "Other" },
+                    { cell: "0" },
+                    { cell: "0" },
+                    { cell: "0" },
+                    { cell: "0" }
                   ]
                 ,});
                 return newChartRows;
         },
         deleteChartRow(event) {
-            let newChartRows = this.getNewChartRows(event);
+            let newChartRows = this.getChartRows(event);
             // let clickedRow = this.getClickedChartRow(event, newChartRows);
             // newChartRows.splice(clickedRow, 1);
             return newChartRows;
         },
-        getNewChartRows(event) {
+        getChartRows(event) {
             let newChartRows = event.target.closest(".site__element").getElementsByClassName("chart__row");
-            
-            console.log(Array.from(newChartRows));
-            let newChartArr = Array.from(newChartRows).map(function (div) {
-                let children = Array.from(div.children);
-
-                return {
-                     row: [
-                         {span: children[0].innerText},
-                         {span: children[1].innerText},
-                         {span: children[2].innerText},
-                         {span: children[3].innerText},
-                         {span: children[4].innerText},
-                     ]
-                }
+            // let newChildren = this.getChartRowCells();
+            let newChartArr = Array.from(newChartRows).map((div) => {
+                let newChildren = this.getChartRowCells(div.children);
+                return {row: newChildren}
             });
             console.log(newChartArr)
             return newChartArr;
+        },
+        getChartRowCells(data) {
+            let childrenArray = Array.from(data);
+            childrenArray.pop();
+            let newChildrenArray =[];
+            for(let i=0; i<childrenArray.length; i++) {
+                newChildrenArray.push({cell: childrenArray[i].innerText})
+            }
+            return newChildrenArray;
         },
         // getClickedChartRow(event, newChartRows) {
         //     let clickedItem = -1;

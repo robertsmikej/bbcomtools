@@ -6,102 +6,102 @@
   "types": [
       {
           "title": "chart",
-          "type": "div",
+          "type": "chart",
           "elementData": {
               "chartRows": [
                 {
                   "type": "headerRow",
                   "row": [
                     {
-                      "span": "Size"
+                      "cell": "Size"
                     },
                     {
-                      "span": "S"
+                      "cell": "S"
                     },
                     {
-                      "span": "M"
+                      "cell": "M"
                     },
                     {
-                      "span": "L"
+                      "cell": "L"
                     },
                     {
-                      "span": "XL"
+                      "cell": "XL"
                     }
                   ]
                 },
                 { "type": "chartRow",
                   "row": [
                     {
-                      "span": "Neck"
+                      "cell": "Neck"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "span": "Chest"
+                      "cell": "Chest"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "span": "Sleeve"
+                      "cell": "Sleeve"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "span": "Length"
+                      "cell": "Length"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     },
                     {
-                      "span": "0"
+                      "cell": "0"
                     }
                   ]
                 }   

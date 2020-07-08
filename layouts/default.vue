@@ -252,9 +252,7 @@
         border: 1px solid #232323;
     }
     
-    .component__options__advanced {
 
-    }
     .component__options input, .component__options textarea {
         flex: 1;
         border: 1px solid var(--site-grey-very-light);
