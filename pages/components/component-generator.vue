@@ -239,7 +239,7 @@ export default {
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn].elementData.listItems = data.pasted.newListItems;
             } else if (data.action === "addListItem" || data.action === "deleteListItem") {
-                let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
                 newComponentData.elementData.listItems = newListItems;
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -249,6 +249,13 @@ export default {
                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
                 }
+            else if (data.action === "addChartColumn" || data.action === "deleteChartColumn") {
+                let newChartRows = data.action === "addChartColumn" ? this.addChartColumn(data.event) : this.deleteChartColumn(data.event);
+                newComponentData.elementData.chartRows = newChartRows;
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+               
+            }
             else if (newComponentData.type === "chart") {
                 let textsToGrab = this.getChartRows(data.event);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -311,7 +318,13 @@ export default {
         //CHART FUNCTIONS
         //CHART FUNCTIONS
         //CHART FUNCTIONS
-
+        addChartColumn(event) {
+            let chartRows = this.getChartRows(event);
+            chartRows.forEach(chartRow => {
+                chartRow.row.push({cell: "New"});
+            });
+            return chartRows;
+        },
         addChartRow(event) {
             let rowToAdd = {type: "chartRow", 
             row: [
@@ -323,6 +336,13 @@ export default {
                 rowToAdd.row.push({cell: "0"})
             }
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
+            return chartRows;
+        },
+        deleteChartColumn(event) {
+            let chartRows = this.getChartRows(event);
+            chartRows.forEach(chartRow => {
+                chartRow.row.pop();
+            });
             return chartRows;
         },
         deleteChartRow(event) {
@@ -342,23 +362,30 @@ export default {
         getChartRowCells(data) {
             let childrenArray = Array.from(data);
             childrenArray.pop();
+            // console.log(childrenArray[0])
             let newChildrenArray =[];
             childrenArray.forEach( (el, index) => {
-                newChildrenArray.push({cell: childrenArray[index].innerText});
+                let cleanStr = this.trimButtonTextFromCellText(childrenArray[index].innerText);
+                newChildrenArray.push({cell: cleanStr});
             })
             return newChildrenArray;
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
-           let chartRowArray = Array.from(chartRows);
-           chartRowArray.forEach((chartRow, index) => {
+            let chartRowArray = Array.from(chartRows);
+            chartRowArray.forEach((chartRow, index) => {
                let chartText = chartRow.row[0].cell.trim().toLowerCase();
                let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
-               if(chartText === eventText) {
+               eventText = this.trimButtonTextFromCellText(eventText);               if(chartText === eventText.trim()) {
                    clickedItem = index;
                }
-           });
-           return clickedItem;
+            });
+            return clickedItem;
+        },
+        trimButtonTextFromCellText(strToTrim) {
+            let strTrimmings = strToTrim.substr(-3);
+            let desiredStrLength = strToTrim.length - strTrimmings.length;
+            return strToTrim.substr(0, desiredStrLength);
         },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS

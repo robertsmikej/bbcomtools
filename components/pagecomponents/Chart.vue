@@ -25,7 +25,16 @@
             class="chart__item__cell"
              >
              {{cell}}
+
              </div>
+                                            <div
+                v-if="componentData.optionsShown"
+                class="component__options__buttons component__remove"
+            >
+                <div @click="updateTarget('addChartColumn')" class="component__options--button">+</div>
+                <div @click="updateTarget('deleteChartColumn')" class="component__options--button">X</div>
+                </div>
+               
                   </div>
       
                   <div
@@ -49,9 +58,8 @@ export default {
   data() {
   return {
      gridStyle: {
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: `repeat(${this.componentData.elementData.chartRows[0].row.length}, 1fr)`,
     },
-    numberOfRows: 5
   }
   },
     props: {
@@ -67,9 +75,8 @@ export default {
     },
     methods: {
         updateTarget(action) {
-          event.preventDefault();
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
                 let info = {
                     newComponentData: newComponentData,
@@ -79,14 +86,6 @@ export default {
                 this.$nuxt.$emit("updateTarget", info);
             }
         },
-                focused(e) {
-            console.log(e);
-        },
-        //   enterPressed(e) {
-        //     e.preventDefault();
-        //     this.updateTarget("addChartRow");
-        //     this.componentData.componentChanges += 1;
-        // },
 
     }
 }
@@ -113,7 +112,8 @@ export default {
 .chart__item {
   text-align: center;
   padding: 10px 0;
-  margin:0 2px ;
+  margin:0 2px;
+  position: relative;
 }
 .page__chart {
   width: 95%
