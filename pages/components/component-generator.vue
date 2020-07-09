@@ -333,7 +333,7 @@ export default {
             let chartRows = this.getChartRows(event);
             let clickedRow = this.getClickedChartRow(event, chartRows);
             while(rowToAdd.row.length < chartRows[0].row.length) {
-                rowToAdd.row.push({cell: "0"})
+                rowToAdd.row.push({cell: "0\""})
             }
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
             return chartRows;
