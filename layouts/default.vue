@@ -235,9 +235,9 @@
     }
     .options__editable__bottom {
         width: 100%;
-        /* position: absolute;
+        position: absolute;
         bottom: 30px;
-        left: 0; */
+        left: 0;
         padding: 5px;
         z-index: 3;
         display: flex;

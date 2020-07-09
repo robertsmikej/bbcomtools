@@ -7,6 +7,7 @@
         {
             "title": "H1",
             "type": "H1",
+            "htmlElement": "H1",
             "elementData": {
                 "headerText": "New H1"
             },
@@ -15,6 +16,7 @@
         {
             "title": "H2",
             "type": "H2",
+            "htmlElement": "H2",
             "group": false,
             "elementData": {
                 "headerText": "New H2"
@@ -24,6 +26,7 @@
         {
             "title": "H3",
             "type": "H3",
+            "htmlElement": "H3",
             "group": false,
             "elementData": {
                 "headerText": "New H3"
@@ -33,6 +36,7 @@
         {
             "title": "H4",
             "type": "H4",
+            "htmlElement": "H4",
             "group": false,
             "elementData": {
                 "headerText": "New H4"
@@ -42,6 +46,7 @@
         {
             "title": "H5",
             "type": "H5",
+            "htmlElement": "H5",
             "group": false,
             "elementData": {
                 "headerText": "New H5"
@@ -51,6 +56,7 @@
         {
             "title": "H6",
             "type": "H6",
+            "htmlElement": "H6",
             "group": false,
             "elementData": {
                 "headerText": "New H6"

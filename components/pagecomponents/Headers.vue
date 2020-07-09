@@ -4,9 +4,6 @@
             :is="componentData.type"
             @blur="updateTarget"
             @focus="focused"
-            data-input-types="['headerText']"
-            data-input-type="headerText"
-            :data-component-type="componentData.componentName"
             contenteditable
             class="page__header site__element"
         >
@@ -20,11 +17,12 @@
 </template>
 
 <script>
+            // data-input-types="['headerText']"
+            // data-input-type="headerText"
+            // :data-component-type="componentData.componentName"
 export default {
     props: {
-        type: String,
-        componentData: Object,
-        group: Boolean
+        componentData: Object
     },
     mounted: function () {
 

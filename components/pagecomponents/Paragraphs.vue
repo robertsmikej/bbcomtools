@@ -2,9 +2,6 @@
     <div class="page__component">
         <p
             @blur="updateTarget"
-            data-input-types="['paraText']"
-            data-input-type="paraText"
-            :data-component-type="componentData.componentName"
             contenteditable
             class="page__para site__element"
         >
@@ -18,6 +15,9 @@
 </template>
 
 <script>
+            // data-input-types="['paraText']"
+            // data-input-type="paraText"
+            // :data-component-type="componentData.componentName"
 export default {
     props: {
         type: String,

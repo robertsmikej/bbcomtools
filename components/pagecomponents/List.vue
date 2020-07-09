@@ -3,15 +3,11 @@
         class="page__component"
     >
         <ul
-            v-if="type === 'ul'"
-            data-input-types="['li']"
             :key="componentData.uniqueName + componentData.componentChanges"
-            :data-component-type="componentData.componentName"
             class="page__ul__list site__element"
         >
             <div
                 v-for="(item, index) in listItems"
-                :data-list-item-number="index"
                 :key="componentData.uniqueName + index"
                 class="component__wrapper"
             >
@@ -19,7 +15,6 @@
                     @blur="updateTarget()"
                     @keydown.enter="enterPressed"
                     @paste="onListPaste"
-                    data-input-type="li"
                     class="list__item"
                     contenteditable
                 >
@@ -42,9 +37,17 @@
 </template>
 
 <script>
+            // in site__element
+            // data-input-types="['li']"
+            // :data-component-type="componentData.componentName"
+
+            // IN component__wrapper
+            //:data-list-item-number="index"
+
+            // in list__item
+            // data-input-type="li"
 export default {
     props: {
-        type: String,
         componentData: Object,
         group: Boolean,
         subgroup: Boolean,
@@ -67,6 +70,7 @@ export default {
     },
     methods: {
         onListPaste (e) {
+            console.log(e.clipboardData.getData('text'));
             //NEED TO FIX SO PEOPLE CAN COPY AND PASTE INDIVIDUAL LIST ITEMS
             
             // let pastedData = e.clipboardData.getData('text/html');

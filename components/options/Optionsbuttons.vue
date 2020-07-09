@@ -116,13 +116,14 @@ export default {
         }
     },
     methods: {
-        elementAction(actionName) {
+        elementAction(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             newComponentData.componentChanges += 1;
             let info = {
                 componentData: newComponentData,
-                uniqueName: newComponentData.uniqueName,
-                actionName: actionName
+                event: event,
+                action: action,
+                uniqueName: newComponentData.uniqueName
             };
             this.$nuxt.$emit('elementAction', info);
         },

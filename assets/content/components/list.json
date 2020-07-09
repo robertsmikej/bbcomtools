@@ -7,12 +7,15 @@
         {
             "title": "UL",
             "type": "ul",
+            "htmlElement": "ul",
             "elementData": {
                 "listItems": [
-                    { 
+                    {
+                        "htmlElement": "li",
                         "li": "New List Item 1"
                     },
                     {
+                        "htmlElement": "li",
                         "li": "New List Item 2"
                     }
                 ]

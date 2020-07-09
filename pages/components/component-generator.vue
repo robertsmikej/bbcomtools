@@ -152,7 +152,9 @@ export default {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            if (data.actionName === "flipElement") {
+            if (data.action === "flipElement") {
+                console.log('here');
+                console.log(data.componentData);
                 data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
             }
             let newComponent = {
@@ -225,11 +227,12 @@ export default {
                 let parentData = newComponentData.parentData;
                 let parentUniqueName = parentData.uniqueName;
                 this.currentComponentName = parentUniqueName;
-                let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll("[data-input-type]"));
+                let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll(".site__element"));
+                console.log(textsToGrab);
                 Object.assign(parentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 if (data.action === "addListItem" || data.action === "deleteListItem") {
-                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
                     parentData.elementData.listItems = newListItems;
                 }
                 if (data.action === "pasted" && data.pasted.type === "listItems") {
@@ -245,7 +248,10 @@ export default {
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
             } else {
-                let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+                console.log(uniqueName);
+
+                let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll(".site__element"));
+                console.log(textsToGrab);
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -281,13 +287,20 @@ export default {
             let newObj = {};
             let listArr = [];
             Array.from(els).forEach(element => {
-                let textType = element.getAttribute("data-input-type");
+                let findInComponents = this.findInComponents(element);
+                let inputType = findInComponents.length > 0 ? Object.keys(findInComponents[0].types[0].elementData)[0] : element.getAttribute("data-input-type");
+                console.log(inputType);
                 if (element.nodeName === "IMG") {
-                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
+                    newObj["imgSrc"] = element.closest(".page__ihp__image__container").querySelector(".options--imgsrc").textContent.trim();
                 } else if (element.nodeName === "LI") {
-                    listArr.push({li: element.innerHTML.trim()});
+                    console.log(element);
+                    listArr.push({li: element.textContent.trim()});
+                } else if (element.nodeName === "UL") {
+                    Array.from(element.children).forEach(el => {
+                        listArr.push({li: el.getElementsByTagName("li")[0].textContent.trim()});
+                    })
                 } else {
-                    newObj[textType] = element.innerHTML.trim();
+                    newObj[inputType] = element.textContent.trim();
                 }
             });
             if (listArr.length > 0) {
@@ -459,27 +472,53 @@ export default {
                 // this.updateTarget("pasted", dataObj);
             }
         },
+        removeAttributes: function (els) {
+            return els.forEach(el => {
+                el.removeAttribute("contenteditable");
+            });
+        },
+        removeElements: function (els) {
+            return els.forEach(el => {
+                el.parentNode.removeChild(el);
+            });
+        },
+        removeClasses: function (codeCopy, arr) {
+            return arr.forEach(arrItem => {
+                let elements = codeCopy.querySelectorAll("." + arrItem);
+                elements.forEach(el => {
+                    el.classList.remove(arrItem);
+                });
+            });
+        },
+        moveChildrenOutOfParents: function (els) {
+            return els.forEach(el =>  {
+                el.outerHTML = el.innerHTML.trim();
+            });
+        },
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
-            codeCopy.querySelectorAll("[contenteditable]").forEach(el => {
-                el.removeAttribute("contenteditable");
-            });
-            codeCopy.querySelectorAll(".component__options, .component__remove").forEach(function (el) {
-                el.parentNode.removeChild(el);
-            });
-            codeCopy.querySelectorAll(".page__component").forEach(function (wrap) {
-                wrap.outerHTML = wrap.innerHTML;
-            });
-            codeCopy.querySelectorAll(".component__remove").forEach(function (el) {
-                el.parentNode.removeChild(el);
-            });
-            codeCopy.querySelectorAll(".site__element").forEach(function (el) {
-                el.removeAttribute("contenteditable")
-            })
+            
+            this.removeAttributes(codeCopy.querySelectorAll("[contenteditable]"));
+            this.removeElements(codeCopy.querySelectorAll(".component__options"));
+            this.removeElements(codeCopy.querySelectorAll(".options__editable__bottom"));
+            this.removeElements(codeCopy.querySelectorAll(".component__remove"));
+            this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".page__component"));
+            this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".component__wrapper"));
+            // this.removeClasses(codeCopy, ["site__element"]);
+
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
             this.code = codeCopy;
             this.showCode = true;
+        },
+        findInComponents: function (element) {
+            return this.components.filter(component => {
+                return component.types.filter(type => {
+                    if (type.htmlElement) {
+                        return type.htmlElement.toLowerCase() === element.nodeName.toLowerCase()
+                    }
+                })[0];
+            });
         },
         importCode: function () {
             this.clickedElements.elements = [];
@@ -488,12 +527,24 @@ export default {
             // console.log(importCode);
             let initialElements = importCode.querySelector(".page__content").children;
             let componentSubDetails;
+            console.log(this.components);
             Array.from(initialElements).forEach(element => {
                 // console.group("1 - Import Data - Element Level");
                 // console.log(element);
-                if (element.nodeName !== "parsererror") {
-                    let componentType = element.getAttribute("data-component-type");
+                if (element.nodeName.toLowerCase() !== "parsererror") {
+                    // console.log(element.nodeName);
                     let componentInfo;
+                    let inputTypes = [];
+                    let elDatas = {};
+                    let findInComponents = this.findInComponents(element);
+                    
+                    
+                    let componentType = findInComponents.length > 0 ? findInComponents[0].types[0].htmlElement : element.getAttribute("data-component-type");
+
+                    console.log(componentType);
+                    
+
+
                     if (element.hasAttribute("data-component-sub-type")) {
                         let subType = element.getAttribute("data-component-sub-type");
                         componentInfo = this.components.filter(component => {
@@ -506,21 +557,21 @@ export default {
                             return types.length > 0;
                         })[0];
                     } else {
-                        componentInfo = this.components.filter(component => {
-                            let elNodeName = element.nodeName.toLowerCase();
-                            let types = component.types.filter(type => {
-                                if (type.type.toLowerCase() === elNodeName) {
-                                    componentSubDetails = type;
-                                    return type
-                                }
-                            });
-                            return types.length > 0;
-                        })[0];
+                        componentInfo = findInComponents[0];
+                        componentSubDetails = {};
+                        componentSubDetails.type = findInComponents[0].types[0].type;
                     }
-                    let componentInputTypes = JSON.parse(element.getAttribute("data-input-types").replace(/'/g,'"'));
-                    // console.log(componentInputTypes);
-                    let elDatas = {};
-                    componentInputTypes.forEach(type => {
+
+
+
+                    if (element.getAttribute("data-input-types")) {
+                        inputTypes = JSON.parse(element.getAttribute("data-input-types").replace(/'/g,'"'));
+                    } else {
+                        console.log(element);
+                        inputTypes = [];
+                    }
+                    
+                    inputTypes.forEach(type => {
                         if (element.hasAttribute("data-input-type")) {
                             elDatas[type] = element.innerHTML;
                         } else {
