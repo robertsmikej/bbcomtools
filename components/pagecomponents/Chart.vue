@@ -10,6 +10,7 @@
         :data-list-item-number="index"
         :key="componentData.uniqueName + index"
         class="chart__row"
+        :style="gridStyle"
         >
           <div
           v-for="(row,index) in chartRow.row" 
@@ -45,12 +46,14 @@
 
 <script>
 export default {
-  // data: {
-  //   styleObj: {
-  //       gridTemplateColumns: 'repeat(5, 1fr)',
-  //   },
-  //   numberOfRows: 5
-  // },
+  data() {
+  return {
+     gridStyle: {
+        gridTemplateColumns: 'repeat(5, 1fr)',
+    },
+    numberOfRows: 5
+  }
+  },
     props: {
         type: String,
         componentData: Object,
@@ -93,7 +96,7 @@ export default {
 .chart__row {
   display: grid;
   max-width: 750px;
-  grid-template-columns: repeat(5, 1fr);
+  /* grid-template-columns: repeat(5, 1fr); */
   position: relative;
 }
 .chart__row:nth-of-type(1) .chart__item:nth-of-type(1) {

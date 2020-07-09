@@ -200,7 +200,6 @@ export default {
             }
         });
         this.$nuxt.$on('updateTarget', data => {
-            // console.log(data);
             this.updateTarget(data);
         })
 
@@ -319,10 +318,9 @@ export default {
                 {cell: "Other"}
             ]}
             let chartRows = this.getChartRows(event);
-            console.log(chartRows)
             let clickedRow = this.getClickedChartRow(event, chartRows);
-            for(let i = 0; i<chartRows[0].row.length -1; i++) {
-               rowToAdd.row.push({cell: "0"})
+            while(rowToAdd.row.length < chartRows[0].row.length) {
+                rowToAdd.row.push({cell: "0"})
             }
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
             return chartRows;
@@ -345,9 +343,9 @@ export default {
             let childrenArray = Array.from(data);
             childrenArray.pop();
             let newChildrenArray =[];
-            for(let i=0; i<childrenArray.length; i++) {
-                newChildrenArray.push({cell: childrenArray[i].innerText})
-            }
+            childrenArray.forEach( (el, index) => {
+                newChildrenArray.push({cell: childrenArray[index].innerText});
+            })
             return newChildrenArray;
         },
         getClickedChartRow(event, chartRows) {
@@ -356,7 +354,6 @@ export default {
            chartRowArray.forEach((chartRow, index) => {
                let chartText = chartRow.row[0].cell.trim().toLowerCase();
                let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
-               console.log(chartText, eventText);
                if(chartText === eventText) {
                    clickedItem = index;
                }
