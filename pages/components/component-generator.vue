@@ -320,21 +320,29 @@ export default {
         //CHART FUNCTIONS
         addChartColumn(event) {
             let chartRows = this.getChartRows(event);
-            chartRows.forEach(chartRow => {
-                chartRow.row.push({cell: "New"});
+            let clickedCell = this.getClickedCell(event);
+            chartRows.forEach((chartRow, index) => {
+                let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
+                console.log(cellNumber);
+                let newCellKey = `cell${cellNumber+1}`;
+                let cellObj = {};
+                cellObj[newCellKey] = "New";
+                console.log(cellObj)
+                chartRow.row.splice(cellNumber + 1, 0, cellObj);
             });
             return chartRows;
         },
         addChartRow(event) {
             let rowToAdd = {type: "chartRow", 
-            row: [
-                {cell: "Other"}
-            ]}
+            row: []};
             let chartRows = this.getChartRows(event);
             let clickedRow = this.getClickedChartRow(event, chartRows);
-            while(rowToAdd.row.length < chartRows[0].row.length) {
-                rowToAdd.row.push({cell: "0\""})
-            }
+            chartRows[0].row.forEach((el, index) => {
+                let keyStr = `cell${index}`;
+                let cellObj = {};
+                index === 0 ? cellObj[keyStr] = "Other" : cellObj[keyStr] = "0\"";
+                rowToAdd.row.push(cellObj);
+            })
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
             return chartRows;
         },
@@ -362,21 +370,27 @@ export default {
         getChartRowCells(data) {
             let childrenArray = Array.from(data);
             childrenArray.pop();
-            // console.log(childrenArray[0])
             let newChildrenArray =[];
             childrenArray.forEach( (el, index) => {
+                let keyStr = el.children[0].classList[1];
                 let cleanStr = this.trimButtonTextFromCellText(childrenArray[index].innerText);
-                newChildrenArray.push({cell: cleanStr});
+                let cellObj = {};
+                cellObj[keyStr] = cleanStr;
+                newChildrenArray.push(cellObj);
             })
             return newChildrenArray;
+        },
+        getClickedCell(event) {
+            return event.target.closest(".chart__item").children[0].classList[1]
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
-               let chartText = chartRow.row[0].cell.trim().toLowerCase();
+               let chartText = chartRow.row[0].cell0.trim().toLowerCase();
                let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
-               eventText = this.trimButtonTextFromCellText(eventText);               if(chartText === eventText.trim()) {
+               eventText = this.trimButtonTextFromCellText(eventText);          
+                if(chartText === eventText.trim()) {
                    clickedItem = index;
                }
             });

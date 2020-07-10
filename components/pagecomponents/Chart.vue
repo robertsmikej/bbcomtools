@@ -16,13 +16,16 @@
           v-for="(row,index) in chartRow.row" 
           :key="index"
           class="chart__item"
+
                   >
              <div
              v-for="(cell, index) in row"
              :key="index"
              contenteditable
             @blur="updateTarget()"
-            class="chart__item__cell"
+            class='chart__item__cell'
+            :class="index"
+
              >
              {{cell}}
 
@@ -118,4 +121,5 @@ export default {
 .page__chart {
   width: 95%
 }
+
 </style>

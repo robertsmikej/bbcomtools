@@ -307,6 +307,26 @@
         right: 3px;
         padding: 1px 0;
     }
+    /* .component__options__buttons__hover {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        flex: 0;
+        background: #FFF;
+        z-index: 1;
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        padding: 1px 0;
+        visibility: hidden;
+    }
+    .component__options__buttons__hover:hover {
+        visibility: visible;
+    } */
     .component__options--button {
         width: 16px;
         height: 16px;
