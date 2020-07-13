@@ -307,6 +307,23 @@
         right: 3px;
         padding: 1px 0;
     }
+    .component__options__buttons__chartrow {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        flex: 0;
+        background: #FFF;
+        z-index: 1;
+        position: absolute;
+        top: 16px;
+        right: -40px;
+        padding: 1px 0;
+        border: 1px solid lightgray;
+    }
     .component__options__buttons__hover {
         width: auto;
         display: flex;
@@ -331,6 +348,24 @@
         width: 16px;
         height: 16px;
         margin: 2px 5px;
+        background: #FFF;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        text-transform: uppercase;
+        color: var(--site-grey);
+        font-weight: 900;
+        cursor: pointer;
+        align-self: center;
+        position: relative;
+    }
+    .component__options--button--chart {
+        width: 16px;
+        height: 16px;
         background: #FFF;
         border-radius: 50%;
         display: flex;

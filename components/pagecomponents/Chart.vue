@@ -34,18 +34,18 @@
                 v-if="componentData.optionsShown"
                 class="component__options__buttons__hover component__remove"
             >
-                <div @click="updateTarget('addChartColumn')" class="component__options--button ">+</div>
-                <div @click="updateTarget('deleteChartColumn')" class="component__options--button">X</div>
+                <div @click="updateTarget('addChartColumn')" class="component__options--button--chart ">+</div>
+                <div @click="updateTarget('deleteChartColumn')" class="component__options--button--chart">X</div>
                 </div>
                
                   </div>
       
                   <div
                 v-if="componentData.optionsShown"
-                class="component__options__buttons component__remove"
+                class="component__options__buttons__chartrow component__remove"
             >
-                <div @click="updateTarget('addChartRow')" class="component__options--button">+</div>
-                <div @click="updateTarget('deleteChartRow')" class="component__options--button">X</div>
+                <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>
+                <div @click="updateTarget('deleteChartRow')" class="component__options--button--chart">X</div>
                 </div>
                 </div>
     </div>
