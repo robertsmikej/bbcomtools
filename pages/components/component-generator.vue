@@ -329,12 +329,7 @@ export default {
                 cellObj[newCellKey] = "New";
                 chartRow.row.splice(cellNumber + 1, 0, cellObj);
                 chartRow.row.forEach((el, index) => {
-                    let updatedKey = "cell" + index;
-                    let origkey = Object.keys(el)[0];
-                    if( origkey !== updatedKey) {
-                        el[updatedKey] = el[origkey];
-                        delete el[origkey];
-                    }
+                    return this.renumberCellClassNames(el, index);
                 })
             });
             return chartRows;
@@ -355,8 +350,13 @@ export default {
         },
         deleteChartColumn(event) {
             let chartRows = this.getChartRows(event);
+            let clickedCell = this.getClickedCell(event).substr(-1);
+            console.log(clickedCell)
             chartRows.forEach(chartRow => {
-                chartRow.row.pop();
+                chartRow.row.splice(clickedCell, 1);
+                chartRow.row.forEach((el, index) => {
+                    return this.renumberCellClassNames(el, index);
+                })
             });
             return chartRows;
         },
@@ -403,6 +403,14 @@ export default {
                }
             });
             return clickedItem;
+        },
+        renumberCellClassNames(element, index) {
+            let updatedKey = "cell" + index;
+            let origkey = Object.keys(element)[0];
+            if( origkey !== updatedKey) {
+                element[updatedKey] = element[origkey];
+                delete element[origkey];
+            }
         },
         trimButtonTextFromCellText(strToTrim) {
             let strTrimmings = strToTrim.substr(-3);
