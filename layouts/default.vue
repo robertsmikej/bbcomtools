@@ -307,7 +307,7 @@
         right: 3px;
         padding: 1px 0;
     }
-    /* .component__options__buttons__hover {
+    .component__options__buttons__hover {
         width: auto;
         display: flex;
         flex-direction: row;
@@ -322,11 +322,11 @@
         top: 3px;
         right: 3px;
         padding: 1px 0;
-        visibility: hidden;
+        opacity: 0; 
     }
     .component__options__buttons__hover:hover {
-        visibility: visible;
-    } */
+       opacity: 1;
+    }
     .component__options--button {
         width: 16px;
         height: 16px;

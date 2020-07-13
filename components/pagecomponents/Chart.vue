@@ -32,9 +32,9 @@
              </div>
                                             <div
                 v-if="componentData.optionsShown"
-                class="component__options__buttons component__remove"
+                class="component__options__buttons__hover component__remove"
             >
-                <div @click="updateTarget('addChartColumn')" class="component__options--button">+</div>
+                <div @click="updateTarget('addChartColumn')" class="component__options--button ">+</div>
                 <div @click="updateTarget('deleteChartColumn')" class="component__options--button">X</div>
                 </div>
                
@@ -120,6 +120,12 @@ export default {
 }
 .page__chart {
   width: 95%
+}
+.hover__button {
+  display: none;
+}
+.hover__button:hover {
+  display: block;
 }
 
 </style>

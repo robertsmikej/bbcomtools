@@ -321,14 +321,21 @@ export default {
         addChartColumn(event) {
             let chartRows = this.getChartRows(event);
             let clickedCell = this.getClickedCell(event);
+            let newChartRows = [];
             chartRows.forEach((chartRow, index) => {
                 let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
-                console.log(cellNumber);
                 let newCellKey = `cell${cellNumber+1}`;
                 let cellObj = {};
                 cellObj[newCellKey] = "New";
-                console.log(cellObj)
                 chartRow.row.splice(cellNumber + 1, 0, cellObj);
+                chartRow.row.forEach((el, index) => {
+                    let updatedKey = "cell" + index;
+                    let origkey = Object.keys(el)[0];
+                    if( origkey !== updatedKey) {
+                        el[updatedKey] = el[origkey];
+                        delete el[origkey];
+                    }
+                })
             });
             return chartRows;
         },
@@ -387,6 +394,7 @@ export default {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
+                console.log(chartRow)
                let chartText = chartRow.row[0].cell0.trim().toLowerCase();
                let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
                eventText = this.trimButtonTextFromCellText(eventText);          
