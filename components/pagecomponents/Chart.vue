@@ -32,6 +32,7 @@
              </div>
                                             <div
                 v-if="componentData.optionsShown"
+                v-show="index > 0"
                 class="component__options__buttons__hover component__remove"
             >
                 <div @click="updateTarget('addChartColumn')" class="component__options--button--chart ">+</div>
@@ -42,6 +43,7 @@
       
                   <div
                 v-if="componentData.optionsShown"
+                v-show="index > 0"
                 class="component__options__buttons__chartrow component__remove"
             >
                 <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>
