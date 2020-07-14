@@ -1,0 +1,18 @@
+{
+    "title": "Images",
+    "componentName": "Images",
+    "pageTypes": ["product", "marketing"],
+    "showLive": false,
+    "types": [
+        {
+            "title": "IMG",
+            "type": "img",
+            "htmlElement": "img",
+            "elementData": {
+                "imgSrc": "",
+                "imgAlt": ""
+            },
+            "img": ""
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 <template>
     <div class="page__component">
         <div
-            data-input-types="['headerText', 'imgSrc', 'paraText', 'listItems', 'imgAlt']"
             :data-component-type="componentData.componentName"
             :data-component-sub-type="componentData.type"
             :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--flipped--' + componentData.elementData.elementOptions.flipped.boolean]"
@@ -38,55 +37,51 @@
                     </div>
                 </div>
             </div>
-            <!-- <div 
-                class="page__ihp__text__container"
-            > -->
-                <div 
-                    class="page__ihp__text__header page__ihp__container component__container"
+            <div 
+                class="page__ihp__text__header page__ihp__container component__container"
+            >
+                <Headers 
+                    :componentData="headerComponent"
+                    :group=true
+                    :parentData="this.componentData"
+                    :key="this.componentData.uniqueName + pageActions"
+                />
+                <!-- <h4
+                    @blur="updateTarget"
+                    contenteditable
+                    data-input-type="headerText"
+                    class="page__header--h4 page__ihp__header site__element"
                 >
-                    <Headers 
-                        :componentData="headerComponent"
-                        :group=true
-                        :parentData="this.componentData"
-                        :key="this.componentData.uniqueName + pageActions"
-                    />
-                    <!-- <h4
-                        @blur="updateTarget"
-                        contenteditable
-                        data-input-type="headerText"
-                        class="page__header--h4 page__ihp__header site__element"
-                    >
-                        {{ componentData.elementData.headerText }}
-                    </h4> -->
-                </div>
-                
-                <div
-                    v-if="componentData.type !== 'list'"
-                    class="page__ihp__text__para page__ihp__container component__container"
+                    {{ componentData.elementData.headerText }}
+                </h4> -->
+            </div>
+            
+            <div
+                v-if="componentData.type !== 'list'"
+                class="page__ihp__text__para page__ihp__container component__container"
+            >
+                <p
+                    @blur="updateTarget"
+                    contenteditable
+                    class="page__para site__element"
                 >
-                    <p
-                        @blur="updateTarget"
-                        contenteditable
-                        class="page__para site__element"
-                    >
-                        {{ componentData.elementData.paraText }}
-                    </p>
-                </div>
-                <div
-                    v-if="componentData.type === 'list'"
-                    class="page__ihp__list page__ihp__container component__container"
-                >
-                    <List
-                        data-input-type="listItems"
-                        :componentData="listComponent"
-                        :key="this.componentData.uniqueName + pageActions"
-                        :items="componentData"
-                        type="ul"
-                        :group=true
-                        :parentData="this.componentData"
-                    />
-                </div>
-            <!-- </div> -->
+                    {{ componentData.elementData.paraText }}
+                </p>
+            </div>
+            <div
+                v-if="componentData.type === 'list'"
+                class="page__ihp__list page__ihp__container component__container"
+            >
+                <List
+                    data-input-type="listItems"
+                    :componentData="listComponent"
+                    :key="this.componentData.uniqueName + pageActions"
+                    :items="componentData"
+                    type="ul"
+                    :group=true
+                    :parentData="this.componentData"
+                />
+            </div>
             <Optionsbuttons
                 :componentData="componentData"
                 :group="group"

@@ -270,6 +270,14 @@ body .VendorBlock {
     display: grid;
     grid-gap: 14px;
 }
+
+p.page__warning {
+    width: 100%;
+    padding: 5px;
+    text-align: right;
+    margin: 0 auto;
+}
+
 /* ------------------ MEDIA QUERY ------------------ */
 @media screen and (max-width: 950px) {
     .page__banner__header span:nth-of-type(1) {

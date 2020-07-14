@@ -38,3 +38,6 @@ Vue.component('Tooltip', Tooltip);
 
 import Videos from '../components/pagecomponents/Videos.vue';
 Vue.component('Videos', Videos);
+
+import Warnings from '../components/pagecomponents/Warnings.vue';
+Vue.component('Warnings', Warnings);
