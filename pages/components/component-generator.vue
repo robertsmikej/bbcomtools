@@ -379,7 +379,6 @@ export default {
             childrenArray.pop();
             let newChildrenArray =[];
             childrenArray.forEach( (el, index) => {
-                console.log(el.children[0].classList[1])
                 let keyStr = el.children[0].classList[1];
                 let cleanStr = el.children[0].classList[1] !== "cell0" ? 
                     this.trimButtonTextFromCellText(childrenArray[index].innerText) : cleanStr = childrenArray[index].innerText;
@@ -396,7 +395,6 @@ export default {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
-                // console.log(chartRow.row)
                let chartText = chartRow.row[0].cell0.trim().toLowerCase();
                let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
                 eventText = this.trimButtonTextFromCellText(eventText);          
