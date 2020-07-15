@@ -159,12 +159,11 @@ export default {
                     }
                 });
             });
-            console.log(linkedData);
             return linkedData;
         }
     },
     created() {
-        console.log(this.linkDataElements);
+        // console.log(this.linkDataElements);
         // this.$nuxt.$on('updateTarget', data => {
         //     console.log(data);
         //     let uniqueName = data.newComponentData.uniqueName;
@@ -280,20 +279,20 @@ export default {
                     } else if (foundElement.nodeName.toLowerCase() === "ul" || foundElement.nodeName.toLowerCase() === "ol") {
                         let listItemArray = [];
                         Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
-                            listItemArray.push({li: innerEl.innerHTML});
+                            listItemArray.push({li: innerEl.textContent.trim()});
                         });
                         if (listItemArray.length > 0) {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
-                        
+                        console.log(m);
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
                     if (element.nodeName.toLowerCase() === "ul" || element.nodeName.toLowerCase() === "ol") { //LISTS
                         let listItemArray = [];
                         Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
-                            listItemArray.push({li: innerEl.innerHTML});
+                            listItemArray.push({li: innerEl.textContent.trim()});
                         });
                         if (listItemArray.length > 0) {
                             elDatas.listItems = listItemArray;
@@ -306,6 +305,36 @@ export default {
             console.log(elDatas);
             return elDatas;
         },
+        findType: function (els) {
+            let dataObj = {};
+            let elements = els.length ? els : [els];
+            Array.from(elements).forEach(el => {
+                for (let t in this.linkDataElements) {
+                    if (t) {
+                        for (let u in this.linkDataElements[t]) {
+                            if (el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ul" || el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ol") {
+                                dataObj["listItems"] = u;
+                            } else if (u.toLowerCase() === el.nodeName.toLowerCase()) {
+                                this.linkDataElements[t][u].forEach((trans, index) => {
+                                    if (!dataObj[trans.toLowerCase()]) {
+                                        dataObj[trans] = {};
+                                    }
+                                    dataObj[trans] = u.toLowerCase();
+                                });
+                            } 
+                        }
+                    }
+                }
+            });
+            return dataObj;
+        },
+        findTypes: function (componentData, element) {
+            let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
+            console.log(innerElements);
+            let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
+            return dataObj;
+        },
+
         updateTarget: function (data) {
             let newComponentData = data.newComponentData;
             let uniqueName = newComponentData.uniqueName;
@@ -642,35 +671,7 @@ export default {
             });
             return comp;
         },
-        findType: function (els) {
-            let dataObj = {};
-            let elements = els.length ? els : [els];
-            Array.from(elements).forEach(el => {
-                for (let t in this.linkDataElements) {
-                    if (t) {
-                        for (let u in this.linkDataElements[t]) {
-                            if (el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ul" || el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ol") {
-                                dataObj["listItems"] = u;
-                            } else if (u.toLowerCase() === el.nodeName.toLowerCase()) {
-                                this.linkDataElements[t][u].forEach((trans, index) => {
-                                    if (!dataObj[trans.toLowerCase()]) {
-                                        dataObj[trans] = {};
-                                    }
-                                    dataObj[trans] = u.toLowerCase();
-                                });
-                            } 
-                        }
-                    }
-                }
-            });
-            return dataObj;
-        },
-        findTypes: function (componentData, element) {
-            let innerElements = element.querySelectorAll("*:not(div)");
-            // console.log(innerElements);
-            let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
-            return dataObj;
-        },
+        
         importCode: function () {
             this.clickedElements.elements = [];
             let importZone = document.querySelector(".code__text__area");
@@ -690,37 +691,6 @@ export default {
                     // console.log(componentData.component.componentName);
                     // console.log(componentData);
                     let textsToGrab = this.parseMatchedTypes(componentData, element, false);
-                    // for (let m in componentData.matchedTypes) {
-                    //     // console.log(element);
-                    //     let matchedType = componentData.matchedTypes[m];
-                    //     // console.log(matchedType);
-                    //     let foundElement = element.getElementsByTagName(matchedType)[0];
-                    //     if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
-                    //         // console.log(foundElement);
-                    //         if (foundElement.nodeName.toLowerCase() === "img") {
-                    //             if (m === "imgSrc") {
-                    //                 elDatas[m] = foundElement.getAttribute("src");
-                    //             } else if (m === "imgAlt") {
-                    //                 elDatas[m] = foundElement.getAttribute("alt");
-                    //             }
-                    //         } else {
-                    //             elDatas[m] = foundElement.textContent.trim();
-                    //         }
-                    //     } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
-                    //         if (element.nodeName.toLowerCase() === "ul" || element.nodeName.toLowerCase() === "ol") { //LISTS
-                    //             let listItemArray = [];
-                    //             Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
-                    //                 listItemArray.push({li: innerEl.innerHTML});
-                    //             });
-                    //             if (listItemArray.length > 0) {
-                    //                 elDatas.listItems = listItemArray;
-                    //             }
-                    //         } else {
-                    //             elDatas[m] = element.textContent.trim();
-                    //         }
-                    //     }
-                    // }
-                    // console.log(textsToGrab);
                     let el = {
                         componentData: componentData,
                         componentName: componentData.component.componentName,

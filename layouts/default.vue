@@ -259,11 +259,13 @@
     .component__options__advanced {
 
     }
-    p.options__description__para {
+    span.options__description {
+        width: 100%;
         font-size: 14px;
         margin: 0;
         padding: 0 2px;
-        background: #FFF;
+        background: #F5F5F5;
+        text-align: right;
     }
     .component__options input, .component__options textarea {
         flex: 1;
@@ -324,7 +326,6 @@
         transition: all .4s;
     }
     .page__component:hover .component__options__buttons {
-       
         opacity: 1;
     }
     .component__options--button {
