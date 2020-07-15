@@ -236,9 +236,9 @@
     .options__editable__bottom {
         width: 100%;
         position: absolute;
-        bottom: 30px;
+        bottom: 0;
         left: 0;
-        padding: 5px;
+        padding: 2px 5px;
         z-index: 3;
         display: flex;
         flex-direction: row;
@@ -247,17 +247,23 @@
         align-items: center;
         justify-content: center;
         opacity: 1;
-        background: #FFF;
+        
     }
     .options__editable {
         width: 100%;
         border: 1px solid #232323;
         word-break: break-all;
-        padding: 5px;
-        margin-bottom: 4px;
+        padding: 3px;
+        background: #FFF;
     }
     .component__options__advanced {
 
+    }
+    p.options__description__para {
+        font-size: 14px;
+        margin: 0;
+        padding: 0 2px;
+        background: #FFF;
     }
     .component__options input, .component__options textarea {
         flex: 1;
@@ -284,9 +290,10 @@
         min-width: 280px;
     }
 
-    .component__options__buttons__outer {
+
+    /* .component__options__buttons__outer {
         width: 100%;
-        display: flex;
+        display: none;
         flex-direction: row;
         flex-wrap: nowrap;
         align-content: center;
@@ -296,7 +303,8 @@
         top: 16px;
         right: 0;
         z-index: 3;
-    }
+    } */
+    
     .component__options__buttons {
         width: auto;
         display: flex;
@@ -312,6 +320,12 @@
         top: 3px;
         right: 3px;
         padding: 1px 0;
+        opacity: 0;
+        transition: all .4s;
+    }
+    .page__component:hover .component__options__buttons {
+       
+        opacity: 1;
     }
     .component__options--button {
         width: 16px;

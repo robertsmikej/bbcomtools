@@ -1,30 +1,32 @@
 <template>
-    
-    <Paragraphs
-        :type="'para'"
-        class="page__warning"
-        :componentData="componentData"
-        :group="false"
-    />
+    <div 
+        class="page__component page__warning__container"
+    >
+        <p
+            @blur="updateTarget"
+            contenteditable
+            class="page__disclaimer"
+        >
+            {{ componentData.elementData.warningText }}
+        </p>
+        <Optionsbuttons
+            v-if="this.optionsShown"
+            :componentData="componentData"
+        />
+    </div>
 </template>
 
 <script>
-        // <p
-        //     @blur="updateTarget"
-        //     contenteditable
-            
-        // >
-        //     {{ componentData.elementData.text }}
-        // </p>
-        // <Optionsbuttons
-        //     v-if="componentData.optionsShown"
-        //     :componentData="componentData"
-        // />
 export default {
     props: {
         type: String,
         componentData: Object,
         group: Boolean
+    },
+    data() {
+        return {
+            optionsShown: this.componentData.optionsShown
+        }
     },
     methods: {
         updateTarget(event, newListItems) {
@@ -36,13 +38,6 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        },
-        optionsTrue() {
-            let info = {
-                componentData: this.componentData,
-                optionsBool: true
-            };
-            this.$nuxt.$emit("optionsChange", info);
         }
     }
 }

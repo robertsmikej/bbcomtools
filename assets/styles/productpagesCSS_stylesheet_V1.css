@@ -276,11 +276,13 @@ body .VendorBlock {
     grid-gap: 14px;
 }
 
-.page__warning p {
+.page__warning__container .page__disclaimer {
     width: 100%;
     padding: 5px;
-    text-align: right;
+    text-align: center;
     margin: 0 auto;
+    background: #00aeef;
+    color: #FFF
 }
 
 /* ------------------ MEDIA QUERY ------------------ */

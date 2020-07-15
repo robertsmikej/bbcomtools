@@ -15,6 +15,7 @@
             v-show="this.optionsShown"
             class="options__editable__bottom"
         >
+            <p class="options__description__para">Desktop Image URL</p>
             <div
                 @blur="updateTarget"
                 contenteditable
@@ -22,6 +23,7 @@
             >
                 {{ componentData.elementData.imgSrcDesktop }}
             </div>
+            <p class="options__description__para">Mobile Image URL</p>
             <div
                 @blur="updateTarget"
                 contenteditable
@@ -29,6 +31,7 @@
             >
                 {{ componentData.elementData.imgSrcMobile }}
             </div>
+            <p class="options__description__para">Image Alt Text</p>
             <div
                 @blur="updateTarget"
                 contenteditable
@@ -36,6 +39,7 @@
             >
                 {{ componentData.elementData.imgAlt }}
             </div>
+            <p class="options__description__para">When IMG Changes To Mobile - 768px Default</p>
             <div
                 @blur="updateTarget"
                 contenteditable

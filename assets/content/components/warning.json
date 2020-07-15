@@ -9,7 +9,7 @@
             "type": "disclaimer",
             "htmlElement": "",
             "elementData": {
-                "paraText": "*Packaging May Vary"
+                "warningText": "*Packaging May Vary"
             },
             "img": ""
         }
