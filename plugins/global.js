@@ -12,6 +12,9 @@ Vue.component('Headers', Headers);
 import Imageheaderpara from '../components/rowcomponents/Imageheaderpara.vue';
 Vue.component('Imageheaderpara', Imageheaderpara);
 
+import Images from '../components/pagecomponents/Images.vue';
+Vue.component('Images', Images);
+
 import List from '../components/pagecomponents/List.vue';
 Vue.component('List', List);
 

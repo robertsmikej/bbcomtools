@@ -9,64 +9,28 @@
             <div 
                 class="page__ihp__image__container page__external__data__container"
             >
-                <img
-                    @click="toggleOptions"
+                <Images
+                    :componentData="imageComponent"
                     :key="numberOfActions"
-                    :src="componentData.elementData.imgSrc"
-                    :alt="componentData.elementData.imgAlt"
                     class="page__ihp__image site__element"
                 />
-                <!-- {{componentData.elementData}} -->
-                <div
-                    v-show="this.optionsShown"
-                    class="options__editable__bottom"
-                >
-                    <div
-                        @blur="updateTarget"
-                        contenteditable
-                        class="options__editable component__remove"
-                    >
-                        {{ componentData.elementData.imgAlt }}
-                    </div>
-                    <div
-                        @blur="updateTarget"
-                        contenteditable
-                        class="options__editable options--imgsrc component__remove"
-                    >
-                        {{ componentData.elementData.imgSrc }}
-                    </div>
-                </div>
             </div>
             <div 
                 class="page__ihp__text__header page__ihp__container component__container"
             >
                 <Headers 
                     :componentData="headerComponent"
-                    :group=true
-                    :parentData="this.componentData"
                     :key="this.componentData.uniqueName + pageActions"
                 />
-                <!-- <h4
-                    @blur="updateTarget"
-                    contenteditable
-                    data-input-type="headerText"
-                    class="page__header--h4 page__ihp__header site__element"
-                >
-                    {{ componentData.elementData.headerText }}
-                </h4> -->
             </div>
-            
             <div
                 v-if="componentData.type !== 'list'"
                 class="page__ihp__text__para page__ihp__container component__container"
             >
-                <p
-                    @blur="updateTarget"
-                    contenteditable
-                    class="page__para site__element"
-                >
-                    {{ componentData.elementData.paraText }}
-                </p>
+                <Paragraphs
+                    :componentData="paraComponent"
+                    :key="this.componentData.uniqueName + pageActions"
+                />
             </div>
             <div
                 v-if="componentData.type === 'list'"
@@ -92,6 +56,8 @@
 </template>
 
 <script>
+                    // :group=true
+                    // :parentData="this.componentData"
 export default {
     props: {
         type: String,
@@ -104,6 +70,35 @@ export default {
         return {
             numberOfActions: 0,
             numberOfListActions: 0,
+            paraComponent: {
+                componentName: "Paragraphs",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Para",
+                type: "p",
+                parentUniqueName: this.componentData.uniqueName,
+                parentData: this.componentData,
+                number: this.numberOfActions,
+                elementData: {
+                    paraText: this.componentData.elementData.paraText,
+                },
+                optionsShown: true
+            },
+            imageComponent: {
+                componentName: "Images",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Image",
+                type: "img",
+                parentUniqueName: this.componentData.uniqueName,
+                parentData: this.componentData,
+                number: this.numberOfActions,
+                elementData: {
+                    imgSrcDesktop: this.componentData.elementData.imgSrcDesktop,
+                    imgSrcMobile: this.componentData.elementData.imgSrcMobile,
+                    imgAlt: this.componentData.elementData.imgAlt,
+                    imgChangeToMobile: this.componentData.elementData.imgChangeToMobile
+                },
+                optionsShown: true
+            },
             headerComponent: {
                 componentName: "Headers",
                 componentChanges: 0,
@@ -113,8 +108,7 @@ export default {
                 parentData: this.componentData,
                 number: this.numberOfActions,
                 elementData: {
-                    headerText: this.componentData.elementData.headerText,
-                    
+                    headerText: this.componentData.elementData.headerText
                 },
                 optionsShown: true
             },
@@ -134,7 +128,6 @@ export default {
                 },
                 optionsShown: true
             },
-
             optionsShown: false,
             flipped: this.componentData.elementData.elementOptions.flipped.boolean
         };

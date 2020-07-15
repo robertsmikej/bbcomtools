@@ -245,22 +245,38 @@ export default {
         }
     },
     methods: {
-        parseMatchedTypes: function (componentData, element) {
+        parseMatchedTypes: function (componentData, element, updating) {
             let elDatas= {};
             for (let m in componentData.matchedTypes) {
                 // console.log(element);
                 let matchedType = componentData.matchedTypes[m];
                 // console.log(matchedType);
                 let foundElement = element.getElementsByTagName(matchedType)[0];
-                console.log(foundElement);
                 if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
-                    // console.log(foundElement);
-                    if (foundElement.nodeName.toLowerCase() === "img") {
-                        if (m === "imgSrc") {
-                            elDatas[m] = foundElement.getAttribute("src");
-                        } else if (m === "imgAlt") {
-                            elDatas[m] = foundElement.getAttribute("alt");
+                    if (foundElement.nodeName.toLowerCase() === "picture") { //IF IS PICTURE ELEMENT
+                        if (updating) {
+                            let parent = foundElement.parentElement;
+                            if (m === "imgSrcDesktop") {
+                                elDatas[m] = parent.querySelector(".options--imgsrc--desktop").textContent.trim();
+                            } if (m === "imgSrcMobile") {
+                                elDatas[m] = parent.querySelector(".options--imgsrc--mobile").textContent.trim();
+                            } if (m === "imgChangeToMobile") {
+                                elDatas[m] = parent.querySelector(".options--img--changetomobile").textContent.trim();
+                            } else if (m === "imgAlt") {
+                                elDatas[m] = parent.querySelector(".options--img--alt").textContent.trim();
+                            }
+                        } else {
+                            if (m === "imgSrcDesktop") {
+                                elDatas[m] = foundElement.getElementsByTagName("img")[0].getAttribute("src");
+                            } if (m === "imgSrcMobile") {
+                                elDatas[m] = foundElement.getElementsByTagName("source")[0].getAttribute("srcset");
+                            } if (m === "imgChangeToMobile") {
+                                elDatas[m] = foundElement.getElementsByTagName("source")[0].getAttribute("media").replace("(min-width: ", "").replace(")", "");
+                            } else if (m === "imgAlt") {
+                                elDatas[m] = foundElement.getElementsByTagName("img")[0].getAttribute("alt");
+                            }
                         }
+                        // console.log(elDatas);
                     } else if (foundElement.nodeName.toLowerCase() === "ul" || foundElement.nodeName.toLowerCase() === "ol") {
                         let listItemArray = [];
                         Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
@@ -270,6 +286,7 @@ export default {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
+                        
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
@@ -286,6 +303,7 @@ export default {
                     }
                 }
             }
+            console.log(elDatas);
             return elDatas;
         },
         updateTarget: function (data) {
@@ -298,7 +316,7 @@ export default {
                 this.currentComponentName = parentUniqueName;
                 // console.log(parentUniqueName);
                 newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + parentUniqueName));
-                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + parentUniqueName));
+                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + parentUniqueName), true);
                 // console.log(newComponentData);
                 // console.log(newComponentData.matchedTypes);
                 // console.log(textsToGrab);
@@ -323,7 +341,7 @@ export default {
                 this.clickedElements.elements[findIn] = newComponentData;
             } else {
                 newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + uniqueName));
-                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName));
+                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
                 // console.log(textsToGrab);
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -477,35 +495,36 @@ export default {
                 return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
             // console.log(componentDetails);
+            // console.log(importData);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
             }
-            if (componentDetails.elementData.hasOwnProperty("childArr")) {
-                let childArr = componentDetails.elementData.childArr;
-                componentDetails.elementData.childArray = [];
-                childArr.forEach((child, index) => {
-                    // console.log(child);
-                    let innerComponent = this.components.filter(obj => {
-                        return obj.componentName === child.componentName
-                    })[0];
-                    // console.log(innerComponent);
-                    let innerComponentDetails = innerComponent.types.filter(obj => {
-                        return obj.type === child.type
-                    })[0];
-                    // console.log(innerComponentDetails);
-                    let newChildComponent = {
-                        componentName: innerComponent.componentName,
-                        uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
-                        type: innerComponentDetails.type,
-                        elementData: innerComponentDetails.elementData,
-                        optionsShown: true,
-                        componentChanges: 0,
-                        vendorRestricted: this.checkRestricted("vendors")
-                    };
+            // if (componentDetails.elementData.hasOwnProperty("childArr")) {
+            //     let childArr = componentDetails.elementData.childArr;
+            //     componentDetails.elementData.childArray = [];
+            //     childArr.forEach((child, index) => {
+            //         // console.log(child);
+            //         let innerComponent = this.components.filter(obj => {
+            //             return obj.componentName === child.componentName
+            //         })[0];
+            //         // console.log(innerComponent);
+            //         let innerComponentDetails = innerComponent.types.filter(obj => {
+            //             return obj.type === child.type
+            //         })[0];
+            //         // console.log(innerComponentDetails);
+            //         let newChildComponent = {
+            //             componentName: innerComponent.componentName,
+            //             uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
+            //             type: innerComponentDetails.type,
+            //             elementData: innerComponentDetails.elementData,
+            //             optionsShown: true,
+            //             componentChanges: 0,
+            //             vendorRestricted: this.checkRestricted("vendors")
+            //         };
                     
-                    componentDetails.elementData.childArray.push(newChildComponent);
-                });
-            }
+            //         componentDetails.elementData.childArray.push(newChildComponent);
+            //     });
+            // }
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + this.clickedElements.numberOfComponents,
@@ -543,8 +562,8 @@ export default {
                     console.log(el);
                     
                 });
-                console.log(pastedDoc);
-                console.log(pastedDoc.children);
+                // console.log(pastedDoc);
+                // console.log(pastedDoc.children);
 
 
                 // let dataObj = {
@@ -648,6 +667,7 @@ export default {
         },
         findTypes: function (componentData, element) {
             let innerElements = element.querySelectorAll("*:not(div)");
+            // console.log(innerElements);
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
@@ -655,56 +675,58 @@ export default {
             this.clickedElements.elements = [];
             let importZone = document.querySelector(".code__text__area");
             let importCode = new DOMParser().parseFromString(importZone.value, "text/html");
-            let initialElements = importCode.querySelector(".page__content").children;
+            let contentArea = importCode.querySelector(".page__content");
+            let initialElements = contentArea.children;
             let componentSubDetails;
             // console.log(initialElements);
             Array.from(initialElements).forEach(element => {
                 // console.log(element);
+                
                 if (element.nodeName.toLowerCase() !== "parsererror") {
                     // console.group("1 - Import Data");
                     let elDatas = {};
                     let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : componentData = this.findInComponents(element); //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
                     componentData.matchedTypes = this.findTypes(componentData, element);
-                    // console.log(componentData.componentName);
                     // console.log(componentData.component.componentName);
                     // console.log(componentData);
-                    for (let m in componentData.matchedTypes) {
-                        // console.log(element);
-                        let matchedType = componentData.matchedTypes[m];
-                        // console.log(matchedType);
-                        let foundElement = element.getElementsByTagName(matchedType)[0];
-                        if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
-                            // console.log(foundElement);
-                            if (foundElement.nodeName.toLowerCase() === "img") {
-                                if (m === "imgSrc") {
-                                    elDatas[m] = foundElement.getAttribute("src");
-                                } else if (m === "imgAlt") {
-                                    elDatas[m] = foundElement.getAttribute("alt");
-                                }
-                            } else {
-                                elDatas[m] = foundElement.textContent.trim();
-                            }
-                        } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
-                            if (element.nodeName.toLowerCase() === "ul" || element.nodeName.toLowerCase() === "ol") { //LISTS
-                                let listItemArray = [];
-                                Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
-                                    listItemArray.push({li: innerEl.innerHTML});
-                                });
-                                if (listItemArray.length > 0) {
-                                    elDatas.listItems = listItemArray;
-                                }
-                            } else {
-                                elDatas[m] = element.textContent.trim();
-                            }
-                        }
-                    }
+                    let textsToGrab = this.parseMatchedTypes(componentData, element, false);
+                    // for (let m in componentData.matchedTypes) {
+                    //     // console.log(element);
+                    //     let matchedType = componentData.matchedTypes[m];
+                    //     // console.log(matchedType);
+                    //     let foundElement = element.getElementsByTagName(matchedType)[0];
+                    //     if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
+                    //         // console.log(foundElement);
+                    //         if (foundElement.nodeName.toLowerCase() === "img") {
+                    //             if (m === "imgSrc") {
+                    //                 elDatas[m] = foundElement.getAttribute("src");
+                    //             } else if (m === "imgAlt") {
+                    //                 elDatas[m] = foundElement.getAttribute("alt");
+                    //             }
+                    //         } else {
+                    //             elDatas[m] = foundElement.textContent.trim();
+                    //         }
+                    //     } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
+                    //         if (element.nodeName.toLowerCase() === "ul" || element.nodeName.toLowerCase() === "ol") { //LISTS
+                    //             let listItemArray = [];
+                    //             Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
+                    //                 listItemArray.push({li: innerEl.innerHTML});
+                    //             });
+                    //             if (listItemArray.length > 0) {
+                    //                 elDatas.listItems = listItemArray;
+                    //             }
+                    //         } else {
+                    //             elDatas[m] = element.textContent.trim();
+                    //         }
+                    //     }
+                    // }
+                    // console.log(textsToGrab);
                     let el = {
                         componentData: componentData,
                         componentName: componentData.component.componentName,
                         elementType: componentData.typeData.type,
-                        newElementData: elDatas
+                        newElementData: textsToGrab
                     };
-                    // console.log(el);
                     this.createComponent("import", el);
                     // console.groupEnd();
                 }

@@ -1,20 +1,25 @@
 <template>
-    <div class="page__component">
-        <p
-            @blur="updateTarget"
-            contenteditable
-            class="page__warning site__element"
-        >
-            {{ componentData.elementData.text }}
-        </p>
-        <Optionsbuttons
-            v-if="componentData.optionsShown"
-            :componentData="componentData"
-        />
-    </div>
+    
+    <Paragraphs
+        :type="'para'"
+        class="page__warning"
+        :componentData="componentData"
+        :group="false"
+    />
 </template>
 
 <script>
+        // <p
+        //     @blur="updateTarget"
+        //     contenteditable
+            
+        // >
+        //     {{ componentData.elementData.text }}
+        // </p>
+        // <Optionsbuttons
+        //     v-if="componentData.optionsShown"
+        //     :componentData="componentData"
+        // />
 export default {
     props: {
         type: String,

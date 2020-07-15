@@ -156,7 +156,8 @@ body .VendorBlock {
     padding-left: 14px;
     padding-bottom: 14px;
 }
-.page__ihp--row--flipped--true .page__ihp__image__container
+.page__ihp--row--flipped--true .page__ihp__image__container,
+.page__ihp--list--flipped--true .page__ihp__image__container,
 .page__ihp--row--true .page__ihp__image__container  {
     float: left;
     width: 48%;
@@ -165,6 +166,10 @@ body .VendorBlock {
 }
 .page__ihp__image {
     width: 100%;
+}
+.page__ihp__image picture, .page__ihp__image img{
+    width: 100%;
+    max-width: 100%;
 }
 .page__spacer {
     width: 100%;
@@ -271,7 +276,7 @@ body .VendorBlock {
     grid-gap: 14px;
 }
 
-p.page__warning {
+.page__warning p {
     width: 100%;
     padding: 5px;
     text-align: right;
