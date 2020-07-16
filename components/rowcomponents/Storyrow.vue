@@ -225,15 +225,15 @@ export default {
             });
             return clickedItem;
         },
-        getNewListItems(event) {
-            let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
-            let newLiArr = Array.from(newListItems).map(function (li) {
-                return {
-                    li: li.innerHTML
-                }
-            });
-            return newLiArr;
-        },
+        // getNewListItems(event) {
+        //     let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
+        //     let newLiArr = Array.from(newListItems).map(function (li) {
+        //         return {
+        //             li: li.innerHTML
+        //         }
+        //     });
+        //     return newLiArr;
+        // },
         addComponent(comp) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             let compname = this.componentData.componentName;

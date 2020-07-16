@@ -12,7 +12,7 @@
                 <Images
                     :componentData="imageComponent"
                     :key="numberOfActions"
-                    class="page__ihp__image site__element"
+                    class="page__ihp__image"
                 />
             </div>
             <div 

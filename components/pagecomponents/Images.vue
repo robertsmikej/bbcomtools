@@ -15,37 +15,45 @@
             v-show="this.optionsShown"
             class="options__editable__bottom"
         >
-            <span class="options__description element__exclude">Desktop Image URL</span>
-            <div
-                @blur="updateTarget"
-                contenteditable
-                class="options__editable options--imgsrc--desktop component__remove"
-            >
-                {{ componentData.elementData.imgSrcDesktop }}
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Desktop Image URL</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--imgsrc--desktop component__remove"
+                >
+                    {{ componentData.elementData.imgSrcDesktop }}
+                </div>
             </div>
-            <span class="options__description element__exclude">Mobile Image URL</span>
-            <div
-                @blur="updateTarget"
-                contenteditable
-                class="options__editable options--imgsrc--mobile component__remove"
-            >
-                {{ componentData.elementData.imgSrcMobile }}
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Mobile Image URL</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--imgsrc--mobile component__remove"
+                >
+                    {{ componentData.elementData.imgSrcMobile }}
+                </div>
             </div>
-            <span class="options__description element__exclude">Image Alt Text</span>
-            <div
-                @blur="updateTarget"
-                contenteditable
-                class="options__editable options--img--alt component__remove"
-            >
-                {{ componentData.elementData.imgAlt }}
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Image Alt Text</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--img--alt component__remove"
+                >
+                    {{ componentData.elementData.imgAlt }}
+                </div>
             </div>
-            <span class="options__description element__exclude">When IMG Changes To Mobile - 768px Default</span>
-            <div
-                @blur="updateTarget"
-                contenteditable
-                class="options__editable options--img--changetomobile component__remove"
-            >
-                {{ componentData.elementData.imgChangeToMobile }}
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">IMG To Mobile - 768px Default</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--img--changetomobile component__remove"
+                >
+                    {{ componentData.elementData.imgChangeToMobile }}
+                </div>
             </div>
         </div>
         <Optionsbuttons

@@ -4,7 +4,7 @@
     >
         <ul
             :key="componentData.uniqueName + componentData.componentChanges"
-            class="page__ul__list site__element"
+            class="page__ul__list"
         >
             <div
                 v-for="(item, index) in listItems"
@@ -37,15 +37,6 @@
 </template>
 
 <script>
-            // in site__element
-            // data-input-types="['li']"
-            // :data-component-type="componentData.componentName"
-
-            // IN component__wrapper
-            //:data-list-item-number="index"
-
-            // in list__item
-            // data-input-type="li"
 export default {
     props: {
         componentData: Object,
@@ -94,24 +85,6 @@ export default {
             this.updateTarget("addListItem");
             this.componentData.componentChanges += 1;
         },
-        // grabTexts(els) {
-        //     let newObj = {};
-        //     let listArr = [];
-        //     Array.from(els).forEach(element => {
-        //         let textType = element.getAttribute("data-input-type");
-        //         if (element.nodeName === "IMG") {
-        //             newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-        //         } else if (element.nodeName === "LI") {
-        //             listArr.push({li: element.innerHTML.trim()});
-        //         } else {
-        //             newObj[textType] = element.innerHTML.trim();
-        //         }
-        //     });
-        //     if (listArr.length > 0) {
-        //         newObj.listItems = listArr
-        //     }
-        //     return newObj;
-        // },
         updateTarget(action, pasted) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
@@ -124,86 +97,7 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        },
-        // addListItem() {
-        //     console.log('adding');
-        //     console.log(event);
-            
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         let newListItems = this.getNewListItems(event);
-        //         let clickedItem = this.getClickedListItem(event, newListItems);
-        //         newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
-        //         this.updateTarget(event, newListItems);
-        //         this.componentActions += 1;
-        //     }
-        // },
-        // deleteListItem() {
-        //     console.log('removing');
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         let newListItems = this.getNewListItems(event);
-        //         let clickedItem = this.getClickedListItem(event, newListItems);
-        //         newListItems.splice(clickedItem, 1);
-        //         this.updateTarget(event, newListItems);
-        //         this.componentActions += 1;
-        //     }
-        // },
-        // getNewListItems(event) {
-        //     let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
-        //     let newLiArr = Array.from(newListItems).map(function (li) {
-        //         return {
-        //             li: li.innerHTML
-        //         }
-        //     });
-        //     return newLiArr;
-        // },
-        // getClickedListItem(event, newListItems) {
-        //     let clickedItem = -1;
-        //     Array.from(newListItems).forEach((listItem, index) => {
-        //         let liText = listItem.li.trim().toLowerCase();
-        //         let eventText = event.target.closest(".component__wrapper").getElementsByTagName("li")[0].textContent.trim().toLowerCase();
-        //         if (liText === eventText) {
-        //             clickedItem = index;
-        //         }
-        //     });
-        //     return clickedItem;
-        // }
-        // updateTarget(event, newListItems) {
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         if (newComponentData.componentName.toLowerCase() === "list") {
-        //             console.log(1)
-        //             if (newListItems) {
-        //                 newComponentData.elementData.listItems = newListItems;
-        //                 this.numberOfListActions += 1;
-        //             } else {
-        //                 Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
-        //             }
-        //         } else {
-        //             console.log(2)
-        //             let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-        //             newComponentData.elementData = textsToGrab;
-        //             if (newListItems) {
-        //                 newComponentData.elementData.listItems = newListItems;
-        //             }
-        //         }
-        //         let info = {
-        //             newComponentData: newComponentData,
-        //             oldComponentData: this.componentData
-        //         };
-        //         if (!this.group && !this.subgroup) {
-        //             this.$nuxt.$emit("updateTarget", info);
-        //         } else if (this.subgroup) {
-        //             this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
-        //         } else {
-        //             info.parentData = this.parentData;
-        //             this.$nuxt.$emit("updateGroupTarget", info);
-        //         }
-        //         newComponentData.componentChanges += 1;
-        //     }
-        // },
-        
+        }
     }
 }
 </script>

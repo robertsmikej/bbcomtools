@@ -3,7 +3,7 @@
         <p
             @blur="updateTarget"
             contenteditable
-            class="page__para site__element"
+            class="page__para"
         >
             {{ componentData.elementData.paraText }}
         </p>
@@ -15,21 +15,11 @@
 </template>
 
 <script>
-            // data-input-types="['paraText']"
-            // data-input-type="paraText"
-            // :data-component-type="componentData.componentName"
 export default {
     props: {
         type: String,
         componentData: Object,
         group: Boolean
-    },
-    mounted: function () {
-
-        // let els = this.$el.querySelectorAll(".site__element");
-        // els.forEach((element, index) => {
-        //     element.setAttribute("data-component-number", index);
-        // });
     },
     methods: {
         updateTarget(event, newListItems) {

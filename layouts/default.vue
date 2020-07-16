@@ -179,7 +179,6 @@
         background-color: #f9f9f9;
     }
     .built__elements__wrapper__inner {
-        padding: 10px;
         width: auto;
     }
     .preview__content {
@@ -225,13 +224,11 @@
         left: 10px;
         right: auto;
         width: auto;
-        /* translate: transform(); */
     }
     .component__options--right {
         right: 10px;
         left: auto;
         width: auto;
-        /* translate: transform(); */
     }
     .options__editable__bottom {
         width: 100%;
@@ -247,25 +244,35 @@
         align-items: center;
         justify-content: center;
         opacity: 1;
+    }
+    .options__editable__container {
+        width: 100%;
+        border: 1px solid #232323;
         
+        background: #FFF;
+        position: relative;
     }
     .options__editable {
         width: 100%;
-        border: 1px solid #232323;
-        word-break: break-all;
         padding: 3px;
-        background: #FFF;
+        word-break: break-all;
     }
     .component__options__advanced {
 
     }
     span.options__description {
-        width: 100%;
-        font-size: 14px;
+        font-size: 12px;
         margin: 0;
-        padding: 0 2px;
-        background: #F5F5F5;
+        padding: 1px 4px 0 5px;
+        background: #FFF;
         text-align: right;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border: 1px solid #232323;
+        border-bottom: none;
+        border-right: none;
     }
     .component__options input, .component__options textarea {
         flex: 1;

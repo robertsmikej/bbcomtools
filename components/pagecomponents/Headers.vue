@@ -5,7 +5,7 @@
             @blur="updateTarget"
             @focus="focused"
             contenteditable
-            class="page__header site__element"
+            class="page__header"
         >
             {{ componentData.elementData.headerText }}
         </component>
