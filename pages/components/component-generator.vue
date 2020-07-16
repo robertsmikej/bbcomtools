@@ -326,7 +326,7 @@ export default {
                 let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
                 let newCellKey = `cell${cellNumber+1}`;
                 let cellObj = {};
-                cellObj[newCellKey] = "New";
+                index === 0 ? cellObj[newCellKey] = "New" : cellObj[newCellKey] = "0\"";
                 chartRow.row.splice(cellNumber + 1, 0, cellObj);
                 chartRow.row.forEach((el, index) => {
                     return this.renumberCellClassNames(el, index);
@@ -342,7 +342,7 @@ export default {
             chartRows[0].row.forEach((el, index) => {
                 let keyStr = `cell${index}`;
                 let cellObj = {};
-                index === 0 ? cellObj[keyStr] = "Other" : cellObj[keyStr] = "0\"";
+                index === 0 ? cellObj[keyStr] = "New" : cellObj[keyStr] = "0\"";
                 rowToAdd.row.push(cellObj);
             })
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
