@@ -24,7 +24,7 @@
              contenteditable
             @blur="updateTarget()"
             class='chart__item__cell'
-            :class="index"
+            :data-cell-number="index"
 
              >
              {{cell}}

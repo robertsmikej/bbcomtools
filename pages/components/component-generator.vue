@@ -379,8 +379,8 @@ export default {
             childrenArray.pop();
             let newChildrenArray =[];
             childrenArray.forEach( (el, index) => {
-                let keyStr = el.children[0].classList[1];
-                let cleanStr = el.children[0].classList[1] !== "cell0" ? 
+                let keyStr = el.children[0].dataset.cellNumber;
+                let cleanStr = el.children[0].dataset.cellNumber !== "cell0" ? 
                     this.trimButtonTextFromCellText(childrenArray[index].innerText) : cleanStr = childrenArray[index].innerText;
                 let cellObj = {};
                 cellObj[keyStr] = cleanStr;
@@ -389,7 +389,7 @@ export default {
             return newChildrenArray;
         },
         getClickedCell(event) {
-            return event.target.closest(".chart__item").children[0].classList[1]
+            return event.target.closest(".chart__item").children[0].dataset.cellNumber;
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
