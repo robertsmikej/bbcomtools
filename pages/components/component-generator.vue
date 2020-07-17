@@ -1,5 +1,5 @@
 <template>
-    <section class="container component__generator">
+    <section class="container component__generator Wr__body">
         <div class="element__bar">
             <div class="bar__buttons page__type__buttons">
                 <h4>Type Of Page</h4>
@@ -290,7 +290,7 @@ export default {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
-                        console.log(m);
+                        // console.log(m);
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
@@ -307,7 +307,7 @@ export default {
                     }
                 }
             }
-            console.log(elDatas);
+            // console.log(elDatas);
             return elDatas;
         },
         findType: function (els) {
@@ -335,7 +335,7 @@ export default {
         },
         findTypes: function (componentData, element) {
             let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
-            console.log(innerElements);
+            // console.log(innerElements);
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
