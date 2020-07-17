@@ -5,7 +5,7 @@
             v-if="componentData.elementData.elementOptions"
             class="component__options--button options__arrows options__action"
         >
-            <img src="~/static/imgs/flip-icon.png" class="options__flip__img"/>
+            <img src="~/static/imgs/flip-icon.png" class="options__flip__img element__exclude"/>
         </div>
 
         <div
@@ -15,7 +15,7 @@
             v-if="!componentData.vendorRestricted && !group"
             class="component__options--button options__arrows options__up"
         >
-            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img element__exclude"/>
             <!-- <Tooltip
                 :key="toolTipShows"
                 v-show="showTooltips.uparrow"
@@ -29,7 +29,7 @@
             v-if="!componentData.vendorRestricted && group"
             class="component__options--button options__arrows options__left"
         >
-            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img element__exclude"/>
             <!-- <Tooltip
                 v-show="showTooltips.uparrow"
                 :tip="tooltips.uparrow"
@@ -42,7 +42,7 @@
             v-if="!componentData.vendorRestricted && !group"
             class="component__options--button options__arrows options__down"
         >
-            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img element__exclude"/>
             <!-- <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
@@ -55,7 +55,7 @@
             v-if="!componentData.vendorRestricted && group"
             class="component__options--button options__arrows options__right"
         >
-            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img"/>
+            <img src="~/static/imgs/left-arrow.png" class="options__arrow__img element__exclude"/>
             <!-- <Tooltip
                 v-show="showTooltips.downarrow"
                 :tip="tooltips.downarrow"
@@ -116,13 +116,14 @@ export default {
         }
     },
     methods: {
-        elementAction(actionName) {
+        elementAction(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             newComponentData.componentChanges += 1;
             let info = {
                 componentData: newComponentData,
-                uniqueName: newComponentData.uniqueName,
-                actionName: actionName
+                event: event,
+                action: action,
+                uniqueName: newComponentData.uniqueName
             };
             this.$nuxt.$emit('elementAction', info);
         },

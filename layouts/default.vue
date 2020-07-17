@@ -179,7 +179,6 @@
         background-color: #f9f9f9;
     }
     .built__elements__wrapper__inner {
-        padding: 10px;
         width: auto;
     }
     .preview__content {
@@ -225,34 +224,57 @@
         left: 10px;
         right: auto;
         width: auto;
-        /* translate: transform(); */
     }
     .component__options--right {
         right: 10px;
         left: auto;
         width: auto;
-        /* translate: transform(); */
     }
     .options__editable__bottom {
         width: 100%;
         position: absolute;
-        bottom: 30px;
+        bottom: 0;
         left: 0;
-        padding: 5px;
+        padding: 2px 5px;
         z-index: 3;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-content: flex-start;
         align-items: center;
         justify-content: center;
         opacity: 1;
-        background: #FFF;
-        word-break: break-all;
-        border: 1px solid #232323;
     }
-    
+    .options__editable__container {
+        width: 100%;
+        border: 1px solid #232323;
+        
+        background: #FFF;
+        position: relative;
+    }
+    .options__editable {
+        width: 100%;
+        padding: 3px;
+        word-break: break-all;
+    }
 
+    .component__options__advanced {
+
+    }
+    span.options__description {
+        font-size: 12px;
+        margin: 0;
+        padding: 1px 4px 0 5px;
+        background: #FFF;
+        text-align: right;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border: 1px solid #232323;
+        border-bottom: none;
+        border-right: none;
+    }
     .component__options input, .component__options textarea {
         flex: 1;
         border: 1px solid var(--site-grey-very-light);
@@ -278,9 +300,10 @@
         min-width: 280px;
     }
 
-    .component__options__buttons__outer {
+
+    /* .component__options__buttons__outer {
         width: 100%;
-        display: flex;
+        display: none;
         flex-direction: row;
         flex-wrap: nowrap;
         align-content: center;
@@ -290,7 +313,8 @@
         top: 16px;
         right: 0;
         z-index: 3;
-    }
+    } */
+    
     .component__options__buttons {
         width: auto;
         display: flex;
@@ -306,6 +330,11 @@
         top: 3px;
         right: 3px;
         padding: 1px 0;
+        opacity: 0;
+        transition: all .4s;
+    }
+    .page__component:hover .component__options__buttons {
+        opacity: 1;
     }
     .component__options__buttons__chartrow {
         width: auto;

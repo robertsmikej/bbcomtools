@@ -1,14 +1,16 @@
 <template>
-    <div class="page__component">
+    <div 
+        class="page__component page__warning__container"
+    >
         <p
             @blur="updateTarget"
             contenteditable
-            class="page__para"
+            class="page__disclaimer"
         >
-            {{ componentData.elementData.paraText }}
+            {{ componentData.elementData.warningText }}
         </p>
         <Optionsbuttons
-            v-if="componentData.optionsShown"
+            v-if="this.optionsShown"
             :componentData="componentData"
         />
     </div>
@@ -21,6 +23,11 @@ export default {
         componentData: Object,
         group: Boolean
     },
+    data() {
+        return {
+            optionsShown: this.componentData.optionsShown
+        }
+    },
     methods: {
         updateTarget(event, newListItems) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
@@ -31,27 +38,11 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        },
-        optionsTrue() {
-            let info = {
-                componentData: this.componentData,
-                optionsBool: true
-            };
-            this.$nuxt.$emit("optionsChange", info);
         }
     }
 }
 </script>
 
 <style>
-.page__para {
-    cursor: pointer;
-}
-.page__para--builder {
-    /* margin: 0; */
-}
-.component__options--para {
-    margin-top: 16px;
-    margin-bottom: -16px;
-}
+
 </style>

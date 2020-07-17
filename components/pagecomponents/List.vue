@@ -3,15 +3,11 @@
         class="page__component"
     >
         <ul
-            v-if="type === 'ul'"
-            data-input-types="['li']"
             :key="componentData.uniqueName + componentData.componentChanges"
-            :data-component-type="componentData.componentName"
-            class="page__ul__list site__element"
+            class="page__ul__list"
         >
             <div
                 v-for="(item, index) in listItems"
-                :data-list-item-number="index"
                 :key="componentData.uniqueName + index"
                 class="component__wrapper"
             >
@@ -19,11 +15,11 @@
                     @blur="updateTarget()"
                     @keydown.enter="enterPressed"
                     @paste="onListPaste"
-                    v-html="item.li"
-                    data-input-type="li"
                     class="list__item"
                     contenteditable
-                ></li>
+                >
+                    {{ item.li }}
+                </li>
                 <div
                     v-if="componentData.optionsShown"
                     class="component__options__buttons component__remove"
@@ -43,7 +39,6 @@
 <script>
 export default {
     props: {
-        type: String,
         componentData: Object,
         group: Boolean,
         subgroup: Boolean,
@@ -66,18 +61,21 @@ export default {
     },
     methods: {
         onListPaste (e) {
-            let pastedData = e.clipboardData.getData('text/html');
-            if (pastedData && pastedData.length > 1000) {
-                let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
-                let dataObj = {
-                    type: "listItems",
-                    newListItems: []
-                };
-                pastedDoc.querySelectorAll("p").forEach(item => {
-                    dataObj.newListItems.push({li: item.textContent.trim()});
-                });
-                this.updateTarget("pasted", dataObj);
-            }
+            console.log(e.clipboardData.getData('text'));
+            //NEED TO FIX SO PEOPLE CAN COPY AND PASTE INDIVIDUAL LIST ITEMS
+            
+            // let pastedData = e.clipboardData.getData('text/html');
+            // if (pastedData && pastedData.length > 1000) {
+            //     let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
+            //     let dataObj = {
+            //         type: "listItems",
+            //         newListItems: []
+            //     };
+            //     pastedDoc.querySelectorAll("p").forEach(item => {
+            //         dataObj.newListItems.push({li: item.textContent.trim()});
+            //     });
+            //     this.updateTarget("pasted", dataObj);
+            // }
         },
         focused(e) {
             console.log(e);
@@ -87,24 +85,6 @@ export default {
             this.updateTarget("addListItem");
             this.componentData.componentChanges += 1;
         },
-        // grabTexts(els) {
-        //     let newObj = {};
-        //     let listArr = [];
-        //     Array.from(els).forEach(element => {
-        //         let textType = element.getAttribute("data-input-type");
-        //         if (element.nodeName === "IMG") {
-        //             newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-        //         } else if (element.nodeName === "LI") {
-        //             listArr.push({li: element.innerHTML.trim()});
-        //         } else {
-        //             newObj[textType] = element.innerHTML.trim();
-        //         }
-        //     });
-        //     if (listArr.length > 0) {
-        //         newObj.listItems = listArr
-        //     }
-        //     return newObj;
-        // },
         updateTarget(action, pasted) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
@@ -117,86 +97,7 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        },
-        // addListItem() {
-        //     console.log('adding');
-        //     console.log(event);
-            
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         let newListItems = this.getNewListItems(event);
-        //         let clickedItem = this.getClickedListItem(event, newListItems);
-        //         newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
-        //         this.updateTarget(event, newListItems);
-        //         this.componentActions += 1;
-        //     }
-        // },
-        // deleteListItem() {
-        //     console.log('removing');
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         let newListItems = this.getNewListItems(event);
-        //         let clickedItem = this.getClickedListItem(event, newListItems);
-        //         newListItems.splice(clickedItem, 1);
-        //         this.updateTarget(event, newListItems);
-        //         this.componentActions += 1;
-        //     }
-        // },
-        // getNewListItems(event) {
-        //     let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
-        //     let newLiArr = Array.from(newListItems).map(function (li) {
-        //         return {
-        //             li: li.innerHTML
-        //         }
-        //     });
-        //     return newLiArr;
-        // },
-        // getClickedListItem(event, newListItems) {
-        //     let clickedItem = -1;
-        //     Array.from(newListItems).forEach((listItem, index) => {
-        //         let liText = listItem.li.trim().toLowerCase();
-        //         let eventText = event.target.closest(".component__wrapper").getElementsByTagName("li")[0].textContent.trim().toLowerCase();
-        //         if (liText === eventText) {
-        //             clickedItem = index;
-        //         }
-        //     });
-        //     return clickedItem;
-        // }
-        // updateTarget(event, newListItems) {
-        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
-        //         if (newComponentData.componentName.toLowerCase() === "list") {
-        //             console.log(1)
-        //             if (newListItems) {
-        //                 newComponentData.elementData.listItems = newListItems;
-        //                 this.numberOfListActions += 1;
-        //             } else {
-        //                 Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
-        //             }
-        //         } else {
-        //             console.log(2)
-        //             let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-        //             newComponentData.elementData = textsToGrab;
-        //             if (newListItems) {
-        //                 newComponentData.elementData.listItems = newListItems;
-        //             }
-        //         }
-        //         let info = {
-        //             newComponentData: newComponentData,
-        //             oldComponentData: this.componentData
-        //         };
-        //         if (!this.group && !this.subgroup) {
-        //             this.$nuxt.$emit("updateTarget", info);
-        //         } else if (this.subgroup) {
-        //             this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
-        //         } else {
-        //             info.parentData = this.parentData;
-        //             this.$nuxt.$emit("updateGroupTarget", info);
-        //         }
-        //         newComponentData.componentChanges += 1;
-        //     }
-        // },
-        
+        }
     }
 }
 </script>

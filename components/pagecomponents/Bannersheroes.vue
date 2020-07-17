@@ -11,7 +11,7 @@
                     />
                     <Optionsbuttons :componentData="componentData"/>
                 </div>
-                <picture class="page__banner__image site__element" :key="componentData.elementData.desktop">
+                <picture class="page__banner__image" :key="componentData.elementData.desktop">
                     <source :srcset="componentData.elementData.backgroundImg.desktop" media="(min-width: 768px)">
                     <img :src="componentData.elementData.backgroundImg.mobile" :alt="componentData.elementData.headerText" class="page__banner__image"/>
                 </picture>
@@ -50,12 +50,12 @@
                     v-if="!componentData.optionsHidden"
                     class="component__options--right component__options--stacked"
                 />
-                <h2 @click="checkOptions" :style="{'color': this.componentData.elementData.textColor.code}" class="page__banner__header site__element" >
+                <h2 @click="checkOptions" :style="{'color': this.componentData.elementData.textColor.code}" class="page__banner__header" >
                     <span>{{ componentData.elementData.header_1 }}</span>
                     <span>{{ componentData.elementData.header_2 }}</span>
                     <span>{{ componentData.elementData.header_3 }}</span>
                 </h2>
-                <p @click="checkOptions" class="page__banner__disclaimer site__element">{{ componentData.elementData.disclaimerText }}</p>
+                <p @click="checkOptions" class="page__banner__disclaimer">{{ componentData.elementData.disclaimerText }}</p>
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@
         {
             "title": "P",
             "type": "p",
+            "htmlElement": "p",
             "elementData": {
                 "paraText": "New Para"
             },

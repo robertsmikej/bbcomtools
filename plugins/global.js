@@ -15,6 +15,9 @@ Vue.component('Headers', Headers);
 import Imageheaderpara from '../components/rowcomponents/Imageheaderpara.vue';
 Vue.component('Imageheaderpara', Imageheaderpara);
 
+import Images from '../components/pagecomponents/Images.vue';
+Vue.component('Images', Images);
+
 import List from '../components/pagecomponents/List.vue';
 Vue.component('List', List);
 
@@ -41,3 +44,6 @@ Vue.component('Tooltip', Tooltip);
 
 import Videos from '../components/pagecomponents/Videos.vue';
 Vue.component('Videos', Videos);
+
+import Warnings from '../components/pagecomponents/Warnings.vue';
+Vue.component('Warnings', Warnings);

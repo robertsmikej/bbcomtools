@@ -4,13 +4,11 @@
             :is="componentData.type"
             @blur="updateTarget"
             @focus="focused"
-            data-input-types="['headerText']"
-            data-input-type="headerText"
-            :data-component-type="componentData.componentName"
             contenteditable
-            v-html="componentData.elementData.headerText"
-            class="page__header site__element"
-        >{{componentData}}</component>
+            class="page__header"
+        >
+            {{ componentData.elementData.headerText }}
+        </component>
         <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"
@@ -19,11 +17,12 @@
 </template>
 
 <script>
+            // data-input-types="['headerText']"
+            // data-input-type="headerText"
+            // :data-component-type="componentData.componentName"
 export default {
     props: {
-        type: String,
-        componentData: Object,
-        group: Boolean
+        componentData: Object
     },
     mounted: function () {
 

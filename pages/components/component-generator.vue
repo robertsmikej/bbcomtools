@@ -133,12 +133,37 @@ export default {
         components: function () {
             return this.$store.state.components
         },
+        componentNodes: function () {
+            let listOfNodes = [];
+            this.$store.state.components.forEach(component => {
+                return component.types.filter(type => {
+                    if (type.htmlElement) {
+                        listOfNodes.push(type.htmlElement.toLowerCase())
+                    }
+                });
+            });
+            return listOfNodes
+        },
         pagetypes: function () {
             return this.$store.state.pagetypes
+        },
+        linkDataElements: function () {
+            let linkedData = {};
+            this.$store.state.components.forEach(component => {
+                return component.types.filter(type => {
+                    if (!linkedData[component.componentName]) {
+                        linkedData[component.componentName] = {};
+                    }
+                    if (type.elementData) {
+                        linkedData[component.componentName][type.type] = Object.keys(type.elementData)
+                    }
+                });
+            });
+            return linkedData;
         }
     },
     created() {
-        
+        // console.log(this.linkDataElements);
         // this.$nuxt.$on('updateTarget', data => {
         //     console.log(data);
         //     let uniqueName = data.newComponentData.uniqueName;
@@ -152,7 +177,9 @@ export default {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            if (data.actionName === "flipElement") {
+            if (data.action === "flipElement") {
+                console.log('here');
+                console.log(data.componentData);
                 data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
             }
             let newComponent = {
@@ -216,6 +243,102 @@ export default {
         }
     },
     methods: {
+        parseMatchedTypes: function (componentData, element, updating) {
+            let elDatas= {};
+            for (let m in componentData.matchedTypes) {
+                // console.log(element);
+                let matchedType = componentData.matchedTypes[m];
+                // console.log(matchedType);
+                let foundElement = element.getElementsByTagName(matchedType)[0];
+                if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
+                    if (foundElement.nodeName.toLowerCase() === "picture") { //IF IS PICTURE ELEMENT
+                        if (updating) {
+                            let parent = foundElement.parentElement;
+                            if (m === "imgSrcDesktop") {
+                                elDatas[m] = parent.querySelector(".options--imgsrc--desktop").textContent.trim();
+                            } if (m === "imgSrcMobile") {
+                                let mobileImgSrcBlock = parent.querySelector(".options--imgsrc--mobile");
+                                if (mobileImgSrcBlock.textContent.length > 1) {
+                                    elDatas[m] = mobileImgSrcBlock.textContent.trim();
+                                } else {
+                                    elDatas[m] = parent.querySelector(".options--imgsrc--desktop").textContent.trim();
+                                }
+                            } if (m === "imgChangeToMobile") {
+                                elDatas[m] = parent.querySelector(".options--img--changetomobile").textContent.trim();
+                            } else if (m === "imgAlt") {
+                                elDatas[m] = parent.querySelector(".options--img--alt").textContent.trim();
+                            }
+                        } else {
+                            if (m === "imgSrcDesktop") {
+                                elDatas[m] = foundElement.getElementsByTagName("img")[0].getAttribute("src");
+                            } if (m === "imgSrcMobile") {
+                                elDatas[m] = foundElement.getElementsByTagName("source")[0].getAttribute("srcset");
+                            } if (m === "imgChangeToMobile") {
+                                elDatas[m] = foundElement.getElementsByTagName("source")[0].getAttribute("media").replace("(min-width: ", "").replace(")", "");
+                            } else if (m === "imgAlt") {
+                                elDatas[m] = foundElement.getElementsByTagName("img")[0].getAttribute("alt");
+                            }
+                        }
+                        // console.log(elDatas);
+                    } else if (foundElement.nodeName.toLowerCase() === "ul" || foundElement.nodeName.toLowerCase() === "ol") {
+                        let listItemArray = [];
+                        Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
+                            listItemArray.push({li: innerEl.textContent.trim()});
+                        });
+                        if (listItemArray.length > 0) {
+                            elDatas.listItems = listItemArray;
+                        }
+                    } else {
+                        console.log(m);
+                        elDatas[m] = foundElement.textContent.trim();
+                    }
+                } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
+                    if (element.nodeName.toLowerCase() === "ul" || element.nodeName.toLowerCase() === "ol") { //LISTS
+                        let listItemArray = [];
+                        Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
+                            listItemArray.push({li: innerEl.textContent.trim()});
+                        });
+                        if (listItemArray.length > 0) {
+                            elDatas.listItems = listItemArray;
+                        }
+                    } else {
+                        elDatas[m] = element.textContent.trim();
+                    }
+                }
+            }
+            console.log(elDatas);
+            return elDatas;
+        },
+        findType: function (els) {
+            let dataObj = {};
+            let elements = els.length ? els : [els];
+            Array.from(elements).forEach(el => {
+                for (let t in this.linkDataElements) {
+                    if (t) {
+                        for (let u in this.linkDataElements[t]) {
+                            if (el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ul" || el.nodeName.toLowerCase() === "li" && u.toLowerCase() === "ol") {
+                                dataObj["listItems"] = u;
+                            } else if (u.toLowerCase() === el.nodeName.toLowerCase()) {
+                                this.linkDataElements[t][u].forEach((trans, index) => {
+                                    if (!dataObj[trans.toLowerCase()]) {
+                                        dataObj[trans] = {};
+                                    }
+                                    dataObj[trans] = u.toLowerCase();
+                                });
+                            } 
+                        }
+                    }
+                }
+            });
+            return dataObj;
+        },
+        findTypes: function (componentData, element) {
+            let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
+            console.log(innerElements);
+            let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
+            return dataObj;
+        },
+
         updateTarget: function (data) {
             let newComponentData = data.newComponentData;
             let uniqueName = newComponentData.uniqueName;
@@ -224,11 +347,17 @@ export default {
                 let parentData = newComponentData.parentData;
                 let parentUniqueName = parentData.uniqueName;
                 this.currentComponentName = parentUniqueName;
-                let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll("[data-input-type]"));
+                // console.log(parentUniqueName);
+                newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + parentUniqueName));
+                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + parentUniqueName), true);
+                // console.log(newComponentData);
+                // console.log(newComponentData.matchedTypes);
+                // console.log(textsToGrab);
+                // let textsToGrab = this.grabTexts(this.$el.querySelector("." + parentUniqueName).querySelectorAll("*:not(div)"));
                 Object.assign(parentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 if (data.action === "addListItem" || data.action === "deleteListItem") {
-                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
                     parentData.elementData.listItems = newListItems;
                 }
                 if (data.action === "pasted" && data.pasted.type === "listItems") {
@@ -243,6 +372,7 @@ export default {
                 newComponentData.elementData.listItems = newListItems;
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
+
             } else if (data.action === "addChartRow" || data.action === "deleteChartRow") {
                 let newChartRows = data.action === "addChartRow" ? this.addChartRow(data.event) : this.deleteChartRow(data.event);
                 newComponentData.elementData.chartRows = newChartRows;
@@ -264,6 +394,12 @@ export default {
             }
             else {
                 let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+
+            } else {
+                newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + uniqueName));
+                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
+                // console.log(textsToGrab);
+
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -298,14 +434,33 @@ export default {
         grabTexts(els) {
             let newObj = {};
             let listArr = [];
-            Array.from(els).forEach(element => {
-                let textType = element.getAttribute("data-input-type");
-                if (element.nodeName === "IMG") {
-                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-                } else if (element.nodeName === "LI") {
-                    listArr.push({li: element.innerHTML.trim()});
+            let newEls = [];
+            Array.from(els).forEach(el => {
+                el.classList.forEach(indivClass => {
+                    if (indivClass.indexOf("options") === -1) {
+                        if (!newEls.includes(el)) {
+                            newEls.push(el);
+                        }
+                    }
+                });
+            });
+            Array.from(newEls).forEach(element => {
+                // console.log(element);
+                let findInComponents = this.findInComponents(element);
+                // console.log(findInComponents);
+                if (element.nodeName.toLowerCase() === "img") {
+                    newObj["imgSrc"] = element.closest(".page__ihp__image__container").querySelector(".options--imgsrc").textContent.trim();
+                } else if (element.nodeName.toLowerCase() === "ul") {
+                    Array.from(element.children).forEach(el => {
+                        listArr.push({li: el.getElementsByTagName("li")[0].textContent.trim()});
+                    })
                 } else {
-                    newObj[textType] = element.innerHTML.trim();
+                    let shortenedTypeData = findInComponents.typeData.elementData;
+                    let shortenedTypeDataKey = Object.keys(findInComponents.typeData.elementData);
+                    // console.log(shortenedTypeData);
+                    // console.log(shortenedTypeDataKey[0]);
+                    newObj[shortenedTypeDataKey[0]] = element.textContent.trim();
+                    // console.log(newObj)
                 }
             });
             if (listArr.length > 0) {
@@ -438,10 +593,11 @@ export default {
             return newListItems;
         },
         getNewListItems(event) {
-            let newListItems = event.target.closest(".site__element").getElementsByTagName("li");
+            console.log(event);
+            let newListItems = event.target.closest(".page__ul__list").getElementsByTagName("li");
             let newLiArr = Array.from(newListItems).map(function (li) {
                 return {
-                    li: li.innerHTML
+                    li: li.textContent.trim()
                 }
             });
             return newLiArr;
@@ -505,35 +661,36 @@ export default {
                 return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
             // console.log(componentDetails);
+            // console.log(importData);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
             }
-            if (componentDetails.elementData.hasOwnProperty("childArr")) {
-                let childArr = componentDetails.elementData.childArr;
-                componentDetails.elementData.childArray = [];
-                childArr.forEach((child, index) => {
-                    // console.log(child);
-                    let innerComponent = this.components.filter(obj => {
-                        return obj.componentName === child.componentName
-                    })[0];
-                    // console.log(innerComponent);
-                    let innerComponentDetails = innerComponent.types.filter(obj => {
-                        return obj.type === child.type
-                    })[0];
-                    // console.log(innerComponentDetails);
-                    let newChildComponent = {
-                        componentName: innerComponent.componentName,
-                        uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
-                        type: innerComponentDetails.type,
-                        elementData: innerComponentDetails.elementData,
-                        optionsShown: true,
-                        componentChanges: 0,
-                        vendorRestricted: this.checkRestricted("vendors")
-                    };
+            // if (componentDetails.elementData.hasOwnProperty("childArr")) {
+            //     let childArr = componentDetails.elementData.childArr;
+            //     componentDetails.elementData.childArray = [];
+            //     childArr.forEach((child, index) => {
+            //         // console.log(child);
+            //         let innerComponent = this.components.filter(obj => {
+            //             return obj.componentName === child.componentName
+            //         })[0];
+            //         // console.log(innerComponent);
+            //         let innerComponentDetails = innerComponent.types.filter(obj => {
+            //             return obj.type === child.type
+            //         })[0];
+            //         // console.log(innerComponentDetails);
+            //         let newChildComponent = {
+            //             componentName: innerComponent.componentName,
+            //             uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
+            //             type: innerComponentDetails.type,
+            //             elementData: innerComponentDetails.elementData,
+            //             optionsShown: true,
+            //             componentChanges: 0,
+            //             vendorRestricted: this.checkRestricted("vendors")
+            //         };
                     
-                    componentDetails.elementData.childArray.push(newChildComponent);
-                });
-            }
+            //         componentDetails.elementData.childArray.push(newChildComponent);
+            //     });
+            // }
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + this.clickedElements.numberOfComponents,
@@ -571,8 +728,8 @@ export default {
                     console.log(el);
                     
                 });
-                console.log(pastedDoc);
-                console.log(pastedDoc.children);
+                // console.log(pastedDoc);
+                // console.log(pastedDoc.children);
 
 
                 // let dataObj = {
@@ -585,96 +742,100 @@ export default {
                 // this.updateTarget("pasted", dataObj);
             }
         },
+        removeAttributes: function (els) {
+            return els.forEach(el => {
+                el.removeAttribute("contenteditable");
+            });
+        },
+        removeElements: function (els) {
+            return els.forEach(el => {
+                el.parentNode.removeChild(el);
+            });
+        },
+        removeClasses: function (codeCopy, arr) {
+            return arr.forEach(arrItem => {
+                let elements = codeCopy.querySelectorAll("." + arrItem);
+                elements.forEach(el => {
+                    el.classList.remove(arrItem);
+                });
+            });
+        },
+        moveChildrenOutOfParents: function (els) {
+            return els.forEach(el =>  {
+                el.outerHTML = el.innerHTML.trim();
+            });
+        },
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
-            codeCopy.querySelectorAll("[contenteditable]").forEach(el => {
-                el.removeAttribute("contenteditable");
-            });
-            codeCopy.querySelectorAll(".component__options, .component__remove").forEach(function (el) {
-                el.parentNode.removeChild(el);
-            });
-            codeCopy.querySelectorAll(".page__component").forEach(function (wrap) {
-                wrap.outerHTML = wrap.innerHTML;
-            });
-            codeCopy.querySelectorAll(".component__remove").forEach(function (el) {
-                el.parentNode.removeChild(el);
-            });
-            codeCopy.querySelectorAll(".site__element").forEach(function (el) {
-                el.removeAttribute("contenteditable")
-            })
+            
+            this.removeAttributes(codeCopy.querySelectorAll("[contenteditable]"));
+            this.removeElements(codeCopy.querySelectorAll(".component__options"));
+            this.removeElements(codeCopy.querySelectorAll(".options__editable__bottom"));
+            this.removeElements(codeCopy.querySelectorAll(".component__remove"));
+            this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".page__component"));
+            this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".component__wrapper"));
+            // this.removeClasses(codeCopy, ["site__element"]);
+
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
             this.code = codeCopy;
             this.showCode = true;
         },
+        findInComponents: function (element, nameOfElement) {
+            let comp = {};
+            this.components.forEach(component => {
+                component.types.forEach(type => {
+                    // console.log(nameOfElement);
+                    // console.log(component.componentName);
+                    if (type.htmlElement) { //SINGLE ELEMENTS
+                        if (type.htmlElement.toLowerCase() === element.nodeName.toLowerCase()) {
+                            comp = {
+                                typeData: type,
+                                type: type,
+                                component: component,
+                            }
+                        }
+                    } else if (nameOfElement && nameOfElement === component.componentName) { //ELEMENTS WITH MORE THAN ONE CHILD
+                        if (type.type === element.getAttribute("data-component-sub-type")) {
+                            comp = {
+                                typeData: type,
+                                type: element.getAttribute("data-component-sub-type"),
+                                component: component,
+                            }
+                        }
+                    }
+                });
+            });
+            return comp;
+        },
+        
         importCode: function () {
             this.clickedElements.elements = [];
             let importZone = document.querySelector(".code__text__area");
             let importCode = new DOMParser().parseFromString(importZone.value, "text/html");
-            // console.log(importCode);
-            let initialElements = importCode.querySelector(".page__content").children;
+            let contentArea = importCode.querySelector(".page__content");
+            let initialElements = contentArea.children;
             let componentSubDetails;
+            // console.log(initialElements);
             Array.from(initialElements).forEach(element => {
-                // console.group("1 - Import Data - Element Level");
                 // console.log(element);
-                if (element.nodeName !== "parsererror") {
-                    let componentType = element.getAttribute("data-component-type");
-                    let componentInfo;
-                    if (element.hasAttribute("data-component-sub-type")) {
-                        let subType = element.getAttribute("data-component-sub-type");
-                        componentInfo = this.components.filter(component => {
-                            let types = component.types.filter(type => {
-                                if (type.type === subType) {
-                                    componentSubDetails = type;
-                                    return type
-                                }
-                            });
-                            return types.length > 0;
-                        })[0];
-                    } else {
-                        componentInfo = this.components.filter(component => {
-                            let elNodeName = element.nodeName.toLowerCase();
-                            let types = component.types.filter(type => {
-                                if (type.type.toLowerCase() === elNodeName) {
-                                    componentSubDetails = type;
-                                    return type
-                                }
-                            });
-                            return types.length > 0;
-                        })[0];
-                    }
-                    let componentInputTypes = JSON.parse(element.getAttribute("data-input-types").replace(/'/g,'"'));
-                    // console.log(componentInputTypes);
+                
+                if (element.nodeName.toLowerCase() !== "parsererror") {
+                    // console.group("1 - Import Data");
                     let elDatas = {};
-                    componentInputTypes.forEach(type => {
-                        if (element.hasAttribute("data-input-type")) {
-                            elDatas[type] = element.innerHTML;
-                        } else {
-                            let innerDatas = element.querySelectorAll("[data-input-type]");
-                            let listItemArray = [];
-                            Array.from(innerDatas).forEach(innerEl => {
-                                if (innerEl.nodeName === "IMG" && innerEl.src.length > 0) {
-                                    elDatas[innerEl.getAttribute("data-input-type")] = innerEl.getAttribute("src");
-                                } else {
-                                    if (innerEl.nodeName === "LI") {
-                                        listItemArray.push({li: innerEl.innerHTML});
-                                    } else {
-                                        elDatas[innerEl.getAttribute("data-input-type")] = innerEl.innerHTML;
-                                    }
-                                    
-                                }
-                            });
-                            if (listItemArray.length > 0) {
-                                elDatas.listItems = listItemArray;
-                            }
-                        }
-                    });
+                    let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : componentData = this.findInComponents(element); //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
+                    componentData.matchedTypes = this.findTypes(componentData, element);
+                    // console.log(componentData.component.componentName);
+                    // console.log(componentData);
+                    let textsToGrab = this.parseMatchedTypes(componentData, element, false);
                     let el = {
-                        componentName: componentInfo.componentName,
-                        elementType: componentSubDetails.type,
-                        newElementData: elDatas
+                        componentData: componentData,
+                        componentName: componentData.component.componentName,
+                        elementType: componentData.typeData.type,
+                        newElementData: textsToGrab
                     };
                     this.createComponent("import", el);
+                    // console.groupEnd();
                 }
             });
             this.toggleCode();

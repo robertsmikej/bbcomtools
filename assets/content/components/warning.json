@@ -1,0 +1,17 @@
+{
+    "title": "Warnings",
+    "componentName": "Warnings",
+    "pageTypes": ["product", "marketing"],
+    "showLive": true,
+    "types": [
+        {
+            "title": "Disclaimer",
+            "type": "disclaimer",
+            "htmlElement": "",
+            "elementData": {
+                "warningText": "*Packaging May Vary"
+            },
+            "img": ""
+        }
+    ]
+}

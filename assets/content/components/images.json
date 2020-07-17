@@ -1,0 +1,20 @@
+{
+    "title": "Images",
+    "componentName": "Images",
+    "pageTypes": ["product", "marketing"],
+    "showLive": true,
+    "types": [
+        {
+            "title": "IMG",
+            "type": "picture",
+            "htmlElement": "picture",
+            "elementData": {
+                "imgChangeToMobile": "768px",
+                "imgSrcDesktop": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+                "imgSrcMobile": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
+                "imgAlt": "Alt Test"
+            },
+            "img": ""
+        }
+    ]
+}
