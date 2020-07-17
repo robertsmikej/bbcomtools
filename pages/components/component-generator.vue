@@ -227,7 +227,6 @@ export default {
             }
         });
         this.$nuxt.$on('updateTarget', data => {
-            // console.log(data);
             this.updateTarget(data);
         })
 
@@ -369,14 +368,38 @@ export default {
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn].elementData.listItems = data.pasted.newListItems;
             } else if (data.action === "addListItem" || data.action === "deleteListItem") {
-                let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event)
+                let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
                 newComponentData.elementData.listItems = newListItems;
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
+
+            } else if (data.action === "addChartRow" || data.action === "deleteChartRow") {
+                let newChartRows = data.action === "addChartRow" ? this.addChartRow(data.event) : this.deleteChartRow(data.event);
+                newComponentData.elementData.chartRows = newChartRows;
+               let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+                }
+            else if (data.action === "addChartColumn" || data.action === "deleteChartColumn") {
+                let newChartRows = data.action === "addChartColumn" ? this.addChartColumn(data.event) : this.deleteChartColumn(data.event);
+                newComponentData.elementData.chartRows = newChartRows;
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
+               
+            }
+            else if (newComponentData.type === "chart") {
+                let textsToGrab = this.getChartRows(data.event);
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                newComponentData.elementData.chartRows = textsToGrab;
+                this.clickedElements.elements[findIn] = newComponentData;
+            }
+            else {
+                let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+
             } else {
                 newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + uniqueName));
                 let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
                 // console.log(textsToGrab);
+
                 Object.assign(newComponentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -445,6 +468,113 @@ export default {
             }
             return newObj;
         },
+
+
+        //CHART FUNCTIONS
+        //CHART FUNCTIONS
+        //CHART FUNCTIONS
+        addChartColumn(event) {
+            let chartRows = this.getChartRows(event);
+            let clickedCell = this.getClickedCell(event);
+            let newChartRows = [];
+            chartRows.forEach((chartRow, index) => {
+                let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
+                let newCellKey = `cell${cellNumber+1}`;
+                let cellObj = {};
+                index === 0 ? cellObj[newCellKey] = "New" : cellObj[newCellKey] = "0\"";
+                chartRow.row.splice(cellNumber + 1, 0, cellObj);
+                chartRow.row.forEach((el, index) => {
+                    return this.renumberCellClassNames(el, index);
+                })
+            });
+            return chartRows;
+        },
+        addChartRow(event) {
+            let rowToAdd = {type: "chartRow", 
+            row: []};
+            let chartRows = this.getChartRows(event);
+            let clickedRow = this.getClickedChartRow(event, chartRows);
+            chartRows[0].row.forEach((el, index) => {
+                let keyStr = `cell${index}`;
+                let cellObj = {};
+                index === 0 ? cellObj[keyStr] = "New" : cellObj[keyStr] = "0\"";
+                rowToAdd.row.push(cellObj);
+            })
+            chartRows.splice(clickedRow + 1, 0, rowToAdd);
+            return chartRows;
+        },
+        deleteChartColumn(event) {
+            let chartRows = this.getChartRows(event);
+            let clickedCell = this.getClickedCell(event).substr(-1);
+            console.log(clickedCell)
+            chartRows.forEach(chartRow => {
+                chartRow.row.splice(clickedCell, 1);
+                chartRow.row.forEach((el, index) => {
+                    return this.renumberCellClassNames(el, index);
+                })
+            });
+            return chartRows;
+        },
+        deleteChartRow(event) {
+            let chartRows = this.getChartRows(event);
+            let clickedRow = this.getClickedChartRow(event, chartRows);
+            chartRows.splice(clickedRow, 1);
+            return chartRows;
+        },
+        getChartRows(event) {
+            let newChartRows = event.target.closest(".site__element").getElementsByClassName("chart__row");
+            let newChartArr = Array.from(newChartRows).map((div) => {
+                let newChildren = this.getChartRowCells(div.children);
+                return {row: newChildren}
+            });
+            return newChartArr;
+        },
+        getChartRowCells(data) {
+            let childrenArray = Array.from(data);
+            childrenArray.pop();
+            let newChildrenArray =[];
+            childrenArray.forEach( (el, index) => {
+                let keyStr = el.children[0].dataset.cellNumber;
+                let cleanStr = el.children[0].dataset.cellNumber !== "cell0" ? 
+                    this.trimButtonTextFromCellText(childrenArray[index].innerText) : cleanStr = childrenArray[index].innerText;
+                let cellObj = {};
+                cellObj[keyStr] = cleanStr;
+                newChildrenArray.push(cellObj);
+            })
+            return newChildrenArray;
+        },
+        getClickedCell(event) {
+            return event.target.closest(".chart__item").children[0].dataset.cellNumber;
+        },
+        getClickedChartRow(event, chartRows) {
+            let clickedItem = -1;
+            let chartRowArray = Array.from(chartRows);
+            chartRowArray.forEach((chartRow, index) => {
+               let chartText = chartRow.row[0].cell0.trim().toLowerCase();
+               let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
+                eventText = this.trimButtonTextFromCellText(eventText);          
+                if(chartText === eventText.trim()) {
+                   clickedItem = index;
+               }
+            });
+            return clickedItem;
+        },
+        renumberCellClassNames(element, index) {
+            let updatedKey = "cell" + index;
+            let origkey = Object.keys(element)[0];
+            if( origkey !== updatedKey) {
+                element[updatedKey] = element[origkey];
+                delete element[origkey];
+            }
+        },
+        trimButtonTextFromCellText(strToTrim) {
+            let strTrimmings = strToTrim.substr(-3);
+            let desiredStrLength = strToTrim.length - strTrimmings.length;
+            return strToTrim.substr(0, desiredStrLength);
+        },
+        //END CHART FUNCTIONS
+        //END CHART FUNCTIONS
+        //END CHART FUNCTIONS
         
 
         //LIST FUNCTIONS
@@ -513,6 +643,7 @@ export default {
         },
         createComponent: function (typeOfCreate, importData) {
             // console.group("buildcomp");
+            // console.log(event.currentTarget)
             let newNumber = this.clickedElements.numberOfComponents;
             let compname;
             let comptype;

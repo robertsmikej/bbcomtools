@@ -1,0 +1,113 @@
+{
+  "title": "Chart",
+  "componentName": "Chart",
+  "pageTypes": ["product", "marketing"],
+  "showLive": true,
+  "types": [
+      {
+          "title": "chart",
+          "type": "chart",
+          "elementData": {
+              "chartRows": [
+                {
+                  "type": "headerRow",
+                  "row": [
+                    {
+                      "cell0": "Size"
+                    },
+                    {
+                      "cell1": "S"
+                    },
+                    {
+                      "cell2": "M"
+                    },
+                    {
+                      "cell3": "L"
+                    },
+                    {
+                      "cell4": "XL"
+                    }
+                  ]
+                },
+                { "type": "chartRow",
+                  "row": [
+                    {
+                      "cell0": "Neck"
+                    },
+                    {
+                      "cell1": "0\""
+                    },
+                    {
+                      "cell2": "0\""
+                    },
+                    {
+                      "cell3": "0\""
+                    },
+                    {
+                      "cell4": "0\""
+                    }
+                  ]
+                },
+                {"type": "chartRow",
+                  "row": [
+                    {
+                      "cell0": "Chest"
+                    },
+                    {
+                      "cell1": "0\""
+                    },
+                    {
+                      "cell2": "0\""
+                    },
+                    {
+                      "cell3": "0\""
+                    },
+                    {
+                      "cell4": "0\""
+                    }
+                  ]
+                },
+                {"type": "chartRow",
+                  "row": [
+                    {
+                      "cell0": "Sleeve"
+                    },
+                    {
+                      "cell1": "0\""
+                    },
+                    {
+                      "cell2": "0\""
+                    },
+                    {
+                      "cell3": "0\""
+                    },
+                    {
+                      "cell4": "0\""
+                    }
+                  ]
+                },
+                {"type": "chartRow",
+                  "row": [
+                    {
+                      "cell0": "Length"
+                    },
+                    {
+                      "cell1": "0\""
+                    },
+                    {
+                      "cell2": "0\""
+                    },
+                    {
+                      "cell3": "0\""
+                    },
+                    {
+                      "cell4": "0\""
+                    }
+                  ]
+                }   
+              ]
+          },
+          "img": ""
+      }
+  ]
+}

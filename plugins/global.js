@@ -3,6 +3,9 @@ import Vue from 'vue';
 import Bannersheroes from '../components/pagecomponents/Bannersheroes.vue';
 Vue.component('Bannersheroes', Bannersheroes);
 
+import Chart from '../components/pagecomponents/Chart.vue';
+Vue.component('Chart', Chart);
+
 import Dropdownoptions from '../components/options/Dropdownoptions.vue';
 Vue.component('Dropdownoptions', Dropdownoptions);
 
