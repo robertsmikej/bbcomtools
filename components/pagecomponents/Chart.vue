@@ -7,28 +7,28 @@
             class="page__chart page__chart--inches component__wrapper"
         >
             <div 
-                v-for="(chartRow, parentindex) in chartRows"
-                :key="componentData.uniqueName + parentindex"
+                v-for="(chartRow, parentIndex) in chartRows"
+                :key="componentData.uniqueName + parentIndex"
                 class="chart__row"
                 :data-row-type="chartRow.type"
                 :style="gridStyle"
             >
                 <div
-                    v-for="(row,rowindex) in chartRow.row" 
-                    :key="rowindex"
+                    v-for="(row, rowIndex) in chartRow.row" 
+                    :key="rowIndex"
                     class="chart__item"
                 >
                     <div
                         contenteditable
                         @blur="updateTarget()"
                         class='chart__item__cell'
-                        :data-cell-number="parentindex + '-' + rowindex"
+                        :data-cell-number="parentIndex + '-' + rowIndex"
                     >
                         {{row.text}}
                     </div>
                     <div
                         v-if="componentData.optionsShown"
-                        v-show="rowindex > 0"
+                        v-show="rowIndex > 0"
                         class="component__options__buttons component__remove"
                     >
                         <div @click="updateTarget('addChartColumn')" class="component__options--button--chart">+</div>
@@ -38,7 +38,7 @@
                 
                 <div
                     v-if="componentData.optionsShown"
-                    v-show="parentindex > 0"
+                    v-show="parentIndex > 0"
                     class="component__options__buttons--chartrow component__remove"
                 >
                     <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>

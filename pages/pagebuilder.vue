@@ -476,14 +476,13 @@ export default {
             return chartRows;
         },
         addChartRow(event) {
-            let rowToAdd = {type: "chartRow", 
-            row: []};
+            let rowToAdd = {type: "chartRow", row: []};
             let chartRows = this.getChartRows(event);
             let clickedRow = this.getClickedChartRow(event, chartRows);
+            console.log(clickedRow);
             chartRows[0].row.forEach((el, index) => {
-                let keyStr = `cell${index}`;
                 let cellObj = {};
-                index === 0 ? cellObj[keyStr] = "New" : cellObj[keyStr] = "0";
+                index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
                 rowToAdd.row.push(cellObj);
             })
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
@@ -492,7 +491,6 @@ export default {
         deleteChartColumn(event) {
             let chartRows = this.getChartRows(event);
             let clickedCell = this.getClickedCell(event).substr(-1);
-            console.log(clickedCell)
             chartRows.forEach(chartRow => {
                 chartRow.row.splice(clickedCell, 1);
                 chartRow.row.forEach((el, index) => {
@@ -518,28 +516,16 @@ export default {
         getChartRowCells(data) {
             let childrenArray = Array.from(data);
             childrenArray.pop();
-            console.log(childrenArray);
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
-                console.group();
                 let keyStr = cell.children[0].dataset.cellNumber;
-                let rowNum = keyStr.split("-")[0];
-                let cellNum = keyStr.split("-")[1];
-                
-                let cleanStr = cell.innerText.trim().replace("+", "").replace("X", "").replace(/ /g, "");
-                console.log(cell);
-                console.log(keyStr);
-                console.log(rowNum);
-                console.log(cellNum);
-                console.log(cleanStr);
-                // let cleanStr = el.children[0].dataset.cellNumber !== "cell0" ? 
-                //     this.trimButtonTextFromCellText(childrenArray[index].innerText) : cleanStr = childrenArray[index].innerText;
+                let cleanStr = this.trimButtonTextFromCellText(cell.innerText);
                 let cellObj = {};
                 cellObj["text"] = cleanStr;
+                cellObj["cellNumber"] = keyStr;
                 newChildrenArray.push(cellObj);
-                console.groupEnd();
             })
-            console.log(newChildrenArray);
+            // console.log(newChildrenArray);
             return newChildrenArray;
         },
         getClickedCell(event) {
@@ -549,10 +535,10 @@ export default {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
-               let chartText = chartRow.row[0].cell0.trim().toLowerCase();
-               let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
-                eventText = this.trimButtonTextFromCellText(eventText);          
-                if(chartText === eventText.trim()) {
+                let chartRowIndex = chartRow.row[0].cellNumber.split("-")[0];
+                console.log(chartRowIndex);
+                let eventIndex = event.target.closest(".chart__row").getElementsByTagName("div")[0].children[0].dataset.cellNumber.split("-")[0];
+                if(chartRowIndex === eventIndex) {
                    clickedItem = index;
                }
             });
@@ -566,11 +552,12 @@ export default {
                 delete element[origkey];
             }
         },
-        // trimButtonTextFromCellText(strToTrim) {
-        //     let strTrimmings = strToTrim.substr(-3);
-        //     let desiredStrLength = strToTrim.length - strTrimmings.length;
-        //     return strToTrim.substr(0, desiredStrLength);
-        // },
+        trimButtonTextFromCellText(strToTrim) {
+            return strToTrim.trim().replace(/[+ X]/g, "");
+            // let strTrimmings = strToTrim.substr(-3);
+            // let desiredStrLength = strToTrim.length - strTrimmings.length;
+            // return strToTrim.substr(0, desiredStrLength);
+        },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
