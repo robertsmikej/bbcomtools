@@ -462,16 +462,12 @@ export default {
         addChartColumn(event) {
             let chartRows = this.getChartRows(event);
             let clickedCell = this.getClickedCell(event);
-            let newChartRows = [];
+            console.log(clickedCell);
             chartRows.forEach((chartRow, index) => {
-                let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
-                let newCellKey = `cell${cellNumber+1}`;
                 let cellObj = {};
-                index === 0 ? cellObj[newCellKey] = "New" : cellObj[newCellKey] = "0";
-                chartRow.row.splice(cellNumber + 1, 0, cellObj);
-                chartRow.row.forEach((el, index) => {
-                    return this.renumberCellClassNames(el, index);
-                })
+                index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
+                chartRow.row.splice(clickedCell + 1, 0, cellObj);
+                console.log(chartRow)
             });
             return chartRows;
         },
@@ -479,7 +475,6 @@ export default {
             let rowToAdd = {type: "chartRow", row: []};
             let chartRows = this.getChartRows(event);
             let clickedRow = this.getClickedChartRow(event, chartRows);
-            console.log(clickedRow);
             chartRows[0].row.forEach((el, index) => {
                 let cellObj = {};
                 index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
@@ -493,9 +488,6 @@ export default {
             let clickedCell = this.getClickedCell(event).substr(-1);
             chartRows.forEach(chartRow => {
                 chartRow.row.splice(clickedCell, 1);
-                chartRow.row.forEach((el, index) => {
-                    return this.renumberCellClassNames(el, index);
-                })
             });
             return chartRows;
         },
@@ -525,32 +517,22 @@ export default {
                 cellObj["cellNumber"] = keyStr;
                 newChildrenArray.push(cellObj);
             })
-            // console.log(newChildrenArray);
             return newChildrenArray;
         },
         getClickedCell(event) {
-            return event.target.closest(".chart__item").children[0].dataset.cellNumber;
+            return event.target.closest(".chart__item").children[0].dataset.cellNumber.split("-")[1];
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
                 let chartRowIndex = chartRow.row[0].cellNumber.split("-")[0];
-                console.log(chartRowIndex);
                 let eventIndex = event.target.closest(".chart__row").getElementsByTagName("div")[0].children[0].dataset.cellNumber.split("-")[0];
                 if(chartRowIndex === eventIndex) {
                    clickedItem = index;
                }
             });
             return clickedItem;
-        },
-        renumberCellClassNames(element, index) {
-            let updatedKey = "cell" + index;
-            let origkey = Object.keys(element)[0];
-            if( origkey !== updatedKey) {
-                element[updatedKey] = element[origkey];
-                delete element[origkey];
-            }
         },
         trimButtonTextFromCellText(strToTrim) {
             return strToTrim.trim().replace(/[+ X]/g, "");
