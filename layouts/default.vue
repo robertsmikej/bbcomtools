@@ -336,7 +336,7 @@
     .page__component:hover .component__options__buttons {
         opacity: 1;
     }
-    .component__options__buttons__chartrow {
+    .component__options__buttons--chartrow {
         width: auto;
         display: flex;
         flex-direction: row;
@@ -348,12 +348,13 @@
         background: #FFF;
         z-index: 1;
         position: absolute;
-        top: 16px;
-        right: -40px;
+        top: 50%;
+        right: 0;
+        transform: translate(-6px, -50%);
         padding: 1px 0;
         border: 1px solid lightgray;
     }
-    .component__options__buttons__hover {
+    .component__options__buttons {
         width: auto;
         display: flex;
         flex-direction: row;
@@ -370,8 +371,11 @@
         padding: 1px 0;
         opacity: 0; 
     }
-    .component__options__buttons__hover:hover {
+    .component__options__buttons:hover {
        opacity: 1;
+    }
+    .chart__row:nth-child(n + 2) .component__options__buttons {
+        display: none;
     }
     .component__options--button {
         width: 16px;

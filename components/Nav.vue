@@ -2,8 +2,8 @@
     <nav>
         <h3>BB Tools</h3>
         <ul>
-            <nuxt-link to="../vendors/newproduct">Vendor - New Prod</nuxt-link>
-            <nuxt-link to="../components/component-generator">Component Generator</nuxt-link>
+            <!-- <nuxt-link to="../vendors/newproduct">Vendor - New Prod</nuxt-link> -->
+            <nuxt-link to="../pagebuilder">Page Builder</nuxt-link>
         </ul>
     </nav>
 </template>

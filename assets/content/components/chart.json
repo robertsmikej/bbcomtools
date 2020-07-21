@@ -1,11 +1,11 @@
 {
-  "title": "Chart",
+  "title": "Charts",
   "componentName": "Chart",
   "pageTypes": ["product", "marketing"],
   "showLive": true,
   "types": [
       {
-          "title": "chart",
+          "title": "Inch/CM",
           "type": "chart",
           "elementData": {
               "chartRows": [
@@ -13,95 +13,95 @@
                   "type": "headerRow",
                   "row": [
                     {
-                      "cell0": "Size"
+                      "text": "Size"
                     },
                     {
-                      "cell1": "S"
+                      "text": "S"
                     },
                     {
-                      "cell2": "M"
+                      "text": "M"
                     },
                     {
-                      "cell3": "L"
+                      "text": "L"
                     },
                     {
-                      "cell4": "XL"
+                      "text": "XL"
                     }
                   ]
                 },
                 { "type": "chartRow",
                   "row": [
                     {
-                      "cell0": "Neck"
+                      "text": "Neck"
                     },
                     {
-                      "cell1": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell2": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell3": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell4": "0\""
+                      "text": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "cell0": "Chest"
+                      "text": "Chest"
                     },
                     {
-                      "cell1": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell2": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell3": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell4": "0\""
+                      "text": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "cell0": "Sleeve"
+                      "text": "Sleeve"
                     },
                     {
-                      "cell1": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell2": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell3": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell4": "0\""
+                      "text": "0"
                     }
                   ]
                 },
                 {"type": "chartRow",
                   "row": [
                     {
-                      "cell0": "Length"
+                      "text": "Length"
                     },
                     {
-                      "cell1": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell2": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell3": "0\""
+                      "text": "0"
                     },
                     {
-                      "cell4": "0\""
+                      "text": "0"
                     }
                   ]
                 }   
