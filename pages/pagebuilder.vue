@@ -461,13 +461,13 @@ export default {
         //CHART FUNCTIONS
         addChartColumn(event) {
             let chartRows = this.getChartRows(event);
-            let clickedCell = this.getClickedCell(event);
-            console.log(clickedCell);
+            let clickedCell = Number(this.getClickedCell(event));
             chartRows.forEach((chartRow, index) => {
                 let cellObj = {};
                 index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
+                // console.log(chartRow.row[0].cellNumber.split("-")[0])
+                // cellObj["cellNumber"] = chartRow.row[0].cellNumber.split("-")[0] + "-" + indexToAddAt;
                 chartRow.row.splice(clickedCell + 1, 0, cellObj);
-                console.log(chartRow)
             });
             return chartRows;
         },
@@ -519,6 +519,7 @@ export default {
             })
             return newChildrenArray;
         },
+        
         getClickedCell(event) {
             return event.target.closest(".chart__item").children[0].dataset.cellNumber.split("-")[1];
         },
