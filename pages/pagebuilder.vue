@@ -465,8 +465,6 @@ export default {
             chartRows.forEach((chartRow, index) => {
                 let cellObj = {};
                 index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
-                // console.log(chartRow.row[0].cellNumber.split("-")[0])
-                // cellObj["cellNumber"] = chartRow.row[0].cellNumber.split("-")[0] + "-" + indexToAddAt;
                 chartRow.row.splice(clickedCell + 1, 0, cellObj);
             });
             return chartRows;
@@ -513,6 +511,7 @@ export default {
                 let keyStr = cell.children[0].dataset.cellNumber;
                 let cleanStr = this.trimButtonTextFromCellText(cell.innerText);
                 let cellObj = {};
+                console.log(cell)
                 cellObj["text"] = cleanStr;
                 cellObj["cellNumber"] = keyStr;
                 newChildrenArray.push(cellObj);

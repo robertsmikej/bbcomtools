@@ -1,11 +1,14 @@
 <template>
     <div class="page__component">
+
         <div
             data-input-types="['chart']"
             :data-component-type="componentData.componentName"
             :class="'page__chart--' + inchesOrCM"
             class="page__chart page__chart--inches component__wrapper"
         >
+                <input type="checkbox" id="conversion__checkbox">
+        <label class="conversion__checkbox--label" for="conversion__checkbox">Inches/CM</label>
             <div 
                 v-for="(chartRow, parentIndex) in chartRows"
                 :key="componentData.uniqueName + parentIndex"
@@ -24,7 +27,9 @@
                         class='chart__item__cell'
                         :data-cell-number="parentIndex + '-' + rowIndex"
                     >
-                        {{row.text}}
+                        <span :class="[row.hasOwnProperty('in') ? 'chart__row--in' : 'chart__row--text']">
+                            {{row.text || row.in}}</span>
+                        <span :class="[row.hasOwnProperty('in') ? 'chart__row--cm' : '']">{{row.in}}</span>
                     </div>
                     <div
                         v-if="componentData.optionsShown"
@@ -50,26 +55,13 @@
             v-if="componentData.optionsShown"
             :componentData="componentData"
         />
-        <div 
-            class="page__chart__conversion__container"
-        >
-            <span
-                @click="toggleInCm('inches')"
-            >
-                Inches
-                </span>
-             /  
-            <span
-                @click="toggleInCm('centimeters')"
-            >
-                Centimeters
-            </span>
-        </div>
+
+
   </div>
 </template>
 
 <script>
-export default {
+export default {    
     data() {
         return {
             gridStyle: {
@@ -92,7 +84,7 @@ export default {
     methods: {
         updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-                if (newComponentData.uniqueName === this.componentData.uniqueName) {
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
                 let info = {
                     newComponentData: newComponentData,
@@ -100,11 +92,17 @@ export default {
                     action: action,
                 };
                 this.$nuxt.$emit("updateTarget", info);
-            }
+        }
         },
         toggleInCm(measurementType) {
-            this.inchesOrCM = measurementType;
-        }
+            this.inchesOrCM !== measurementType ? this.inchesOrCM = measurementType : this.inchesOrCM;
+            this.convertMeasurementsBetweenInchesAndCentimeters();
+        },
+        convertMeasurementsBetweenInchesAndCentimeters(inches) {
+            let inchesInt = Number(inches);
+            console.log(inchesInt)
+            return inchesInt * 2.54 
+        },
     }
 }
 </script>
@@ -136,34 +134,72 @@ export default {
 .page__chart {
     width: 100%;
 }
-.page__chart.page__chart--inches .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
+/* .page__chart.page__chart--inches .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
+    content: '"';
+    position: relative;
+    right: 0;
+    top: 0;
+} */
+/* .page__chart.page__chart--centimeters .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
+    content: 'cm';
+    position: relative;
+    right: 0;
+    bottom: 0;
+} */
+.page__chart.page__chart--inches .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after,
+.page__chart.page__chart--centimeters .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after  {
+    content: "";
+}
+/* .page__chart__conversion__container {
+    position: absolute;
+    bottom: -20px;
+    right: 14px;
+    text-align: right;
+} */
+#conversion__checkbox {
+    position: absolute;
+    top: -10000px;
+    left: -10000px
+}
+/* .chart__row--cm, .chart__row--in {
+    display: none
+} */
+#conversion__checkbox:checked ~ .chart__row .chart__row--cm {
+    display: inline 
+}
+#conversion__checkbox:checked ~ .chart__row .chart__row--cm::after {
+     content: 'cm';
+    position: relative;
+    right: 0;
+    bottom: 0;
+}
+#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--cm {
+    display: none
+}
+#conversion__checkbox:checked ~ .chart__row .chart__row--in {
+    display: none 
+}
+#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in {
+    display: inline
+}
+#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in::after {
     content: '"';
     position: relative;
     right: 0;
     top: 0;
 }
-.page__chart.page__chart--centimeters .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
-    content: 'cm';
-    position: relative;
-    right: 0;
-    bottom: 0;
-}
-.page__chart.page__chart--inches .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after,
-.page__chart.page__chart--centimeters .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after  {
-    content: "";
-}
-.page__chart__conversion__container {
-    position: absolute;
+.conversion__checkbox--label {
+        position: absolute;
     bottom: -20px;
     right: 14px;
     text-align: right;
 }
-.page__chart__conversion__container span {
+/* .page__chart__conversion__container span {
     font-size: 14px;
     line-height: 14px;
     cursor: pointer;
 }
 .page__chart__conversion__container span:hover {
     color: #00AEEF;
-}
+} */
 </style>
