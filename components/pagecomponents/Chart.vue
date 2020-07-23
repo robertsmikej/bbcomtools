@@ -53,7 +53,7 @@
                 <div
                     v-if="componentData.optionsShown"
                     v-show="parentIndex > 0"
-                    class="component__options__buttons--chartrow component__remove"
+                    class="component__options__buttons component__remove"
                 >
                     <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>
                     <div @click="updateTarget('deleteChartRow')" class="component__options--button--chart">X</div>
@@ -168,9 +168,9 @@ export default {
     text-align: right;
 } */
 #conversion__checkbox {
-    /* position: absolute;
+    position: absolute;
     top: -10000px;
-    left: -10000px */
+    left: -10000px
 }
 /* .chart__row--cm, .chart__row--in {
     display: none
@@ -201,9 +201,15 @@ export default {
 }
 .conversion__checkbox--label {
     position: absolute;
-    bottom: -20px;
+    bottom: -25px;
     right: 14px;
     text-align: right;
+    padding: 3px;
+    border-radius: 3px
+}
+.conversion__checkbox--label:hover {
+    cursor: pointer;
+    background-color: rgb(230, 230, 230);
 }
 /* .page__chart__conversion__container span {
     font-size: 14px;

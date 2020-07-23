@@ -353,6 +353,8 @@
         transform: translate(-6px, -50%);
         padding: 1px 0;
         border: 1px solid lightgray;
+        opacity: 0; 
+
     }
     .component__options__buttons {
         width: auto;
@@ -371,7 +373,7 @@
         padding: 1px 0;
         opacity: 0; 
     }
-    .component__options__buttons:hover {
+    .component__options__buttons:hover, .component__options__buttons--chartrow:hover {
        opacity: 1;
     }
     .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
