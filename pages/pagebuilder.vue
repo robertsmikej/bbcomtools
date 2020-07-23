@@ -463,7 +463,7 @@ export default {
             let clickedCell = Number(this.getClickedCell(event));
             chartRows.forEach((chartRow, index) => {
                 let cellObj = {};
-                index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
+                index === 0 ? cellObj["text"] = "New" : cellObj["in"] = "0";
                 chartRow.row.splice(clickedCell + 1, 0, cellObj);
             });
             return chartRows;
@@ -474,7 +474,7 @@ export default {
             let clickedRow = this.getClickedChartRow(event, chartRows);
             chartRows[0].row.forEach((el, index) => {
                 let cellObj = {};
-                index === 0 ? cellObj["text"] = "New" : cellObj["text"] = "0";
+                index === 0 ? cellObj["text"] = "New" : cellObj["in"] ="0";
                 rowToAdd.row.push(cellObj);
             })
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
@@ -507,11 +507,13 @@ export default {
             childrenArray.pop();
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
-                if (cell.querySelector(".component__remove").parentNode) {
-                    cell.querySelector(".component__remove").parentNode.removeChild(cell.querySelector(".component__remove"));
+                let buttonComponentFromCell = cell.querySelector(".component__remove");
+                if (buttonComponentFromCell.parentNode) {
+                    buttonComponentFromCell.parentNode.removeChild(buttonComponentFromCell);
                 }
                 let cellNumValue = cell.children[0].dataset.cellNumber;
                 let cleanStr = cell.innerText.trim();
+                console.log(typeof cleanStr, cleanStr)
                 let cellObj = {};
                 let keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
                 if(cleanStr.length > 0 ) {
@@ -520,14 +522,14 @@ export default {
                     cellObj['in'] = 0;
                 }
                 cleanStr = isNaN(cleanStr) ? cleanStr : parseInt(cleanStr);
-
+                console.log(typeof cleanStr, cleanStr)
                 cellObj["cellNumber"] = cellNumValue;
                 newChildrenArray.push(cellObj);
             })
             return newChildrenArray;
         },
         getClickedCell(event) {
-            return event.target.closest(".chart__item").children[0].dataset.cellNumber.split("-")[1];
+            return event.path[2].firstChild.dataset.cellNumber.split("-")[1];
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
@@ -540,9 +542,6 @@ export default {
                }
             });
             return clickedItem;
-        },
-        trimButtonTextFromCellText(strToTrim) {
-            return strToTrim.trim().replace(/[+ X]/g, "");
         },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS

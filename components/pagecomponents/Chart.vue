@@ -24,6 +24,7 @@
                     <div
                         contenteditable
                         @blur="updateTarget()"
+                        @keydown.enter="enterPressed"
                         class='chart__item__cell'
                         :data-cell-number="parentIndex + '-' + rowIndex"
                     >
@@ -37,11 +38,11 @@
                         data-key-str="cm"
                         v-if="row.hasOwnProperty('in')"
                         >
-                            {{row.in}}</span>
+                            {{convertMeasurementsBetweenInchesAndCentimeters(row.in)}}</span>
                     </div>
                     <div
                         v-if="componentData.optionsShown"
-                        v-show="rowIndex > 0"
+                        v-show="rowIndex > 0 && parentIndex == 0"
                         class="component__options__buttons component__remove"
                     >
                         <div @click="updateTarget('addChartColumn')" class="component__options--button--chart">+</div>
@@ -110,6 +111,9 @@ export default {
             let inchesInt = Number(inches);
             return inchesInt * 2.54 
         },
+        enterPressed(e) {
+            e.preventDefault();
+        }
     }
 }
 </script>

@@ -375,7 +375,7 @@
        opacity: 1;
     }
     .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
-        display: none;
+        /* display: none; */
     }
     .component__options--button {
         width: 16px;
