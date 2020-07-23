@@ -377,7 +377,6 @@ export default {
                 this.clickedElements.elements[findIn] = newComponentData;
             } else if (newComponentData.type === "chart") {
                 let textsToGrab = this.getChartRows(data.event);
-                console.log(textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 newComponentData.elementData.chartRows = textsToGrab;
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -508,12 +507,14 @@ export default {
             childrenArray.pop();
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
-                let keyStr = cell.children[0].dataset.cellNumber;
+                let cellNumValue = cell.children[0].dataset.cellNumber;
                 let cleanStr = this.trimButtonTextFromCellText(cell.innerText);
                 let cellObj = {};
-                console.log(cell)
-                cellObj["text"] = cleanStr;
-                cellObj["cellNumber"] = keyStr;
+                // let keyStr = cell.children[0].firstChild.classList[0].split("--")[1];
+                let keyStr = cell.children[0].firstChild.closest("span").classList.value.split("--")[1]
+                console.log(keyStr)
+                cellObj[keyStr] = cleanStr;
+                cellObj["cellNumber"] = cellNumValue;
                 newChildrenArray.push(cellObj);
             })
             return newChildrenArray;

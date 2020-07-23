@@ -84,6 +84,7 @@ export default {
     methods: {
         updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+            console.log(newComponentData)
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
                 let info = {
@@ -100,7 +101,6 @@ export default {
         },
         convertMeasurementsBetweenInchesAndCentimeters(inches) {
             let inchesInt = Number(inches);
-            console.log(inchesInt)
             return inchesInt * 2.54 
         },
     }
@@ -157,9 +157,9 @@ export default {
     text-align: right;
 } */
 #conversion__checkbox {
-    position: absolute;
+    /* position: absolute;
     top: -10000px;
-    left: -10000px
+    left: -10000px */
 }
 /* .chart__row--cm, .chart__row--in {
     display: none
@@ -168,7 +168,7 @@ export default {
     display: inline 
 }
 #conversion__checkbox:checked ~ .chart__row .chart__row--cm::after {
-     content: 'cm';
+    content: 'cm';
     position: relative;
     right: 0;
     bottom: 0;
@@ -189,7 +189,7 @@ export default {
     top: 0;
 }
 .conversion__checkbox--label {
-        position: absolute;
+    position: absolute;
     bottom: -20px;
     right: 14px;
     text-align: right;
