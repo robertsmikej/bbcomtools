@@ -507,19 +507,25 @@ export default {
             childrenArray.pop();
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
+                if (cell.querySelector(".component__remove").parentNode) {
+                    cell.querySelector(".component__remove").parentNode.removeChild(cell.querySelector(".component__remove"));
+                }
                 let cellNumValue = cell.children[0].dataset.cellNumber;
-                let cleanStr = this.trimButtonTextFromCellText(cell.innerText);
+                let cleanStr = cell.innerText.trim();
                 let cellObj = {};
-                // let keyStr = cell.children[0].firstChild.classList[0].split("--")[1];
-                let keyStr = cell.children[0].firstChild.closest("span").classList.value.split("--")[1]
-                console.log(keyStr)
-                cellObj[keyStr] = cleanStr;
+                let keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
+                if(cleanStr.length > 0 ) {
+                    cellObj[keyStr] = cleanStr;
+                } else {
+                    cellObj['in'] = 0;
+                }
+                cleanStr = isNaN(cleanStr) ? cleanStr : parseInt(cleanStr);
+
                 cellObj["cellNumber"] = cellNumValue;
                 newChildrenArray.push(cellObj);
             })
             return newChildrenArray;
         },
-        
         getClickedCell(event) {
             return event.target.closest(".chart__item").children[0].dataset.cellNumber.split("-")[1];
         },
@@ -537,9 +543,6 @@ export default {
         },
         trimButtonTextFromCellText(strToTrim) {
             return strToTrim.trim().replace(/[+ X]/g, "");
-            // let strTrimmings = strToTrim.substr(-3);
-            // let desiredStrLength = strToTrim.length - strTrimmings.length;
-            // return strToTrim.substr(0, desiredStrLength);
         },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS

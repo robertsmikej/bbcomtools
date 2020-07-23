@@ -374,7 +374,7 @@
     .component__options__buttons:hover {
        opacity: 1;
     }
-    .chart__row:nth-child(n + 2) .component__options__buttons {
+    .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
         display: none;
     }
     .component__options--button {

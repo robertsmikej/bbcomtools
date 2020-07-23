@@ -4,10 +4,10 @@
         <div
             data-input-types="['chart']"
             :data-component-type="componentData.componentName"
-            :class="'page__chart--' + inchesOrCM"
+            :class="[inchesNotCM ? 'page__chart--in' : 'page__chart--cm']"
             class="page__chart page__chart--inches component__wrapper"
         >
-                <input type="checkbox" id="conversion__checkbox">
+                <input @click="toggleInCm" type="checkbox" id="conversion__checkbox">
         <label class="conversion__checkbox--label" for="conversion__checkbox">Inches/CM</label>
             <div 
                 v-for="(chartRow, parentIndex) in chartRows"
@@ -27,9 +27,17 @@
                         class='chart__item__cell'
                         :data-cell-number="parentIndex + '-' + rowIndex"
                     >
-                        <span :class="[row.hasOwnProperty('in') ? 'chart__row--in' : 'chart__row--text']">
+                        <span 
+                        :class="[row.hasOwnProperty('in') ? 'chart__row--in' : 'chart__row--text']"
+                        :data-key-str="[row.hasOwnProperty('in') ? 'in': 'text']"
+                        >
                             {{row.text || row.in}}</span>
-                        <span :class="[row.hasOwnProperty('in') ? 'chart__row--cm' : '']">{{row.in}}</span>
+                        <span 
+                        :class="[row.hasOwnProperty('in') ? 'chart__row--cm' : '']" 
+                        data-key-str="cm"
+                        v-if="row.hasOwnProperty('in')"
+                        >
+                            {{row.in}}</span>
                     </div>
                     <div
                         v-if="componentData.optionsShown"
@@ -67,7 +75,7 @@ export default {
             gridStyle: {
                 gridTemplateColumns: `repeat(${this.componentData.elementData.chartRows[0].row.length}, 1fr)`,
             },
-            inchesOrCM: "inches"
+            inchesNotCM: true,
         }
     },
     props: {
@@ -84,7 +92,6 @@ export default {
     methods: {
         updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            console.log(newComponentData)
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
                 newComponentData.componentChanges += 1;
                 let info = {
@@ -95,9 +102,9 @@ export default {
                 this.$nuxt.$emit("updateTarget", info);
         }
         },
-        toggleInCm(measurementType) {
-            this.inchesOrCM !== measurementType ? this.inchesOrCM = measurementType : this.inchesOrCM;
-            this.convertMeasurementsBetweenInchesAndCentimeters();
+        toggleInCm() {
+            this.inchesNotCM = !this.inchesNotCM
+            // this.convertMeasurementsBetweenInchesAndCentimeters();
         },
         convertMeasurementsBetweenInchesAndCentimeters(inches) {
             let inchesInt = Number(inches);
