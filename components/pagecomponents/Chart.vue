@@ -32,7 +32,7 @@
                         :class="[row.hasOwnProperty('in') ? 'chart__row--in' : 'chart__row--text']"
                         :data-key-str="[row.hasOwnProperty('in') ? 'in': 'text']"
                         >
-                            {{row.text || row.in}}</span>
+                            {{row.text || row.in}}</span><span>&nbsp;</span>
                         <span 
                         :class="[row.hasOwnProperty('in') ? 'chart__row--cm' : '']" 
                         data-key-str="cm"
@@ -176,7 +176,7 @@ export default {
     display: none
 } */
 #conversion__checkbox:checked ~ .chart__row .chart__row--cm {
-    display: inline 
+    display: inline
 }
 #conversion__checkbox:checked ~ .chart__row .chart__row--cm::after {
     content: 'cm';

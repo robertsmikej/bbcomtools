@@ -513,16 +513,19 @@ export default {
                 }
                 let cellNumValue = cell.children[0].dataset.cellNumber;
                 let cleanStr = cell.innerText.trim();
-                console.log(typeof cleanStr, cleanStr)
                 let cellObj = {};
-                let keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
+                let keyStr
+                if(cell.firstChild.children[0].dataset.keyStr) {
+                     keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
+                } else {
+                     keyStr = 'in'
+                }
                 if(cleanStr.length > 0 ) {
                     cellObj[keyStr] = cleanStr;
                 } else {
                     cellObj['in'] = 0;
                 }
                 cleanStr = isNaN(cleanStr) ? cleanStr : parseInt(cleanStr);
-                console.log(typeof cleanStr, cleanStr)
                 cellObj["cellNumber"] = cellNumValue;
                 newChildrenArray.push(cellObj);
             })
