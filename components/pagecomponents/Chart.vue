@@ -43,7 +43,7 @@
                     <div
                         v-if="componentData.optionsShown"
                         v-show="rowIndex > 0 && parentIndex == 0"
-                        class="component__options__buttons component__remove"
+                        class="component__options__buttons--chartcolumn chartcolumn--buttons component__remove"
                     >
                         <div @click="updateTarget('addChartColumn')" class="component__options--button--chart">+</div>
                         <div @click="updateTarget('deleteChartColumn')" class="component__options--button--chart">X</div>
@@ -53,7 +53,7 @@
                 <div
                     v-if="componentData.optionsShown"
                     v-show="parentIndex > 0"
-                    class="component__options__buttons component__remove"
+                    class="component__options__buttons--chartrow chartrow--buttons component__remove"
                 >
                     <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>
                     <div @click="updateTarget('deleteChartRow')" class="component__options--button--chart">X</div>
@@ -106,12 +106,33 @@ export default {
         toggleInCm() {
             this.inchesNotCM = !this.inchesNotCM;
             this.toggleEditableElements();
+            this.toggleButtons();
         },
         toggleEditableElements() {
             let editableElements = Array.from(document.querySelectorAll('.chart__item__cell'));
             editableElements.forEach(el => {
                 el.contentEditable = this.inchesNotCM;
             })
+        },
+        toggleButtons() {
+            Array.from(document.querySelectorAll('.chartrow--buttons' )).forEach(el => {
+                if(this.inchesNotCM) {
+                    el.classList.remove('component__options__buttons--hide');
+                    el.classList.add('component__options__buttons--chartrow');
+                } else {
+                    el.classList.add('component__options__buttons--hide');
+                    el.classList.remove('component__options__buttons--chartrow');
+                }
+             });
+            Array.from(document.querySelectorAll('.chartcolumn--buttons' )).forEach(el => {
+                if(this.inchesNotCM) {
+                    el.classList.remove('component__options__buttons--hide');
+                    el.classList.add('component__options__buttons--chartcolumn');
+                } else {
+                    el.classList.add('component__options__buttons--hide');
+                    el.classList.remove('component__options__buttons--chartcolum');
+                }
+             });
         },
         convertMeasurementsBetweenInchesAndCentimeters(inches) {
             let inchesInt = Number(inches);
