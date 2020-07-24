@@ -104,8 +104,14 @@ export default {
         }
         },
         toggleInCm() {
-            this.inchesNotCM = !this.inchesNotCM
-            // this.convertMeasurementsBetweenInchesAndCentimeters();
+            this.inchesNotCM = !this.inchesNotCM;
+            this.toggleEditableElements();
+        },
+        toggleEditableElements() {
+            let editableElements = Array.from(document.querySelectorAll('.chart__item__cell'));
+            editableElements.forEach(el => {
+                el.contentEditable = this.inchesNotCM;
+            })
         },
         convertMeasurementsBetweenInchesAndCentimeters(inches) {
             let inchesInt = Number(inches);
@@ -144,37 +150,17 @@ export default {
 }
 .page__chart {
     width: 100%;
+    margin-top: 40px;
 }
-/* .page__chart.page__chart--inches .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
-    content: '"';
-    position: relative;
-    right: 0;
-    top: 0;
-} */
-/* .page__chart.page__chart--centimeters .chart__row:nth-of-type(1n + 2) .chart__item__cell::after {
-    content: 'cm';
-    position: relative;
-    right: 0;
-    bottom: 0;
-} */
 .page__chart.page__chart--inches .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after,
 .page__chart.page__chart--centimeters .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after  {
     content: "";
 }
-/* .page__chart__conversion__container {
-    position: absolute;
-    bottom: -20px;
-    right: 14px;
-    text-align: right;
-} */
 #conversion__checkbox {
     position: absolute;
     top: -10000px;
     left: -10000px
 }
-/* .chart__row--cm, .chart__row--in {
-    display: none
-} */
 #conversion__checkbox:checked ~ .chart__row .chart__row--cm {
     display: inline
 }
@@ -211,12 +197,4 @@ export default {
     cursor: pointer;
     background-color: rgb(230, 230, 230);
 }
-/* .page__chart__conversion__container span {
-    font-size: 14px;
-    line-height: 14px;
-    cursor: pointer;
-}
-.page__chart__conversion__container span:hover {
-    color: #00AEEF;
-} */
 </style>
