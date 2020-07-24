@@ -1,7 +1,5 @@
 <template>
-    <div
-        class="page__component"
-    >
+    <div>
         <ul
             :key="componentData.uniqueName + componentData.componentChanges"
             class="page__ul__list"

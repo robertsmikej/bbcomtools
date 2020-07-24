@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="page__component page__warning__container"
+        class="page__warning__container"
     >
         <p
             @blur="updateTarget"

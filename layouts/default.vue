@@ -314,25 +314,6 @@
         right: 0;
         z-index: 3;
     } */
-    
-    .component__options__buttons {
-        width: auto;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        flex: 0;
-        background: #FFF;
-        z-index: 1;
-        position: absolute;
-        top: 3px;
-        right: 3px;
-        padding: 1px 0;
-        opacity: 0;
-        transition: all .4s;
-    }
     .page__component:hover .component__options__buttons {
         opacity: 1;
     }
@@ -373,6 +354,9 @@
     }
     .component__options__buttons:hover {
        opacity: 1;
+    }
+    .page__component > .component__options__buttons { 
+        top: -13px;
     }
     .chart__row:nth-child(n + 2) .component__options__buttons {
         display: none;

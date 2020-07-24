@@ -56,6 +56,11 @@
                 <div
                     @:removeElement="removeElement($event)"
                     :key="pageActions"
+                    droppable="true"
+                    @drop="checkDrag($event)"
+                    @dragstart="startDrag($event)"
+                    @dragover.prevent
+                    @dragenter.prevent
                     :class="'page__type--' + pageType"
                     class="page__content"
                 >
@@ -66,7 +71,9 @@
                         :is="element.componentName"
                         :componentData="element"
                         :type="element.type"
+                        draggable="true"
                         :class="element.uniqueName"
+                        class="page__component"
                     ></component>
                 </div>
             </div>
@@ -126,7 +133,8 @@ export default {
             showPasteBox: false,
             code: "",
             pageType: "product",
-            restrictions: []
+            restrictions: [],
+            draggedItem: undefined
         }
     },
     computed: {
@@ -163,16 +171,6 @@ export default {
         }
     },
     created() {
-        // console.log(this.linkDataElements);
-        // this.$nuxt.$on('updateTarget', data => {
-        //     console.log(data);
-        //     let uniqueName = data.newComponentData.uniqueName;
-        //     this.currentComponentName = uniqueName;
-        //     let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-        //     console.log(findIn);
-        //     this.clickedElements.elements[findIn] = data.newComponentData;
-        //     this.pageActions += 1;
-        // }),
         this.$nuxt.$on('elementAction', data => {
             let uniqueName = data.componentData.uniqueName;
             this.currentComponentName = uniqueName;
@@ -243,6 +241,25 @@ export default {
         }
     },
     methods: {
+        setCurrentComponent: function(element) {
+            console.log(element);
+        },
+        startDrag: (event) => {
+            console.log(event);
+            console.log(event.target);
+
+            let types = this.findTypes(this.$el.querySelector("." + parentUniqueName));
+            // event.dataTransfer.dropEffect = 'move';
+            // event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', event.target);
+        },
+        checkDrag: function(event) {
+            console.log(event);
+            console.log(event.target);
+            console.log(event.dataTransfer);
+            // event.dataTransfer.dropEffect = 'move'
+            // event.dataTransfer.effectAllowed = 'move'
+        },
         parseMatchedTypes: function (componentData, element, updating) {
             let elDatas= {};
             for (let m in componentData.matchedTypes) {
@@ -289,7 +306,7 @@ export default {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
-                        // console.log(m);
+                        console.log(m);
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
@@ -332,20 +349,22 @@ export default {
             });
             return dataObj;
         },
-        findTypes: function (componentData, element) {
+        findTypes: function (element) {
             let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
         updateTarget: function (data) {
+            // console.log(data);
             let newComponentData = data.newComponentData;
             let uniqueName = newComponentData.uniqueName;
             this.currentComponentName = uniqueName;
+            newComponentData.matchedTypes = this.findTypes(this.$el.querySelector("." + uniqueName));
             if (newComponentData.parentData) {
                 let parentData = newComponentData.parentData;
                 let parentUniqueName = parentData.uniqueName;
                 this.currentComponentName = parentUniqueName;
-                newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + parentUniqueName));
+                newComponentData.matchedTypes = this.findTypes(this.$el.querySelector("." + parentUniqueName));
                 let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + parentUniqueName), true);
                 Object.assign(parentData.elementData, textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
@@ -362,9 +381,14 @@ export default {
                 this.clickedElements.elements[findIn].elementData.listItems = data.pasted.newListItems;
             } else if (data.action === "addListItem" || data.action === "deleteListItem") {
                 let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
-                newComponentData.elementData.listItems = newListItems;
+                newComponentData.elementData["listItems"] = newListItems;
+                // console.log(newListItems.length);
+                // console.log(newComponentData.elementData["listItems"].length);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 this.clickedElements.elements[findIn] = newComponentData;
+                // console.log(newComponentData.elementData["listItems"].length);
+                // console.log(this.clickedElements.elements[findIn].elementData["listItems"].length);
+                // console.log(this.clickedElements.elements[findIn].elementData.listItems);
             } else if (data.action === "addChartRow" || data.action === "deleteChartRow") {
                 let newChartRows = data.action === "addChartRow" ? this.addChartRow(data.event) : this.deleteChartRow(data.event);
                 newComponentData.elementData.chartRows = newChartRows;
@@ -381,15 +405,19 @@ export default {
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 newComponentData.elementData.chartRows = textsToGrab;
                 this.clickedElements.elements[findIn] = newComponentData;
+            } else {
+                // let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
+                console.log(newComponentData.uniqueName);
+                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + newComponentData.uniqueName), true);
+                console.log(textsToGrab);
+                Object.assign(newComponentData.elementData, textsToGrab);
+                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+                this.clickedElements.elements[findIn] = newComponentData;
             }
-            else {
-                let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
-            }
-            newComponentData.matchedTypes = this.findTypes(newComponentData, this.$el.querySelector("." + uniqueName));
-            let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
-            Object.assign(newComponentData.elementData, textsToGrab);
-            let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            this.clickedElements.elements[findIn] = newComponentData;
+            
+            // let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
+            // console.log(textsToGrab);
+            
             this.pageActions += 1;
         },
         arrayMove: function (arr, fromIndex, toIndex) {
@@ -582,7 +610,9 @@ export default {
         addListItem(event) {
             let newListItems = this.getNewListItems(event);
             let clickedItem = this.getClickedListItem(event, newListItems);
+            // console.log(clickedItem);
             newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
+            // console.log(newListItems);
             return newListItems;
         },
         deleteListItem(event) {
@@ -962,7 +992,9 @@ export default {
         line-height: 1em;
     }
     
-    
+    .page__component {
+        cursor: pointer;
+    }
 
     .page__para--builder {
         margin: 0;

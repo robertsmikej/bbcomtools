@@ -1,5 +1,5 @@
 <template>
-    <div class="page__component">
+    <div>
         <p
             @blur="updateTarget"
             contenteditable

@@ -1,5 +1,5 @@
 <template>
-    <div class="page__component">
+    <div>
         <div
             :data-component-type="componentData.componentName"
             :class="'page__spacer--' + type"
@@ -32,6 +32,6 @@ export default {
 
 <style>
 .page__spacer {
-    background-color: var(--site-grey-very-light);
+    background-color: #F9F9F9 !important;
 }
 </style>

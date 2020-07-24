@@ -1,5 +1,5 @@
 <template>
-    <div class="page__component page__image__container">
+    <div class="page__image__container">
         <picture>
             <source 
                 :srcset="componentData.elementData.imgSrcMobile"

@@ -46,7 +46,6 @@ module.exports = {
   */
     plugins: [
         "~/plugins/global.js",
-        "~/plugins/vuedraggable.js"
     ],
 
   /*
@@ -74,6 +73,7 @@ markdownit: {
     /*
     ** You can extend webpack config here
     */
+
   //  extractCSS: true,
     extend(config, ctx) {
       

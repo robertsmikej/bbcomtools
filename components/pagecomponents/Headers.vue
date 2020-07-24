@@ -1,9 +1,8 @@
 <template>
-    <div class="page__component">
+    <div>
         <component
             :is="componentData.type"
             @blur="updateTarget"
-            @focus="focused"
             contenteditable
             class="page__header"
         >
@@ -37,11 +36,11 @@ export default {
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
-        },
-        focused(e) {
-            console.log(this.componentData);
-            // document.execCommand('selectAll', false, null);
-        },
+        }
+        // focused(e) {
+        //     console.log(this.componentData);
+        //     // document.execCommand('selectAll', false, null);
+        // },
     }
 }
 </script>
