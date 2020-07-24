@@ -1,38 +1,24 @@
 <template>
-<<<<<<< HEAD
-    <div>
-=======
     <div class="page__component">
 
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
         <div
             data-input-types="['chart']"
             :data-component-type="componentData.componentName"
             :class="[inchesNotCM ? 'page__chart--in' : 'page__chart--cm']"
             class="page__chart page__chart--inches component__wrapper"
         >
-                <input @click="toggleInCm" type="checkbox" id="conversion__checkbox">
-        <label class="conversion__checkbox--label" for="conversion__checkbox">Inches/CM</label>
+            <input @click="toggleInCm" type="checkbox" class="conversion__checkbox" :id="'conversion__checkbox' + componentData.uniqueName">
+            <label class="conversion__checkbox--label" :for="'conversion__checkbox' + componentData.uniqueName">Inches/CM</label>
             <div 
-<<<<<<< HEAD
-                v-for="(chartRow, rowindex) in chartRows"
-                :key="componentData.uniqueName + parentindex"
-=======
                 v-for="(chartRow, parentIndex) in chartRows"
                 :key="componentData.uniqueName + parentIndex"
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
                 class="chart__row"
                 :data-row-type="chartRow.type"
                 :style="gridStyle"
             >
                 <div
-<<<<<<< HEAD
-                    v-for="(row, cellindex) in chartRow.row" 
-                    :key="cellindex"
-=======
                     v-for="(row, rowIndex) in chartRow.row" 
                     :key="rowIndex"
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
                     class="chart__item"
                 >
                     <div
@@ -40,11 +26,7 @@
                         @blur="updateTarget()"
                         @keydown.enter="enterPressed"
                         class='chart__item__cell'
-<<<<<<< HEAD
-                        :data-cell-number="rowindex + '-' + cellindex"
-=======
                         :data-cell-number="parentIndex + '-' + rowIndex"
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
                     >
                         <span 
                         :class="[row.hasOwnProperty('in') ? 'chart__row--in' : 'chart__row--text']"
@@ -60,13 +42,8 @@
                     </div>
                     <div
                         v-if="componentData.optionsShown"
-<<<<<<< HEAD
-                        v-show="cellindex > 0"
-                        class="component__options__buttons component__remove"
-=======
                         v-show="rowIndex > 0 && parentIndex == 0"
                         class="component__options__buttons--chartcolumn chartcolumn--buttons component__remove"
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
                     >
                         <div @click="updateTarget('addChartColumn')" class="component__options--button--chart">+</div>
                         <div @click="updateTarget('deleteChartColumn')" class="component__options--button--chart">X</div>
@@ -75,13 +52,8 @@
                 
                 <div
                     v-if="componentData.optionsShown"
-<<<<<<< HEAD
-                    v-show="rowindex > 0"
-                    class="component__options__buttons--chartrow component__remove"
-=======
                     v-show="parentIndex > 0"
                     class="component__options__buttons--chartrow chartrow--buttons component__remove"
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
                 >
                     <div @click="updateTarget('addChartRow')" class="component__options--button--chart">+</div>
                     <div @click="updateTarget('deleteChartRow')" class="component__options--button--chart">X</div>
@@ -205,30 +177,30 @@ export default {
 .page__chart.page__chart--centimeters .chart__row .chart__item:nth-of-type(1) .chart__item__cell::after  {
     content: "";
 }
-#conversion__checkbox {
+.conversion__checkbox {
     position: absolute;
     top: -10000px;
     left: -10000px
 }
-#conversion__checkbox:checked ~ .chart__row .chart__row--cm {
+.conversion__checkbox:checked ~ .chart__row .chart__row--cm {
     display: inline
 }
-#conversion__checkbox:checked ~ .chart__row .chart__row--cm::after {
+.conversion__checkbox:checked ~ .chart__row .chart__row--cm::after {
     content: 'cm';
     position: relative;
     right: 0;
     bottom: 0;
 }
-#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--cm {
+.conversion__checkbox:not(:checked) ~ .chart__row .chart__row--cm {
     display: none
 }
-#conversion__checkbox:checked ~ .chart__row .chart__row--in {
+.conversion__checkbox:checked ~ .chart__row .chart__row--in {
     display: none 
 }
-#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in {
+.conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in {
     display: inline
 }
-#conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in::after {
+.conversion__checkbox:not(:checked) ~ .chart__row .chart__row--in::after {
     content: '"';
     position: relative;
     right: 0;

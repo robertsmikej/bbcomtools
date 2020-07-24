@@ -314,9 +314,6 @@
         right: 0;
         z-index: 3;
     } */
-<<<<<<< HEAD
-    .page__component:hover .component__options__buttons {
-=======
     
     .component__options__buttons, .component__options__buttons--chartcolumn   {
         width: auto;
@@ -337,7 +334,6 @@
         transition: all .4s;
     }
     .page__component:hover .component__options__buttons, .page__component:hover .component__options__buttons--chartcolumn, .page__component:hover .component__options__buttons--chartrow {
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
         opacity: 1;
     }
     .component__options__buttons--chartrow {
@@ -381,18 +377,9 @@
     }
     /* .component__options__buttons:hover, .component__options__buttons--chartrow:hover {
        opacity: 1;
-<<<<<<< HEAD
-    }
-    .page__component > .component__options__buttons { 
-        top: -13px;
-    }
-    .chart__row:nth-child(n + 2) .component__options__buttons {
-        display: none;
-=======
     } */
     .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
         /* display: none; */
->>>>>>> 33f119c24a465bf274368757cc23822d317a706a
     }
     .component__options--button {
         width: 16px;
