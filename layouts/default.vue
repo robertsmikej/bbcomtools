@@ -314,7 +314,30 @@
         right: 0;
         z-index: 3;
     } */
+<<<<<<< HEAD
     .page__component:hover .component__options__buttons {
+=======
+    
+    .component__options__buttons, .component__options__buttons--chartcolumn   {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        flex: 0;
+        background: #FFF;
+        z-index: 1;
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        padding: 1px 0;
+        opacity: 0;
+        transition: all .4s;
+    }
+    .page__component:hover .component__options__buttons, .page__component:hover .component__options__buttons--chartcolumn, .page__component:hover .component__options__buttons--chartrow {
+>>>>>>> 33f119c24a465bf274368757cc23822d317a706a
         opacity: 1;
     }
     .component__options__buttons--chartrow {
@@ -334,6 +357,10 @@
         transform: translate(-6px, -50%);
         padding: 1px 0;
         border: 1px solid lightgray;
+        opacity: 0; 
+    }
+        .component__options__buttons--hide{
+        display: none !important;
     }
     .component__options__buttons {
         width: auto;
@@ -352,14 +379,20 @@
         padding: 1px 0;
         opacity: 0; 
     }
-    .component__options__buttons:hover {
+    /* .component__options__buttons:hover, .component__options__buttons--chartrow:hover {
        opacity: 1;
+<<<<<<< HEAD
     }
     .page__component > .component__options__buttons { 
         top: -13px;
     }
     .chart__row:nth-child(n + 2) .component__options__buttons {
         display: none;
+=======
+    } */
+    .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
+        /* display: none; */
+>>>>>>> 33f119c24a465bf274368757cc23822d317a706a
     }
     .component__options--button {
         width: 16px;

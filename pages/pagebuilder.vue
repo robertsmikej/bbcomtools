@@ -401,7 +401,6 @@ export default {
                 this.clickedElements.elements[findIn] = newComponentData;
             } else if (newComponentData.type === "chart") {
                 let textsToGrab = this.getChartRows(data.event);
-                console.log(textsToGrab);
                 let findIn = this.clickedElements.elements.findIndex(this.findInArray);
                 newComponentData.elementData.chartRows = textsToGrab;
                 this.clickedElements.elements[findIn] = newComponentData;
@@ -489,29 +488,21 @@ export default {
         //CHART FUNCTIONS
         addChartColumn(event) {
             let chartRows = this.getChartRows(event);
-            let clickedCell = this.getClickedCell(event);
-            let newChartRows = [];
+            let clickedCell = Number(this.getClickedCell(event));
             chartRows.forEach((chartRow, index) => {
-                let cellNumber = clickedCell.length === 5 ? Number(clickedCell.substr(-1)) : Number(clickedCell.substr(-2));
-                let newCellKey = `cell${cellNumber+1}`;
                 let cellObj = {};
-                index === 0 ? cellObj[newCellKey] = "New" : cellObj[newCellKey] = "0";
-                chartRow.row.splice(cellNumber + 1, 0, cellObj);
-                chartRow.row.forEach((el, index) => {
-                    return this.renumberCellClassNames(el, index);
-                })
+                index === 0 ? cellObj["text"] = "New" : cellObj["in"] = "0";
+                chartRow.row.splice(clickedCell + 1, 0, cellObj);
             });
             return chartRows;
         },
         addChartRow(event) {
-            let rowToAdd = {type: "chartRow", 
-            row: []};
+            let rowToAdd = {type: "chartRow", row: []};
             let chartRows = this.getChartRows(event);
             let clickedRow = this.getClickedChartRow(event, chartRows);
             chartRows[0].row.forEach((el, index) => {
-                let keyStr = `cell${index}`;
                 let cellObj = {};
-                index === 0 ? cellObj[keyStr] = "New" : cellObj[keyStr] = "0";
+                index === 0 ? cellObj["text"] = "New" : cellObj["in"] ="0";
                 rowToAdd.row.push(cellObj);
             })
             chartRows.splice(clickedRow + 1, 0, rowToAdd);
@@ -520,12 +511,8 @@ export default {
         deleteChartColumn(event) {
             let chartRows = this.getChartRows(event);
             let clickedCell = this.getClickedCell(event).substr(-1);
-            console.log(clickedCell)
             chartRows.forEach(chartRow => {
                 chartRow.row.splice(clickedCell, 1);
-                chartRow.row.forEach((el, index) => {
-                    return this.renumberCellClassNames(el, index);
-                })
             });
             return chartRows;
         },
@@ -546,59 +533,47 @@ export default {
         getChartRowCells(data) {
             let childrenArray = Array.from(data);
             childrenArray.pop();
-            console.log(childrenArray);
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
-                console.group();
-                let keyStr = cell.children[0].dataset.cellNumber;
-                let rowNum = keyStr.split("-")[0];
-                let cellNum = keyStr.split("-")[1];
-                
-                let cleanStr = cell.innerText.trim().replace("+", "").replace("X", "").replace(/ /g, "");
-                console.log(cell);
-                console.log(keyStr);
-                console.log(rowNum);
-                console.log(cellNum);
-                console.log(cleanStr);
-                // let cleanStr = el.children[0].dataset.cellNumber !== "cell0" ? 
-                //     this.trimButtonTextFromCellText(childrenArray[index].innerText) : cleanStr = childrenArray[index].innerText;
+                let buttonComponentFromCell = cell.querySelector(".component__remove");
+                if (buttonComponentFromCell.parentNode) {
+                    buttonComponentFromCell.parentNode.removeChild(buttonComponentFromCell);
+                }
+                let cellNumValue = cell.children[0].dataset.cellNumber;
+                let cleanStr = cell.innerText.trim();
                 let cellObj = {};
-                cellObj["text"] = cleanStr;
+                let keyStr
+                if(cell.firstChild.children[0].dataset.keyStr) {
+                     keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
+                } else {
+                     keyStr = 'in'
+                }
+                if(cleanStr.length > 0 ) {
+                    cellObj[keyStr] = cleanStr;
+                } else {
+                    cellObj['in'] = 0;
+                }
+                cleanStr = isNaN(cleanStr) ? cleanStr : parseInt(cleanStr);
+                cellObj["cellNumber"] = cellNumValue;
                 newChildrenArray.push(cellObj);
-                console.groupEnd();
             })
-            console.log(newChildrenArray);
             return newChildrenArray;
         },
         getClickedCell(event) {
-            return event.target.closest(".chart__item").children[0].dataset.cellNumber;
+            return event.path[2].firstChild.dataset.cellNumber.split("-")[1];
         },
         getClickedChartRow(event, chartRows) {
             let clickedItem = -1;
             let chartRowArray = Array.from(chartRows);
             chartRowArray.forEach((chartRow, index) => {
-               let chartText = chartRow.row[0].cell0.trim().toLowerCase();
-               let eventText = event.target.closest(".chart__row").getElementsByTagName("div")[0].textContent.trim().toLowerCase();
-                eventText = this.trimButtonTextFromCellText(eventText);          
-                if(chartText === eventText.trim()) {
+                let chartRowIndex = chartRow.row[0].cellNumber.split("-")[0];
+                let eventIndex = event.target.closest(".chart__row").getElementsByTagName("div")[0].children[0].dataset.cellNumber.split("-")[0];
+                if(chartRowIndex === eventIndex) {
                    clickedItem = index;
                }
             });
             return clickedItem;
         },
-        renumberCellClassNames(element, index) {
-            let updatedKey = "cell" + index;
-            let origkey = Object.keys(element)[0];
-            if( origkey !== updatedKey) {
-                element[updatedKey] = element[origkey];
-                delete element[origkey];
-            }
-        },
-        // trimButtonTextFromCellText(strToTrim) {
-        //     let strTrimmings = strToTrim.substr(-3);
-        //     let desiredStrLength = strToTrim.length - strTrimmings.length;
-        //     return strToTrim.substr(0, desiredStrLength);
-        // },
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
         //END CHART FUNCTIONS
