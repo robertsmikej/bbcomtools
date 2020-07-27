@@ -543,7 +543,7 @@ export default {
                 let cleanStr = cell.innerText.trim();
                 let cellObj = {};
                 let keyStr
-                if(cell.firstChild.children[0].dataset.keyStr) {
+                if(cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
                      keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
                 } else {
                      keyStr = 'in'
