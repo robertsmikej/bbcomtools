@@ -56,11 +56,6 @@
                 <div
                     @:removeElement="removeElement($event)"
                     :key="pageActions"
-                    droppable="true"
-                    @drop="checkDrag($event)"
-                    @dragstart="startDrag($event)"
-                    @dragover.prevent
-                    @dragenter.prevent
                     :class="'page__type--' + pageType"
                     class="page__content"
                 >
@@ -71,7 +66,6 @@
                         :is="element.componentName"
                         :componentData="element"
                         :type="element.type"
-                        draggable="true"
                         :class="element.uniqueName"
                         class="page__component"
                     ></component>
@@ -111,6 +105,13 @@
 </template>
 
 <script>
+                    //droppable="true"
+                    // @drop="checkDrag($event)"
+                    // @dragstart="startDrag($event)"
+                    // @dragover.prevent
+                    // @dragenter.prevent
+
+                    //draggable="true"
 export default {
     data() {
         return {
@@ -244,22 +245,22 @@ export default {
         setCurrentComponent: function(element) {
             console.log(element);
         },
-        startDrag: (event) => {
-            console.log(event);
-            console.log(event.target);
+        // startDrag: (event) => {
+        //     console.log(event);
+        //     console.log(event.target);
 
-            let types = this.findTypes(this.$el.querySelector("." + parentUniqueName));
-            // event.dataTransfer.dropEffect = 'move';
-            // event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('text/plain', event.target);
-        },
-        checkDrag: function(event) {
-            console.log(event);
-            console.log(event.target);
-            console.log(event.dataTransfer);
-            // event.dataTransfer.dropEffect = 'move'
-            // event.dataTransfer.effectAllowed = 'move'
-        },
+        //     let types = this.findTypes(this.$el.querySelector("." + parentUniqueName));
+        //     // event.dataTransfer.dropEffect = 'move';
+        //     // event.dataTransfer.effectAllowed = 'move';
+        //     event.dataTransfer.setData('text/plain', event.target);
+        // },
+        // checkDrag: function(event) {
+        //     console.log(event);
+        //     console.log(event.target);
+        //     console.log(event.dataTransfer);
+        //     // event.dataTransfer.dropEffect = 'move'
+        //     // event.dataTransfer.effectAllowed = 'move'
+        // },
         parseMatchedTypes: function (componentData, element, updating) {
             let elDatas= {};
             for (let m in componentData.matchedTypes) {
@@ -306,7 +307,7 @@ export default {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
-                        console.log(m);
+                        // console.log(m);
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
@@ -323,7 +324,6 @@ export default {
                     }
                 }
             }
-            // console.log(elDatas);
             return elDatas;
         },
         findType: function (els) {
@@ -354,71 +354,71 @@ export default {
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
+        getUpdatedLists: function (type) {
+
+        },
+        findInArray: function (data) {
+            return data.uniqueName === this.currentComponentName;
+        },
         updateTarget: function (data) {
-            // console.log(data);
-            let newComponentData = data.newComponentData;
-            let uniqueName = newComponentData.uniqueName;
-            this.currentComponentName = uniqueName;
-            newComponentData.matchedTypes = this.findTypes(this.$el.querySelector("." + uniqueName));
-            if (newComponentData.parentData) {
-                let parentData = newComponentData.parentData;
-                let parentUniqueName = parentData.uniqueName;
-                this.currentComponentName = parentUniqueName;
-                newComponentData.matchedTypes = this.findTypes(this.$el.querySelector("." + parentUniqueName));
-                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + parentUniqueName), true);
-                Object.assign(parentData.elementData, textsToGrab);
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                if (data.action === "addListItem" || data.action === "deleteListItem") {
-                    let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
-                    parentData.elementData.listItems = newListItems;
+            let ncd = data.newComponentData;
+            let textsToGrab;
+            if (ncd.parentData) { //IF PARENT DATA THEN NAME OF CURRENT COMPONENT IS PARENT'S NAME, IF NOT THEN JUST SINGLE COMPONENT NAME
+                if (ncd.parentData.grandparentData && Object.keys(ncd.parentData.grandparentData).length > 0) {
+                    this.currentComponentName = ncd.parentData.grandparentData.uniqueName;
+                    ncd.matchedTypes = this.findTypes(this.$el.querySelector("." + this.currentComponentName + '--' + ncd.parentData.uniqueName));
+                    textsToGrab = this.parseMatchedTypes(ncd, this.$el.querySelector("." + this.currentComponentName + '--' + ncd.parentData.uniqueName), true);     
+                } else {
+                    this.currentComponentName = ncd.parentData.uniqueName;
+                    ncd.matchedTypes = this.findTypes(this.$el.querySelector("." + this.currentComponentName));
+                    textsToGrab = this.parseMatchedTypes(ncd, this.$el.querySelector("." + this.currentComponentName ), true);  
                 }
-                if (data.action === "pasted" && data.pasted.type === "listItems") {
-                    parentData.elementData.listItems = data.pasted.newListItems;
+            } else {
+                this.currentComponentName = ncd.uniqueName;
+                ncd.matchedTypes = this.findTypes(this.$el.querySelector("." + this.currentComponentName));
+                textsToGrab = this.parseMatchedTypes(ncd, this.$el.querySelector("." + this.currentComponentName), true);      
+            }
+            let findIn = this.clickedElements.elements.findIndex(this.findInArray);  
+            if (ncd.parentData) {
+                if (ncd.parentData.grandparentData && Object.keys(ncd.parentData.grandparentData).length > 0) {
+                    let grandChildren = Object.assign({}, this.clickedElements.elements[findIn].elementData.children[ncd.parentData.componentNumber].elementData, textsToGrab);
+                    this.clickedElements.elements[findIn].elementData.children[ncd.parentData.componentNumber].elementData = grandChildren;
+                } else {
+                    Object.assign(ncd.parentData.elementData, textsToGrab);
+                    if (data.action === "addListItem" || data.action === "deleteListItem") {
+                        let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
+                        ncd.parentData.elementData.listItems = newListItems;
+                    }
+                    if (data.action === "pasted" && data.pasted.type === "listItems") {
+                        ncd.parentData.elementData.listItems = data.pasted.newListItems;
+                    }
+                    this.clickedElements.elements[findIn] = ncd.parentData;
                 }
-                this.clickedElements.elements[findIn] = parentData;
-            } else if (data.action === "pasted" && data.pasted.type === "listItems") {
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            } else if (data.action === "pasted" && data.pasted.type === "listItems") { //IF PASTED AND ARE LIST ITEMS
                 this.clickedElements.elements[findIn].elementData.listItems = data.pasted.newListItems;
             } else if (data.action === "addListItem" || data.action === "deleteListItem") {
                 let newListItems = data.action === "addListItem" ? this.addListItem(data.event) : this.deleteListItem(data.event);
-                newComponentData.elementData["listItems"] = newListItems;
-                // console.log(newListItems.length);
-                // console.log(newComponentData.elementData["listItems"].length);
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                this.clickedElements.elements[findIn] = newComponentData;
-                // console.log(newComponentData.elementData["listItems"].length);
-                // console.log(this.clickedElements.elements[findIn].elementData["listItems"].length);
-                // console.log(this.clickedElements.elements[findIn].elementData.listItems);
+                ncd.elementData["listItems"] = newListItems;
+                this.clickedElements.elements[findIn] = ncd;
             } else if (data.action === "addChartRow" || data.action === "deleteChartRow") {
                 let newChartRows = data.action === "addChartRow" ? this.addChartRow(data.event) : this.deleteChartRow(data.event);
-                newComponentData.elementData.chartRows = newChartRows;
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                this.clickedElements.elements[findIn] = newComponentData;
+                ncd.elementData.chartRows = newChartRows;
+                this.clickedElements.elements[findIn]= ncd;
             } else if (data.action === "addChartColumn" || data.action === "deleteChartColumn") {
                 let newChartRows = data.action === "addChartColumn" ? this.addChartColumn(data.event) : this.deleteChartColumn(data.event);
-                newComponentData.elementData.chartRows = newChartRows;
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                this.clickedElements.elements[findIn] = newComponentData;
-            } else if (newComponentData.type === "chart") {
+                ncd.elementData.chartRows = newChartRows;
+                this.clickedElements.elements[findIn] = ncd;
+            } else if (ncd.type === "chart") {
                 let textsToGrab = this.getChartRows(data.event);
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                newComponentData.elementData.chartRows = textsToGrab;
-                this.clickedElements.elements[findIn] = newComponentData;
-            } else {
-                // let textsToGrab = this.grabTexts(this.$el.querySelector("." + uniqueName).querySelectorAll("[data-input-type]"));
-                console.log(newComponentData.uniqueName);
-                let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + newComponentData.uniqueName), true);
-                console.log(textsToGrab);
-                Object.assign(newComponentData.elementData, textsToGrab);
-                let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-                this.clickedElements.elements[findIn] = newComponentData;
+                ncd.elementData.chartRows = textsToGrab;
+                this.clickedElements.elements[findIn] = ncd;
+            } else { //REGULAR ELEMENT
+                Object.assign(ncd.elementData, textsToGrab);
+                this.clickedElements.elements[findIn] = ncd;
             }
-            
-            // let textsToGrab = this.parseMatchedTypes(newComponentData, this.$el.querySelector("." + uniqueName), true);
-            // console.log(textsToGrab);
-            
             this.pageActions += 1;
         },
+        
         arrayMove: function (arr, fromIndex, toIndex) {
             var element = arr[fromIndex];
             arr.splice(fromIndex, 1);
@@ -441,47 +441,6 @@ export default {
             text.select();
             document.execCommand('copy');
         },
-        findInArray: function (data) {
-            return data.uniqueName === this.currentComponentName;
-        },
-        grabTexts(els) {
-            let newObj = {};
-            let listArr = [];
-            let newEls = [];
-            Array.from(els).forEach(el => {
-                el.classList.forEach(indivClass => {
-                    if (indivClass.indexOf("options") === -1) {
-                        if (!newEls.includes(el)) {
-                            newEls.push(el);
-                        }
-                    }
-                });
-            });
-            Array.from(newEls).forEach(element => {
-                // console.log(element);
-                let findInComponents = this.findInComponents(element);
-                // console.log(findInComponents);
-                if (element.nodeName.toLowerCase() === "img") {
-                    newObj["imgSrc"] = element.closest(".page__ihp__image__container").querySelector(".options--imgsrc").textContent.trim();
-                } else if (element.nodeName.toLowerCase() === "ul") {
-                    Array.from(element.children).forEach(el => {
-                        listArr.push({li: el.getElementsByTagName("li")[0].textContent.trim()});
-                    })
-                } else {
-                    let shortenedTypeData = findInComponents.typeData.elementData;
-                    let shortenedTypeDataKey = Object.keys(findInComponents.typeData.elementData);
-                    // console.log(shortenedTypeData);
-                    // console.log(shortenedTypeDataKey[0]);
-                    newObj[shortenedTypeDataKey[0]] = element.textContent.trim();
-                    // console.log(newObj)
-                }
-            });
-            if (listArr.length > 0) {
-                newObj.listItems = listArr
-            }
-            return newObj;
-        },
-
 
         //CHART FUNCTIONS
         //CHART FUNCTIONS
@@ -543,7 +502,7 @@ export default {
                 let cleanStr = cell.innerText.trim();
                 let cellObj = {};
                 let keyStr
-                if(cell.firstChild.children[0].dataset.keyStr) {
+                if(cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
                      keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
                 } else {
                      keyStr = 'in'
@@ -617,14 +576,6 @@ export default {
             });
             return clickedItem;
         },
-        //END LIST FUNCTIONS
-        //END LIST FUNCTIONS
-        //END LIST FUNCTIONS
-
-        
-        //CREATE FUNCTIONS
-        //CREATE FUNCTIONS
-        //CREATE FUNCTIONS
         createListItems: function (index, typeOfCreate, componentDetails) {
             let newListItems = {};
             if (typeOfCreate === "normal") {
@@ -645,9 +596,14 @@ export default {
             }
             return newListItems;
         },
+        //END LIST FUNCTIONS
+        //END LIST FUNCTIONS
+        //END LIST FUNCTIONS
+        
+        //CREATE FUNCTIONS
+        //CREATE FUNCTIONS
+        //CREATE FUNCTIONS
         createComponent: function (typeOfCreate, importData) {
-            // console.group("buildcomp");
-            // console.log(event.currentTarget)
             let newNumber = this.clickedElements.numberOfComponents;
             let compname;
             let comptype;
@@ -664,58 +620,28 @@ export default {
             let componentDetails = JSON.parse(JSON.stringify(component.types.filter(obj => {
                 return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
-            // console.log(componentDetails);
-            // console.log(importData);
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
             }
-            // if (componentDetails.elementData.hasOwnProperty("childArr")) {
-            //     let childArr = componentDetails.elementData.childArr;
-            //     componentDetails.elementData.childArray = [];
-            //     childArr.forEach((child, index) => {
-            //         // console.log(child);
-            //         let innerComponent = this.components.filter(obj => {
-            //             return obj.componentName === child.componentName
-            //         })[0];
-            //         // console.log(innerComponent);
-            //         let innerComponentDetails = innerComponent.types.filter(obj => {
-            //             return obj.type === child.type
-            //         })[0];
-            //         // console.log(innerComponentDetails);
-            //         let newChildComponent = {
-            //             componentName: innerComponent.componentName,
-            //             uniqueName: innerComponent.componentName + this.clickedElements.numberOfComponents,
-            //             type: innerComponentDetails.type,
-            //             elementData: innerComponentDetails.elementData,
-            //             optionsShown: true,
-            //             componentChanges: 0,
-            //             vendorRestricted: this.checkRestricted("vendors")
-            //         };
-                    
-            //         componentDetails.elementData.childArray.push(newChildComponent);
-            //     });
-            // }
+
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + this.clickedElements.numberOfComponents,
                 type: componentDetails.type,
                 elementData: componentDetails.elementData,
+                hasInnerComponents: componentDetails.elementData.hasOwnProperty("children") ? true : false,
                 optionsShown: true,
                 componentChanges: 0,
                 vendorRestricted: this.checkRestricted("vendors")
             };
-            // console.log(newComponent)
+            console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
-            // console.groupEnd("buildcomp");
         },
         //END CREATE FUNCTIONS
         //END CREATE FUNCTIONS
         //END CREATE FUNCTIONS
-
         
-
-
         //CODE FUNCTIONS
         //CODE FUNCTIONS
         //CODE FUNCTIONS
@@ -727,15 +653,12 @@ export default {
             if (pastedData && pastedData.length > 1000) {
                 let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
                 let pastedChildren = pastedDoc.children;
-
                 Array.from(pastedChildren).forEach(el => {
                     console.log(el);
                     
                 });
                 // console.log(pastedDoc);
                 // console.log(pastedDoc.children);
-
-
                 // let dataObj = {
                 //     type: "listItems",
                 //     newListItems: []
@@ -780,7 +703,6 @@ export default {
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".page__component"));
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".component__wrapper"));
             // this.removeClasses(codeCopy, ["site__element"]);
-
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
             this.code = codeCopy;
             this.showCode = true;

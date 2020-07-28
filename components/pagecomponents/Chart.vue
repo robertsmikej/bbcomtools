@@ -136,7 +136,7 @@ export default {
         },
         convertMeasurementsBetweenInchesAndCentimeters(inches) {
             let inchesInt = Number(inches);
-            return inchesInt * 2.54 
+            return Math.round(inchesInt * 2.54)
         },
         enterPressed(e) {
             e.preventDefault();

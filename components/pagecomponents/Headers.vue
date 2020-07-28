@@ -16,21 +16,20 @@
 </template>
 
 <script>
-            // data-input-types="['headerText']"
-            // data-input-type="headerText"
-            // :data-component-type="componentData.componentName"
 export default {
     props: {
         componentData: Object
     },
     mounted: function () {
-
+        // console.log(this.componentData);
+        // console.log(this.parentData);
     },
     methods: {
         updateTarget(event, newListItems) {
+            // console.log(this.componentData);
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            newComponentData.componentChanges += 1;
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                newComponentData.componentChanges += 1;
                 let info = {
                     newComponentData: newComponentData
                 };

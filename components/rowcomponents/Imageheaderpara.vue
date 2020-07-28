@@ -4,14 +4,15 @@
             :data-component-type="componentData.componentName"
             :data-component-sub-type="componentData.type"
             :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--flipped--' + componentData.elementData.elementOptions.flipped.boolean]"
-            class="page__ihp" 
+            class="page__ihp"
+            :key="numberOfActions"
         >
             <div 
                 class="page__ihp__image__container page__external__data__container"
             >
                 <Images
                     :componentData="imageComponent"
-                    :key="numberOfActions"
+                    :key="componentData.componentChanges + '-img'"
                     class="page__ihp__image"
                 />
             </div>
@@ -20,7 +21,7 @@
             >
                 <Headers 
                     :componentData="headerComponent"
-                    :key="this.componentData.uniqueName + pageActions"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-header'"
                 />
             </div>
             <div
@@ -29,7 +30,7 @@
             >
                 <Paragraphs
                     :componentData="paraComponent"
-                    :key="this.componentData.uniqueName + pageActions"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-p'"
                 />
             </div>
             <div
@@ -39,11 +40,9 @@
                 <List
                     data-input-type="listItems"
                     :componentData="listComponent"
-                    :key="this.componentData.uniqueName + pageActions"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-ul'"
                     :items="componentData"
                     type="ul"
-                    :group=true
-                    :parentData="this.componentData"
                 />
             </div>
             <Optionsbuttons
@@ -51,6 +50,7 @@
                 :group="group"
                 :parentData="parentData ? parentData : null"
             />
+            
         </div>
     </div>
 </template>
@@ -64,7 +64,9 @@ export default {
         componentData: Object,
         pageActions: Number,
         group: Boolean,
-        parentData: Object
+        parentData: Object,
+        componentNumber: Number,
+        parentData: Object,
     },
     data() {
         return {
@@ -75,8 +77,8 @@ export default {
                 componentChanges: 0,
                 uniqueName: this.componentData.uniqueName + "-Para",
                 type: "p",
-                parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
                 number: this.numberOfActions,
                 elementData: {
                     paraText: this.componentData.elementData.paraText,
@@ -88,8 +90,8 @@ export default {
                 componentChanges: 0,
                 uniqueName: this.componentData.uniqueName + "-Image",
                 type: "img",
-                parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
                 number: this.numberOfActions,
                 elementData: {
                     imgSrcDesktop: this.componentData.elementData.imgSrcDesktop,
@@ -104,8 +106,8 @@ export default {
                 componentChanges: 0,
                 uniqueName: this.componentData.uniqueName + "-Header",
                 type: "H4",
-                parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
                 number: this.numberOfActions,
                 elementData: {
                     headerText: this.componentData.elementData.headerText
@@ -117,8 +119,8 @@ export default {
                 componentChanges: 0,
                 uniqueName: this.componentData.uniqueName + "-List",
                 type: "list",
-                parentUniqueName: this.componentData.uniqueName,
                 parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
                 number: this.numberOfActions,
                 elementData: {
                     "listItems": [
@@ -132,15 +134,42 @@ export default {
             flipped: this.componentData.elementData.elementOptions.flipped.boolean
         };
     },
+
     mounted() {
         this.componentData.optionsShown = false;
+        if (!this.componentData.uniqueName) {
+            this.componentData.uniqueName = this.componentData.componentName + this.componentData.componentNumber;
+        }
+        this.componentData.grandparentData = this.deepClone(this.parentData, {});
+        this.numberOfActions += 1;
     },
     created() {
-        this.$nuxt.$on('updateSubGroupList', data => {
-            this.updateTarget(event, data.listItems);
-        })
+        if (this.componentNumber) {
+            this.componentData.componentNumber = this.componentNumber;
+        } else {
+            this.componentData.componentNumber = 0;
+        }
     },
     methods: {
+        deepClone(initalObj, finalObj) {
+            var obj = finalObj || {};
+            for (var i in initalObj) {
+                var prop = initalObj[i];
+                if(prop === obj) {
+                    continue;
+                }
+                if (typeof prop === 'object') {
+                    if(prop.constructor === Array) {
+                        obj[i] = deepClone(prop, []);
+                    } else {
+                        obj[i] = Object.create(prop);
+                    }
+                } else {
+                    obj[i] = prop;
+                }
+            }
+            return obj;
+        },
         updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
             if (newComponentData.uniqueName === this.componentData.uniqueName) {
