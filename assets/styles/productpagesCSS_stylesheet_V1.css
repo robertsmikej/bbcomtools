@@ -96,12 +96,18 @@ body .VendorBlock {
     text-align: left;
     margin: 16px 0 0;
 }
+.page__list__container {
+    width: 100%;
+}
 .Wr__body .page__content ul {
     width: 100%;
     max-width: 1200px;
     list-style-position: inside;
-    margin: 8px auto 16px;
+    margin: 20px auto 16px;
     padding: 0 10px;
+}
+.Wr__body .page__ihp__list ul {
+    margin-top: 12px;
 }
 .Wr__body .page__content li {
     width: 100%;

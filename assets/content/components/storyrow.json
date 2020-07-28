@@ -3,6 +3,7 @@
     "componentName": "Storyrow",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 6,
     "types": [
         {
             "title": "Row",

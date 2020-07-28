@@ -3,6 +3,7 @@
     "componentName": "Videos",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 5,
     "types": [
         {
             "title": "VideoJW",

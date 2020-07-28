@@ -2,6 +2,7 @@
     "title": "Banners",
     "pageTypes": ["marketing"],
     "showLive": false,
+    "order": 1,
     "types": [
         {
             "title": "Banner",

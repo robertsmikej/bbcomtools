@@ -3,6 +3,7 @@
     "componentName": "Images",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 2,
     "types": [
         {
             "title": "IMG",

@@ -10,6 +10,8 @@ export const mutations = {
         data.forEach(function (obj) {
             newArr.push(obj);
         });
+        console.log(newArr);
+        newArr.sort((a, b) => (a.order > b.order) ? 1 : -1)
         state.components = newArr;
     },
     setTooltips(state, data) {

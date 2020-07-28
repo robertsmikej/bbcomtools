@@ -12,7 +12,7 @@
             />
         </picture>
         <div
-            v-show="this.optionsShown"
+            v-show="componentData.optionsShown"
             class="options__editable__bottom"
         >
             <div class="options__editable__container">
@@ -56,8 +56,9 @@
                 </div>
             </div>
         </div>
+
         <Optionsbuttons
-            v-if="this.optionsShown"
+            v-if="componentData.optionsShown"
             :componentData="componentData"
         />
     </div>
@@ -70,7 +71,7 @@ export default {
     },
     data() {
         return {
-            optionsShown: this.componentData.optionsShown
+            
         }
     },
     methods: {

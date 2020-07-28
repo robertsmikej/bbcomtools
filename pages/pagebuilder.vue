@@ -10,23 +10,23 @@
                 <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
                     <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
                         <h4>{{ section.title }}</h4>
-                        <div 
-                            v-for="component in section.types" 
-                            :key="component.type" 
+                        <div
+                            v-for="component in section.types"
+                            :key="component.type"
                             class="create__element__cell__outer"
                         >
-                            <div 
+                            <div
                                 @click="createComponent('normal')"
                                 :component-name="section.componentName"
-                                :component-type="component.type" 
+                                :component-type="component.type"
                                 class="create__element__cell"
                             >
-                                <img 
+                                <img
                                     v-if="component.img.length > 0"
                                     :src="'/imgs/' + component.img"
                                     class="create__element__img"
                                 />
-                                <p 
+                                <p
                                     v-if="component.img.length === 0"
                                     class="create__element__para"
                                 >
@@ -632,7 +632,8 @@ export default {
                 hasInnerComponents: componentDetails.elementData.hasOwnProperty("children") ? true : false,
                 optionsShown: true,
                 componentChanges: 0,
-                vendorRestricted: this.checkRestricted("vendors")
+                vendorRestricted: this.checkRestricted("vendors"),
+                group: Object.keys(componentDetails.elementData).length > 1 ? true : false
             };
             console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;

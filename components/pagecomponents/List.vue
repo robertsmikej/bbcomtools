@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page__list__container">
         <ul
             :key="componentData.uniqueName + componentData.componentChanges"
             class="page__ul__list"
@@ -39,7 +39,6 @@ export default {
     props: {
         componentData: Object,
         group: Boolean,
-        subgroup: Boolean,
         parentData: Object,
         items: Object
     },

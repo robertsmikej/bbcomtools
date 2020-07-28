@@ -42,15 +42,16 @@
                     :componentData="listComponent"
                     :key="componentData.uniqueName + componentData.componentChanges + '-ul'"
                     :items="componentData"
+                    :group="componentData.group"
                     type="ul"
                 />
+                {{group}}
             </div>
             <Optionsbuttons
                 :componentData="componentData"
-                :group="group"
+                :group="componentData.group"
                 :parentData="parentData ? parentData : null"
             />
-            
         </div>
     </div>
 </template>
@@ -63,7 +64,6 @@ export default {
         type: String,
         componentData: Object,
         pageActions: Number,
-        group: Boolean,
         parentData: Object,
         componentNumber: Number,
         parentData: Object,
@@ -83,7 +83,7 @@ export default {
                 elementData: {
                     paraText: this.componentData.elementData.paraText,
                 },
-                optionsShown: true
+                optionsShown: false
             },
             imageComponent: {
                 componentName: "Images",
@@ -112,7 +112,7 @@ export default {
                 elementData: {
                     headerText: this.componentData.elementData.headerText
                 },
-                optionsShown: true
+                optionsShown: false
             },
             listComponent: {
                 componentName: "List",

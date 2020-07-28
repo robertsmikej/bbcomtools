@@ -1,8 +1,9 @@
 {
-    "title": "Paragraphs",
+    "title": "Paras",
     "componentName": "Paragraphs",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 2,
     "types": [
         {
             "title": "P",

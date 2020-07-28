@@ -256,6 +256,7 @@
         width: 100%;
         padding: 3px;
         word-break: break-all;
+        font-size: 12px;
     }
 
     .component__options__advanced {

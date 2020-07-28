@@ -3,6 +3,7 @@
     "componentName": "Spacer",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 4,
     "types": [
         {
             "title": "XS",

@@ -3,6 +3,7 @@
     "componentName": "Imageheaderpara",
     "pageTypes": ["product", "marketing"],
     "showLive": true,
+    "order": 5,
     "types": [
         {
             "title": "Row",
@@ -43,7 +44,6 @@
         {
             "title": "List",
             "type": "list",
-            
             "elementData": {
                 "headerText": "New Header",
                 "imgChangeToMobile": "768px",
