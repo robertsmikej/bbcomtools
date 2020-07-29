@@ -45,7 +45,6 @@
                     :group="componentData.group"
                     type="ul"
                 />
-                {{group}}
             </div>
             <Optionsbuttons
                 :componentData="componentData"

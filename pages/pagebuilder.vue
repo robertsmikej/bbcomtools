@@ -1,15 +1,69 @@
 <template>
-    <section class="container component__generator Wr__body">
-        <div class="element__bar">
-            <div class="bar__buttons page__type__buttons">
-                <h4>Type Of Page</h4>
-                <div class="bar__button" :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Product</div>
-                <div class="bar__button" :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Marketing</div>
+    <section 
+        class="container component__generator Wr__body"
+    >
+        <div
+            class="element__bar"
+        >
+            <div class="element__bar__section">
+                <div 
+                    @mouseover="hoverCheck('typeofpage')"
+                    class="element__bar__section--header__container"
+                >
+                    <img src="/imgs/webpage.png" class="element__bar__section--header--img"/>
+                    <h5>Type Of Page</h5>
+                </div>
+                <div 
+                    @mouseover="hoverCheck('components')"
+                    class="element__bar__section--header__container"
+                >
+                    <img src="/imgs/hexagon.png" class="element__bar__section--header--img"/>
+                    <h5>Components</h5>
+                </div>
+                <div class="element__bar__spacer">
+                    <div class="bar__buttons">
+                        <div class="bar__button" @click="buildCode">Code</div>
+                        <div class="bar__button" @click="togglePaste">Paste</div>
+                    </div>
+                </div>
             </div>
-            <div class="element__sections">
-                <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
-                    <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
-                        <h4>{{ section.title }}</h4>
+            <div
+                class="element__bar__section--content__container"
+            >
+                <div 
+                    :v-show="typeToShow === 'typeofpage'"
+                    class="element__section"
+                >
+                    <div
+                        @click="changePageType"
+                        :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'"
+                        class="bar__button"
+                    >
+                        Product
+                    </div>
+                    <div
+                        @click="changePageType"
+                        :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'"
+                        class="bar__button" 
+                    >
+                        Marketing
+                    </div>
+                </div>
+                <div 
+                    :v-show="typeToShow === 'components'"
+                    v-for="(section, index) in components" 
+                    :key="'section' + section.title + index"
+                    class="element__section"
+                >
+                    <div 
+                        @mouseover="hoverCheck('components')"
+                        v-if="checkPageType(section)" 
+                        :data-section-name="section.title"
+                        class="element__section__inner" 
+                    >
+                        <div class="bar__headers__container">
+                            <h5>{{ section.title }}</h5>
+                        </div>
                         <div
                             v-for="component in section.types"
                             :key="component.type"
@@ -37,12 +91,61 @@
                     </div>
                 </div>
             </div>
-            <div class="bar__buttons">
-                <div class="bar__button" @click="buildCode">Code</div>
-                <div class="bar__button" @click="togglePaste">Paste</div>
+            <!-- <div class="element__bar__section">
+                
+                <div class="element__bar__section--content__container">
+                    
+                </div>
             </div>
+             -->
+            <!-- <div class="bar__buttons page__type__buttons">
+                <div class="bar__headers__container">
+                    <h5>Type Of Page</h5>
+                    <hr/>
+                </div>
+                
+                <div class="bar__button" :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Product</div>
+                <div class="bar__button" :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Marketing</div>
+            </div> -->
+            <!-- <div class="element__sections">
+                <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
+                    <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
+                        <div class="bar__headers__container">
+                            <h5>{{ section.title }}</h5>
+                        </div>
+                        <div
+                            v-for="component in section.types"
+                            :key="component.type"
+                            class="create__element__cell__outer"
+                        >
+                            <div
+                                @click="createComponent('normal')"
+                                :component-name="section.componentName"
+                                :component-type="component.type"
+                                class="create__element__cell"
+                            >
+                                <img
+                                    v-if="component.img.length > 0"
+                                    :src="'/imgs/' + component.img"
+                                    class="create__element__img"
+                                />
+                                <p
+                                    v-if="component.img.length === 0"
+                                    class="create__element__para"
+                                >
+                                    {{ component.title }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
         </div>
-        <div class="built__elements__wrapper">
+        <div 
+            @mouseenter="hoverCheck('none')"
+            class="built__elements__wrapper"
+        >
             <div
                 :class="'page__type--' + pageType"
                 class="built__elements__wrapper__inner page__content__outer"
@@ -135,7 +238,8 @@ export default {
             code: "",
             pageType: "product",
             restrictions: [],
-            draggedItem: undefined
+            draggedItem: undefined,
+            typeToShow: "none"
         }
     },
     computed: {
@@ -242,6 +346,11 @@ export default {
         }
     },
     methods: {
+        hoverCheck: function (type) {
+            console.log(type);
+            this.typeToShow = type;
+            console.log(this.typeToShow);
+        },
         setCurrentComponent: function(element) {
             console.log(element);
         },
@@ -808,6 +917,8 @@ export default {
         flex-wrap: wrap;
         align-content: flex-start;
         justify-content: center;
+        width: 100%;
+        max-width: 100%;
     }
     .element__section {
         display: flex;
@@ -815,9 +926,6 @@ export default {
         flex-wrap: wrap;
         align-content: center;
         justify-content: center;
-        padding: 10px 0;
-        flex: 1 1 auto;
-        border-top: 1px solid #232323;
     }
     .element__section__inner {
         width: 100%;
