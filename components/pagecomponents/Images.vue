@@ -12,7 +12,7 @@
             />
         </picture>
         <div
-            v-show="componentData.optionsShown"
+            v-show="optionsShown"
             class="options__editable__bottom"
         >
             <div class="options__editable__container">
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-
+        
         <Optionsbuttons
             v-if="componentData.optionsShown"
             :componentData="componentData"
@@ -67,11 +67,12 @@
 <script>
 export default {
     props: {
-        componentData: Object
+        componentData: Object,
+        parentData: Object
     },
     data() {
         return {
-            
+            optionsShown: true
         }
     },
     methods: {
@@ -85,8 +86,27 @@ export default {
                 this.$nuxt.$emit("updateTarget", info);
             }
         },
+        // toggleOptions() { //WORKS BUT DO WE WANT ALL THE OPTIONS TO DISSAPEAR?
+        //     let newComponentData = JSON.parse(JSON.stringify(this.componentData));
+        //     newComponentData.componentChanges += 1;
+        //     let uniqueName = "";
+        //     if (newComponentData.uniqueName === this.componentData.uniqueName) {
+        //         if (this.componentData.parentData) {
+        //             if (this.componentData.parentData.grandparentData) {
+        //                 uniqueName = this.componentData.parentData.grandparentData.uniqueName;
+        //             } else if (this.componentData.parentData) {
+        //                 uniqueName = this.componentData.parentData.uniqueName;
+        //             }
+        //         } else {
+        //             uniqueName = this.componentData.uniqueName;
+        //         }
+        //         this.$nuxt.$emit("toggleOptions", uniqueName);
+        //     }
+        // },
         toggleOptions() {
+            
             this.optionsShown = !this.optionsShown;
+            console.log(this.optionsShown);
         }
     }
 }

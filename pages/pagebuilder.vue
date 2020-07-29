@@ -1,11 +1,10 @@
 <template>
-    <section 
-        class="container component__generator Wr__body"
-    >
+    <section class="container component__generator Wr__body">
         <div
+            @mouseleave="hoverCheck('none')"
             class="element__bar"
         >
-            <div class="element__bar__section">
+            <div class="element__sections">
                 <div 
                     @mouseover="hoverCheck('typeofpage')"
                     class="element__bar__section--header__container"
@@ -20,44 +19,44 @@
                     <img src="/imgs/hexagon.png" class="element__bar__section--header--img"/>
                     <h5>Components</h5>
                 </div>
-                <div class="element__bar__spacer">
-                    <div class="bar__buttons">
-                        <div class="bar__button" @click="buildCode">Code</div>
-                        <div class="bar__button" @click="togglePaste">Paste</div>
-                    </div>
+                <div class="bar__buttons">
+                    <div class="bar__button" @click="buildCode">Code</div>
                 </div>
             </div>
             <div
-                class="element__bar__section--content__container"
+                v-show="typeToShow !== 'none'" 
+                class="element__sections element__bar__section--content__container"
             >
-                <div 
-                    :v-show="typeToShow === 'typeofpage'"
+                <div
+                    v-show="typeToShow === 'typeofpage'"
                     class="element__section"
                 >
+                    <div class="bar__headers__container">
+                        <h5>Type of Page</h5>
+                    </div>
                     <div
-                        @click="changePageType"
-                        :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'"
-                        class="bar__button"
-                    >
+                        @click="changePageType('product')"
+                        :class="[pageType === 'product' ? 'page__type--product' : 'site__selection--not-selected']"
+                        class="site__button site__button--larger "
+                        >
                         Product
                     </div>
                     <div
-                        @click="changePageType"
-                        :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'"
-                        class="bar__button" 
-                    >
+                        @click="changePageType('marketing')"
+                        :class="[pageType === 'marketing' ? 'page__type--marketing' : 'site__selection--not-selected', ]"
+                        class="site__button site__button--larger " 
+                        >
                         Marketing
                     </div>
                 </div>
                 <div 
-                    :v-show="typeToShow === 'components'"
+                    v-show="typeToShow === 'components' && checkPageType(section)"
                     v-for="(section, index) in components" 
                     :key="'section' + section.title + index"
                     class="element__section"
-                >
+                >   
                     <div 
                         @mouseover="hoverCheck('components')"
-                        v-if="checkPageType(section)" 
                         :data-section-name="section.title"
                         class="element__section__inner" 
                     >
@@ -73,7 +72,7 @@
                                 @click="createComponent('normal')"
                                 :component-name="section.componentName"
                                 :component-type="component.type"
-                                class="create__element__cell"
+                                class="site__button create__element__cell"
                             >
                                 <img
                                     v-if="component.img.length > 0"
@@ -91,59 +90,8 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="element__bar__section">
-                
-                <div class="element__bar__section--content__container">
-                    
-                </div>
-            </div>
-             -->
-            <!-- <div class="bar__buttons page__type__buttons">
-                <div class="bar__headers__container">
-                    <h5>Type Of Page</h5>
-                    <hr/>
-                </div>
-                
-                <div class="bar__button" :class="pageType === 'product' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Product</div>
-                <div class="bar__button" :class="pageType === 'marketing' ? 'page__type--selected' : 'page__type--not-selected'" @click="changePageType">Marketing</div>
-            </div> -->
-            <!-- <div class="element__sections">
-                <div class="element__section" v-for="(section, index) in components" :key="'section' + section.title + index">
-                    <div class="element__section__inner" v-if="checkPageType(section)" :data-section-name="section.title">
-                        <div class="bar__headers__container">
-                            <h5>{{ section.title }}</h5>
-                        </div>
-                        <div
-                            v-for="component in section.types"
-                            :key="component.type"
-                            class="create__element__cell__outer"
-                        >
-                            <div
-                                @click="createComponent('normal')"
-                                :component-name="section.componentName"
-                                :component-type="component.type"
-                                class="create__element__cell"
-                            >
-                                <img
-                                    v-if="component.img.length > 0"
-                                    :src="'/imgs/' + component.img"
-                                    class="create__element__img"
-                                />
-                                <p
-                                    v-if="component.img.length === 0"
-                                    class="create__element__para"
-                                >
-                                    {{ component.title }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            
         </div>
         <div 
-            @mouseenter="hoverCheck('none')"
             class="built__elements__wrapper"
         >
             <div
@@ -185,10 +133,15 @@
                 class="code__text__area"
             ></textarea>
             <div class="code__commands">
-                <div @click="copyText" class="code__command">Copy</div>
-                <div @click="clearCode" class="code__command">Clear</div>
-                <div @click="toggleCode" class="code__command">Close</div>
-                <div @click="importCode" class="code__command">Import</div>
+                <div class="code__commands__container code__commands--code">
+                    <div @click="copyText" class="site__button code__command">Copy</div>
+                    <div @click="clearCode" class="site__button code__command">Clear</div>
+                    <div @click="toggleCode" class="site__button code__command">Close</div>
+                </div>
+                <div class="code__commands__container code__commands--import">
+                    <div @click="importCode" class="site__button code__command">Import HTML Code</div>
+                    <div @click="togglePaste" class="site__button code__command">Paste From Google Doc</div>
+                </div>
             </div>
         </div>
         <div
@@ -281,8 +234,6 @@ export default {
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             if (data.action === "flipElement") {
-                console.log('here');
-                console.log(data.componentData);
                 data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
             }
             let newComponent = {
@@ -296,10 +247,11 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.clickedElements.elements[findIn].optionsShown = data.optionsBool;
         });
-        this.$nuxt.$on('toggleOptions', data => {
-            let uniqueName = data.componentData.uniqueName;
+        this.$nuxt.$on('toggleOptions', uniqueName => {
+            console.log(uniqueName);
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
+            console.log(findIn);
             this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
         this.$nuxt.$on('removeElement', data => {
@@ -347,12 +299,8 @@ export default {
     },
     methods: {
         hoverCheck: function (type) {
-            console.log(type);
             this.typeToShow = type;
-            console.log(this.typeToShow);
-        },
-        setCurrentComponent: function(element) {
-            console.log(element);
+            // this.typeToShow = "typeofpage";
         },
         // startDrag: (event) => {
         //     console.log(event);
@@ -533,8 +481,8 @@ export default {
             arr.splice(fromIndex, 1);
             arr.splice(toIndex, 0, element);
         },
-        changePageType: function (e) {
-            this.pageType = e.target.innerHTML.toLowerCase();
+        changePageType: function (type) {
+            this.pageType = type;
         },
         checkPageType: function (data) {
             if (data.showLive) {
@@ -906,98 +854,6 @@ export default {
 </script>
 
 <style>
-    .page__content, .page__content__outer {
-        min-height: 80vh;
-    }
-
-    .element__sections {
-        flex: 1;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: flex-start;
-        justify-content: center;
-        width: 100%;
-        max-width: 100%;
-    }
-    .element__section {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
-    }
-    .element__section__inner {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
-    }
-    .element__section h4 {
-        text-transform: capitalize;
-        align-self: center;
-        margin: 0 5px;
-        width: 100%;
-        text-align: center;
-    }
-    .create__element__cell__outer {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: flex-end;
-        justify-content: center;
-    }
-    .create__element__cell {
-        min-width: 20px;
-        border-radius: 4px;
-        text-align: center;
-        padding: 2px;
-        margin: 2px;
-        cursor: pointer;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: flex-end;
-        justify-content: center;
-    }
-    .create__element__cell:hover {
-        background-color: rgb(224, 221, 221);
-    }
-    .create__element__img {
-        max-height: 20px;
-    }
-    .create__element__para {
-        font-size: 1em;
-        line-height: 1em;
-        text-align: center;
-    }
-    [component-type="H1"] p {
-        font-size: var(--site-h1-size);
-        line-height: 1em;
-    }
-    [component-type="H2"] p {
-        font-size: var(--site-h2-size);
-        line-height: 1em;
-    }
-    [component-type="H3"] p {
-        font-size: var(--site-h3-size);
-        line-height: 1em;
-    }
-    [component-type="H4"] p {
-        font-size: var(--site-h4-size);
-        line-height: 1em;
-    }
-    [component-type="H5"] p {
-        font-size: var(--site-h5-size);
-        line-height: 1em;
-    }
-    [component-type="h6"] p {
-        font-size: var(--site-h6-size);
-        line-height: 1em;
-    }
-    
     .page__component {
         cursor: pointer;
     }

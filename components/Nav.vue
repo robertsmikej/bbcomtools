@@ -35,9 +35,9 @@ export default {
         align-content: center;
         align-items: center;
         justify-content: flex-start;
-        background-color: var(--site-blue-dark);
+        background-color: #202128;
         color: #FFF;
-        padding: 10px 10px;
+        padding: 10px 30px 8px;
         position: fixed;
         top: 0;
         left: 0;
@@ -55,5 +55,11 @@ export default {
     nav a {
         color: #FFF;
         margin: 3px 10px;
+        text-decoration: none;
+        transition: all .3s;
+    }
+    nav a:hover {
+        text-decoration: underline;
+        color: #FFF;
     }
 </style>

@@ -34,7 +34,7 @@
                     },
                     {
                         "componentName": "Imageheaderpara",
-                        "type": "row",
+                        "type": "column",
                         "elementData": {
                             "componentChanges": 0,
                             "headerText": "New Header",
@@ -52,10 +52,11 @@
                     },
                     {
                         "componentName": "Imageheaderpara",
-                        "type": "list",
+                        "type": "column",
                         "elementData": {
                             "componentChanges": 0,
                             "headerText": "New Header",
+                            "paraText": "New Para",
                             "imgChangeToMobile": "768px",
                             "imgSrcDesktop": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                             "imgSrcMobile": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
