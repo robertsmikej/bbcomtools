@@ -4,31 +4,35 @@
             @mouseleave="hoverCheck('none')"
             class="element__bar"
         >
-            <div class="element__sections">
+            <div class="element__bar__main__buttons">
                 <div 
-                    @mouseover="hoverCheck('typeofpage')"
+                    @mouseover="hoverCheck('Type Of Page')"
                     class="element__bar__section--header__container"
                 >
                     <img src="/imgs/webpage.png" class="element__bar__section--header--img"/>
                     <h5>Type Of Page</h5>
                 </div>
                 <div 
-                    @mouseover="hoverCheck('components')"
+                    @mouseover="hoverCheck('Components')"
                     class="element__bar__section--header__container"
                 >
                     <img src="/imgs/hexagon.png" class="element__bar__section--header--img"/>
                     <h5>Components</h5>
                 </div>
-                <div class="bar__buttons">
-                    <div class="bar__button" @click="buildCode">Code</div>
+                <div class="build__code__buttons">
+                    <div class="site__button" @click="buildCode">Code</div>
                 </div>
             </div>
             <div
                 v-show="typeToShow !== 'none'" 
-                class="element__sections element__bar__section--content__container"
+                class="element__bar__section--content__container"
             >
+                <div class="element__section__header">
+                    <h3>{{ typeToShow }}</h3>
+                    <hr>
+                </div>
                 <div
-                    v-show="typeToShow === 'typeofpage'"
+                    v-show="typeToShow === 'Type Of Page'"
                     class="element__section"
                 >
                     <div class="bar__headers__container">
@@ -50,7 +54,7 @@
                     </div>
                 </div>
                 <div 
-                    v-show="typeToShow === 'components' && checkPageType(section)"
+                    v-show="typeToShow === 'Components' && checkPageType(section)"
                     v-for="(section, index) in components" 
                     :key="'section' + section.title + index"
                     class="element__section"
@@ -248,10 +252,8 @@ export default {
             this.clickedElements.elements[findIn].optionsShown = data.optionsBool;
         });
         this.$nuxt.$on('toggleOptions', uniqueName => {
-            console.log(uniqueName);
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
-            console.log(findIn);
             this.clickedElements.elements[findIn].optionsShown = !this.clickedElements.elements[findIn].optionsShown;
         });
         this.$nuxt.$on('removeElement', data => {
@@ -300,7 +302,7 @@ export default {
     methods: {
         hoverCheck: function (type) {
             this.typeToShow = type;
-            // this.typeToShow = "typeofpage";
+            // this.typeToShow = "Components";
         },
         // startDrag: (event) => {
         //     console.log(event);
