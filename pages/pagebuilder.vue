@@ -60,7 +60,7 @@
                     class="element__section"
                 >   
                     <div 
-                        @mouseover="hoverCheck('components')"
+                        @mouseover="hoverCheck('Components')"
                         :data-section-name="section.title"
                         class="element__section__inner" 
                     >
