@@ -45,6 +45,10 @@ body .VendorBlock {
     color: #2B373C;
     font-family: Arial, ProximaNova, "Proxima Nova", 'Helvetica Neue', sans-serif;
 }
+.Wr__body .page__content__outer {
+    display: inline-flex;
+    width: auto;
+}
 .Wr__body .page__content h1,
 .Wr__body .page__content h2,
 .Wr__body .page__content h3,
@@ -96,8 +100,14 @@ body .VendorBlock {
     text-align: left;
     margin: 16px 0 0;
 }
+.Wr__body .page__content .page__para,
+.Wr__body .page__content .page__header,
+.page__list__container {
+    padding: 0 8px;
+}
 .page__list__container {
     width: 100%;
+
 }
 .Wr__body .page__content ul {
     width: 100%;
@@ -146,22 +156,20 @@ body .VendorBlock {
 .Wr__body .page__ihp--column .page__ihp__text__container h3,
 .Wr__body .page__ihp--column .page__ihp__text__container p {
     text-align: center;
-
+}
+.Wr__body .page__ihp__image__container {
+    padding: 0 10px 14px;
 }
 .Wr__body .page__ihp--list .page__ihp__image__container,
 .Wr__body .page__ihp--row .page__ihp__image__container {
     float: right;
     width: 48%;
-    padding-left: 14px;
-    padding-bottom: 14px;
 }
 .Wr__body .page__ihp--row--flipped--true .page__ihp__image__container,
 .Wr__body .page__ihp--list--flipped--true .page__ihp__image__container,
 .Wr__body .page__ihp--row--true .page__ihp__image__container  {
     float: left;
     width: 48%;
-    padding-right: 16px;
-    padding-bottom: 14px;
 }
 .Wr__body .page__ihp__image {
     width: 100%;
@@ -275,7 +283,6 @@ body .VendorBlock {
     display: grid;
     grid-gap: 14px;
 }
-
 .Wr__body p.page__disclaimer {
     width: 100%;
     padding: 5px;
@@ -284,7 +291,6 @@ body .VendorBlock {
     background: #00aeef;
     color: #FFF
 }
-
 /* ------------------ MEDIA QUERY ------------------ */
 @media screen and (max-width: 950px) {
     .Wr__body .page__banner__header span:nth-of-type(1) {

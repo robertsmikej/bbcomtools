@@ -43,11 +43,13 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    .page__type--product {
+    .Wr__body .page__type--product--outer {
         max-width: 760px;
+        width: 100%;
     }
-    .page__type--marketing {
+    .Wr__body .page__type--marketing--outer {
         max-width: 1200px;
+        width: 100%;
     }
     .container .page__type__header {
         width: 100%;
@@ -69,15 +71,11 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        /* flex-wrap: wrap; */
         justify-content: flex-start;
         align-items: flex-start;
         padding: 40px 0 0;
     }
 
-    /* .component__generator .built__elements__wrapper {
-        padding-left: 100px;
-    } */
     .element__bar {
         width: 100px;
         min-width: 100px;
@@ -150,9 +148,6 @@
         z-index: 0;
         border-right: 1px solid #202128;
     }
-    /* .element__bar__section--header__container:hover + .element__bar__section--content__container {
-        left: 100px;
-    } */
     .element__bar__spacer {
         width: 100%;
         z-index: 3;
@@ -163,8 +158,6 @@
 
     
     .element__section {
-        /* min-width: 46%;
-        max-width: 100%; */
         flex: 1 1 auto;
         height: 56px;
         display: flex;
@@ -349,6 +342,10 @@
         min-height: calc(100vh - 40px);
         background-color: #DDDFE3;
         padding-left: 100px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: flex-start;
     }
     .built__elements__wrapper__inner {
         width: auto;
@@ -421,7 +418,6 @@
     .options__editable__container {
         width: 100%;
         border: 1px solid #232323;
-        
         background: #FFF;
         position: relative;
     }
@@ -432,9 +428,6 @@
         font-size: 12px;
     }
 
-    .component__options__advanced {
-
-    }
     span.options__description {
         font-size: 12px;
         line-height: 12px;
@@ -474,21 +467,6 @@
     .component__options--stacked input {
         min-width: 280px;
     }
-
-
-    /* .component__options__buttons__outer {
-        width: 100%;
-        display: none;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-content: center;
-        justify-content: flex-start;
-        align-items: center;
-        position: absolute;
-        top: 16px;
-        right: 0;
-        z-index: 3;
-    } */
     
     .component__options__buttons, .component__options__buttons--chartcolumn   {
         width: auto;
@@ -549,12 +527,6 @@
         right: 3px;
         padding: 1px 0;
         opacity: 0; 
-    }
-    /* .component__options__buttons:hover, .component__options__buttons--chartrow:hover {
-       opacity: 1;
-    } */
-    .chart__row:nth-child(n + 2) .component__options__buttons--chartrow {
-        /* display: none; */
     }
     .component__options--button {
         width: 16px;

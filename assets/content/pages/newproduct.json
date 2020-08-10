@@ -43,9 +43,7 @@
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "imgAlt": "Alt Text",
                 "elementOptions": {
-                    "flipped": {
-                        "boolean": false
-                    }
+                    "flipped": false
                 }
             }
         },
@@ -58,9 +56,7 @@
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "imgAlt": "Alt Text",
                 "elementOptions": {
-                    "flipped": {
-                        "boolean": false
-                    }
+                    "flipped": false
                 }
             }
         },
@@ -73,9 +69,7 @@
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "imgAlt": "Alt Text",
                 "elementOptions": {
-                    "flipped": {
-                        "boolean": false
-                    }
+                    "flipped": false
                 }
             }
         },
@@ -88,9 +82,7 @@
                 "imgSrc": "https://www.bodybuilding.com/images/merchandising/april-2020/birthday-week-hotdeal-550x420.jpg",
                 "imgAlt": "Alt Text",
                 "elementOptions": {
-                    "flipped": {
-                        "boolean": true
-                    }
+                    "flipped": true
                 }
             }
         }

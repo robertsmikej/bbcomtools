@@ -8,9 +8,21 @@ export const mutations = {
     setComponents(state, data) {
         let newArr = [];
         data.forEach(function (obj) {
+            // console.log(obj);
+            // if (obj.hasOwnProperty("types")) {
+            //     for (let t in obj.types) {
+            //         if (obj.types[t].hasOwnProperty("elementData")) {
+            //             let elData = obj.types[t].elementData;
+            //             if (elData.hasOwnProperty("elementOptions")) {
+            //                 let options = elData.elementOptions;
+            //                 let optionsNames;
+            //                 console.log(options);
+            //             }
+            //         }
+            //     }
+            // }
             newArr.push(obj);
         });
-        console.log(newArr);
         newArr.sort((a, b) => (a.order > b.order) ? 1 : -1)
         state.components = newArr;
     },

@@ -3,7 +3,8 @@
         <div
             :data-component-type="componentData.componentName"
             :data-component-sub-type="componentData.type"
-            :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--flipped--' + componentData.elementData.elementOptions.flipped.boolean]"
+            v-bind="compOptions"
+            :class="['page__ihp--' + componentData.type, 'page__ihp--' + componentData.type + '--flipped--' + this.componentData.elementData.elementOptions.flipped]"
             class="page__ihp"
             :key="numberOfActions"
         >
@@ -130,10 +131,22 @@ export default {
                 optionsShown: true
             },
             optionsShown: false,
-            flipped: this.componentData.elementData.elementOptions.flipped.boolean
+            flipped: this.componentData.elementData.elementOptions.flipped
         };
     },
-
+    computed: {
+        compOptions: function () {
+            let newObj = {};
+            if (this.componentData.elementData.elementOptions) {
+                for (let o in this.componentData.elementData.elementOptions) {
+                    let name = "data-options-" + o.toString();
+                    let value = this.componentData.elementData.elementOptions[o];
+                    newObj[name] = value.toString();
+                }
+            }
+            return newObj;
+        }
+    },
     mounted() {
         this.componentData.optionsShown = false;
         if (!this.componentData.uniqueName) {

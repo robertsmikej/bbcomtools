@@ -74,9 +74,9 @@ export default {
             //     this.updateTarget("pasted", dataObj);
             // }
         },
-        focused(e) {
-            console.log(e);
-        },
+        // focused(e) {
+        //     console.log(e);
+        // },
         enterPressed(e) {
             e.preventDefault();
             this.updateTarget("addListItem");

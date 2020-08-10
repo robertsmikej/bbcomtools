@@ -99,7 +99,7 @@
             class="built__elements__wrapper"
         >
             <div
-                :class="'page__type--' + pageType"
+                :class="'page__type--' + pageType + '--outer'"
                 class="built__elements__wrapper__inner page__content__outer"
             >
                 <h2
@@ -201,7 +201,7 @@ export default {
     },
     computed: {
         components: function () {
-            return this.$store.state.components
+            return this.$store.state.components;
         },
         componentNodes: function () {
             let listOfNodes = [];
@@ -212,10 +212,10 @@ export default {
                     }
                 });
             });
-            return listOfNodes
+            return listOfNodes;
         },
         pagetypes: function () {
-            return this.$store.state.pagetypes
+            return this.$store.state.pagetypes;
         },
         linkDataElements: function () {
             let linkedData = {};
@@ -238,7 +238,7 @@ export default {
             this.currentComponentName = uniqueName;
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             if (data.action === "flipElement") {
-                data.componentData.elementData.elementOptions.flipped.boolean = !data.componentData.elementData.elementOptions.flipped.boolean;
+                data.componentData.elementData.elementOptions.flipped = !data.componentData.elementData.elementOptions.flipped;
             }
             let newComponent = {
                 newComponentData: data.componentData
@@ -290,6 +290,7 @@ export default {
         let pageInfo = this.pagetypes.filter(obj => {
             return obj.slug === this.$route.query.type
         })[0];
+        // console.log(this.$route.query);
         if (pageInfo) {
             this.pageInfo = pageInfo;
             this.pageType = pageInfo.pageTypes[0];
@@ -409,7 +410,9 @@ export default {
             return dataObj;
         },
         findTypes: function (element) {
+            console.log(element);
             let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
+            
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
@@ -615,7 +618,7 @@ export default {
             return newListItems;
         },
         getNewListItems(event) {
-            console.log(event);
+            // console.log(event);
             let newListItems = event.target.closest(".page__ul__list").getElementsByTagName("li");
             let newLiArr = Array.from(newListItems).map(function (li) {
                 return {
@@ -679,10 +682,14 @@ export default {
             let componentDetails = JSON.parse(JSON.stringify(component.types.filter(obj => {
                 return obj.type.toLowerCase() === comptype.toLowerCase()
             })[0]));
+            
             if (typeOfCreate === "import") {
                 Object.assign(componentDetails.elementData, importData.newElementData);
+                if (importData.elOptions && componentDetails.elementData.elementOptions) {
+                    Object.assign(componentDetails.elementData.elementOptions, importData.elOptions);
+                }
             }
-
+            console.log(componentDetails);
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + this.clickedElements.numberOfComponents,
@@ -694,7 +701,8 @@ export default {
                 vendorRestricted: this.checkRestricted("vendors"),
                 group: Object.keys(componentDetails.elementData).length > 1 ? true : false
             };
-            console.log(newComponent)
+            // console.log(1);
+            // console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
         },
@@ -714,7 +722,10 @@ export default {
                 let pastedDoc = new DOMParser().parseFromString(e.clipboardData.getData('text/html'), "text/html").getElementsByTagName("body")[0].getElementsByTagName("b")[0];
                 let pastedChildren = pastedDoc.children;
                 Array.from(pastedChildren).forEach(el => {
-                    console.log(el);
+                    
+                    if (el.dataset) {
+                        console.log(el.dataset);
+                    }
                     
                 });
                 // console.log(pastedDoc);
@@ -752,6 +763,11 @@ export default {
                 el.outerHTML = el.innerHTML.trim();
             });
         },
+        removeSpaces: function (els) {
+            return els.forEach(el => {
+                el.textContent.trim();
+            });
+        },
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
@@ -763,7 +779,11 @@ export default {
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".page__component"));
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".component__wrapper"));
             // this.removeClasses(codeCopy, ["site__element"]);
-            codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ');
+            // this.removeSpaces(codeCopy.querySelectorAll("*"));
+            
+            // console.log(codeCopy);
+            codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ').replace(/> /g, ">").replace(/ </g, "<");
+            // console.log(codeCopy);
             this.code = codeCopy;
             this.showCode = true;
         },
@@ -771,8 +791,6 @@ export default {
             let comp = {};
             this.components.forEach(component => {
                 component.types.forEach(type => {
-                    // console.log(nameOfElement);
-                    // console.log(component.componentName);
                     if (type.htmlElement) { //SINGLE ELEMENTS
                         if (type.htmlElement.toLowerCase() === element.nodeName.toLowerCase()) {
                             comp = {
@@ -802,26 +820,37 @@ export default {
             let contentArea = importCode.querySelector(".page__content");
             let initialElements = contentArea.children;
             let componentSubDetails;
-            // console.log(initialElements);
-            Array.from(initialElements).forEach(element => {
-                // console.log(element);
-                
+            Array.from(initialElements).forEach(element => {                
                 if (element.nodeName.toLowerCase() !== "parsererror") {
-                    // console.group("1 - Import Data");
+                    console.group("1 - Import Data");
                     let elDatas = {};
-                    let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : componentData = this.findInComponents(element); //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
-                    componentData.matchedTypes = this.findTypes(componentData, element);
-                    // console.log(componentData.component.componentName);
-                    // console.log(componentData);
+                    let elOptions = {};
+                    let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : this.findInComponents(element); //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
+                    componentData.matchedTypes = this.findTypes(element);
+                    if (element.dataset) {
+                        for (let d in element.dataset) {
+                            if (d.indexOf("options") >= 0) { //IF OPTIONS EXIST ON DOM ELEMENT
+                                let newObj = {};
+                                let key = d.toLowerCase().replace(/options/g, "");
+                                let value = element.dataset[d];
+                                elOptions[key] = value;
+                                // console.log(elOptions);
+                                // console.log(componentData);
+                            }
+                            
+                        }
+                        
+                    }
                     let textsToGrab = this.parseMatchedTypes(componentData, element, false);
                     let el = {
                         componentData: componentData,
                         componentName: componentData.component.componentName,
                         elementType: componentData.typeData.type,
-                        newElementData: textsToGrab
+                        newElementData: textsToGrab,
+                        elOptions: elOptions
                     };
                     this.createComponent("import", el);
-                    // console.groupEnd();
+                    console.groupEnd();
                 }
             });
             this.toggleCode();
