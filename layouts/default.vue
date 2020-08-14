@@ -43,13 +43,16 @@
         align-content: flex-start;
         justify-content: flex-start;
     }
-    .Wr__body .page__type--product--outer {
+    .page__type--product--outer {
         max-width: 760px;
         width: 100%;
     }
-    .Wr__body .page__type--marketing--outer {
+    .page__type--marketing--outer {
         max-width: 1200px;
         width: 100%;
+    }
+    .page__content {
+        height: 100%;
     }
     .container .page__type__header {
         width: 100%;
@@ -346,10 +349,12 @@
         flex-direction: column;
         align-content: center;
         justify-content: flex-start;
+        margin: 0 auto;
     }
     .built__elements__wrapper__inner {
-        width: auto;
         min-height: 90vh;
+        margin: 0 auto;
+        background: #FFF;
     }
     .preview__content {
         width: 100%;

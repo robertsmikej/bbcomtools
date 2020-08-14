@@ -32,7 +32,7 @@ body .VendorBlock {
 /* End Old Site Styles */
 
 
-.Wr__body .page__content, .Wr__body .page__content__outer {
+body .page__content, body .page__content__outer {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -45,16 +45,16 @@ body .VendorBlock {
     color: #2B373C;
     font-family: Arial, ProximaNova, "Proxima Nova", 'Helvetica Neue', sans-serif;
 }
-.Wr__body .page__content__outer {
+body .page__content__outer {
     display: inline-flex;
     width: auto;
 }
-.Wr__body .page__content h1,
-.Wr__body .page__content h2,
-.Wr__body .page__content h3,
-.Wr__body .page__content h4,
-.Wr__body .page__content h5,
-.Wr__body .page__content h6 {
+body .page__content h1,
+body .page__content h2,
+body .page__content h3,
+body .page__content h4,
+body .page__content h5,
+body .page__content h6 {
     width: 100%;
     max-width: 1200px;
     word-wrap: break-word;
@@ -64,33 +64,33 @@ body .VendorBlock {
     margin: 16px 0 0;
     position: relative;
 }
-.Wr__body .page__content h1 {
+body .page__content h1 {
     font-size: 36px;
     line-height: 36px;
 }
-.Wr__body .page__content h2 {
+body .page__content h2 {
     font-size: 32px;
     line-height: 32px;
     letter-spacing: -0.5px;
 }
-.Wr__body .page__content h3 {
+body .page__content h3 {
     font-size: 28px;
     line-height: 28px;
     font-weight: 600;
 }
-.Wr__body .page__content h4 {
+body .page__content h4 {
     font-size: 24px;
     line-height: 24px;
 }
-.Wr__body .page__content h5 {
+body .page__content h5 {
     font-size: 20px;
     line-height: 20px;
 }
-.Wr__body .page__content h6 {
+body .page__content h6 {
     font-size: 16px;
     line-height: 16px;
 }
-.Wr__body .page__content p {
+body .page__content p {
     width: 100%;
     max-width: 1200px;
     position: relative;
@@ -100,8 +100,8 @@ body .VendorBlock {
     text-align: left;
     margin: 16px 0 0;
 }
-.Wr__body .page__content .page__para,
-.Wr__body .page__content .page__header,
+body .page__content .page__para,
+body .page__content .page__header,
 .page__list__container {
     padding: 0 8px;
 }
@@ -109,17 +109,17 @@ body .VendorBlock {
     width: 100%;
 
 }
-.Wr__body .page__content ul {
+body .page__content ul {
     width: 100%;
     max-width: 1200px;
     list-style-position: inside;
     margin: 20px auto 16px;
     padding: 0 10px;
 }
-.Wr__body .page__ihp__list ul {
+body .page__ihp__list ul {
     margin-top: 12px;
 }
-.Wr__body .page__content li {
+body .page__content li {
     width: 100%;
     font-family: Arial, ProximaNova, "Proxima Nova", 'Helvetica Neue', sans-serif;
     font-size: 16px;
@@ -127,84 +127,84 @@ body .VendorBlock {
     font-weight: 400;
     text-align: left;
 }
-.Wr__body .page__ihp {
+body .page__ihp {
     width: 100%;
     max-width: 760px;
     padding: 0;
     margin: 32px auto;
     position: relative;
 }
-.Wr__body .page__ihp p {
+body .page__ihp p {
   width: 100%
 }
-.Wr__body .page__ihp h4 {
+body .page__ihp h4 {
   margin: 0 0 4px
 }
-.Wr__body .page__ihp__container {
+body .page__ihp__container {
     position: relative;
     display: flex;
 }
-.Wr__body .page__ihp__header {
+body .page__ihp__header {
     margin-top: 0;
     margin-bottom: 0;
 }
-.Wr__body .page__ihp--list .page__ihp__text__container,
-.Wr__body .page__ihp--row .page__ihp__text__container,
-.Wr__body .page__ihp--row--true .page__ihp__text__container {
+body .page__ihp--list .page__ihp__text__container,
+body .page__ihp--row .page__ihp__text__container,
+body .page__ihp--row--true .page__ihp__text__container {
   width: 100%;
 }
-.Wr__body .page__ihp--column .page__ihp__text__container h3,
-.Wr__body .page__ihp--column .page__ihp__text__container p {
+body .page__ihp--column .page__ihp__text__container h3,
+body .page__ihp--column .page__ihp__text__container p {
     text-align: center;
 }
-.Wr__body .page__ihp__image__container {
+body .page__ihp__image__container {
     padding: 0 10px 14px;
 }
-.Wr__body .page__ihp--list .page__ihp__image__container,
-.Wr__body .page__ihp--row .page__ihp__image__container {
+body .page__ihp--list .page__ihp__image__container,
+body .page__ihp--row .page__ihp__image__container {
     float: right;
     width: 48%;
 }
-.Wr__body .page__ihp--row--flipped--true .page__ihp__image__container,
-.Wr__body .page__ihp--list--flipped--true .page__ihp__image__container,
-.Wr__body .page__ihp--row--true .page__ihp__image__container  {
+body .page__ihp--row--flipped--true .page__ihp__image__container,
+body .page__ihp--list--flipped--true .page__ihp__image__container,
+body .page__ihp--row--true .page__ihp__image__container  {
     float: left;
     width: 48%;
 }
-.Wr__body .page__ihp__image {
+body .page__ihp__image {
     width: 100%;
 }
-.Wr__body .page__ihp__image picture, 
-.Wr__body .page__ihp__image img {
+body .page__ihp__image picture, 
+body .page__ihp__image img {
     width: 100%;
     max-width: 100%;
 }
-.Wr__body .page__spacer {
+body .page__spacer {
     width: 100%;
     margin: 0 auto;
     background: transparent;
 }
-.Wr__body .page__spacer--extra-small {
+body .page__spacer--extra-small {
     height: 10px;
 }
-.Wr__body .page__spacer--small {
+body .page__spacer--small {
     height: 20px;
 }
-.Wr__body .page__spacer--medium {
+body .page__spacer--medium {
     height: 40px;
 }
-.Wr__body .page__spacer--large {
+body .page__spacer--large {
     height: 60px;
 }
-.Wr__body .page__spacer--extralarge {
+body .page__spacer--extralarge {
     height: 80px;
 }
-.Wr__body .page__banner {
+body .page__banner {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
-.Wr__body .page__banner__image__container {
+body .page__banner__image__container {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -212,11 +212,11 @@ body .VendorBlock {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.Wr__body .page__banner__image {
+body .page__banner__image {
     width: 100%;
     height: 100%;
 }
-.Wr__body .page__banner__text__container {
+body .page__banner__text__container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -225,14 +225,14 @@ body .VendorBlock {
     justify-content: center;
     padding: 50px 10px;
 }
-.Wr__body .page__banner__header {
+body .page__banner__header {
     display: flex;
     flex-direction: column;
     align-content: center;
     align-items: center;
     justify-content: center;
 }
-.Wr__body .page__banner__header {
+body .page__banner__header {
     width: 100%;
     margin: 0 auto;
     font-size: 16px;
@@ -245,22 +245,22 @@ body .VendorBlock {
     color: #FFF;
     z-index: 2;
 }
-.Wr__body .page__banner__header span:nth-of-type(1) {
+body .page__banner__header span:nth-of-type(1) {
     font-size: 32px;
     line-height: 35px;
     margin: 0 auto;
 }
-.Wr__body .page__banner__header span:nth-of-type(2) {
+body .page__banner__header span:nth-of-type(2) {
     font-size: 48px;
     line-height: 54px;
     margin: 0 auto;
 }
-.Wr__body .page__banner__header span:nth-of-type(3) {
+body .page__banner__header span:nth-of-type(3) {
     font-size: 36px;
     line-height: 40px;
     margin: 0 auto;
 }
-.Wr__body .page__banner__disclaimer {
+body .page__banner__disclaimer {
     position: absolute;
     bottom: 4px;
     right: 6px;
@@ -268,22 +268,22 @@ body .VendorBlock {
     padding: 0;
     color: #FFF;
 }
-.Wr__body .page__video__wrapper {
+body .page__video__wrapper {
     width: 100%;
     max-width: 1200px;
     margin: 24px auto 0;
 }
-.Wr__body .page__story__row__outer {
+body .page__story__row__outer {
     width: 100%;
     max-width: 1200px;
     margin: 16px auto 0;
 }
-.Wr__body .page__story__row {
+body .page__story__row {
     width: 100%;
     display: grid;
     grid-gap: 14px;
 }
-.Wr__body p.page__disclaimer {
+body p.page__disclaimer {
     width: 100%;
     padding: 5px;
     text-align: center;
@@ -293,40 +293,40 @@ body .VendorBlock {
 }
 /* ------------------ MEDIA QUERY ------------------ */
 @media screen and (max-width: 950px) {
-    .Wr__body .page__banner__header span:nth-of-type(1) {
+    body .page__banner__header span:nth-of-type(1) {
         font-size: 30px;
         line-height: 32px;
     }
-    .Wr__body .page__banner__header span:nth-of-type(2) {
+    body .page__banner__header span:nth-of-type(2) {
         font-size: 26px;
         line-height: 28px;
     }
-    .Wr__body .page__banner__header span:nth-of-type(3) {
+    body .page__banner__header span:nth-of-type(3) {
         font-size: 22px;
         line-height: 22px;
     }
 }
 @media screen and (max-width: 650px) {
-    .Wr__body .page__ihp {
+    body .page__ihp {
         display: flex;
         flex-direction: column;
     }
-    .Wr__body .page__ihp--list .page__ihp__image__container,
-    .Wr__body .page__ihp--row .page__ihp__image__container {
+    body .page__ihp--list .page__ihp__image__container,
+    body .page__ihp--row .page__ihp__image__container {
         order: 2;
         width: 100%;
         padding-left: 0;
         padding-bottom: 14px;
     }
-    .Wr__body .page__ihp--list .page__ihp__text__container,
-    .Wr__body .page__ihp--row .page__ihp__text__container {
+    body .page__ihp--list .page__ihp__text__container,
+    body .page__ihp--row .page__ihp__text__container {
         order: 1
     }
-    .Wr__body .page__content ul {
+    body .page__content ul {
         padding: 0
     }
-    .Wr__body .page__content li,
-    .Wr__body .page__content p {
+    body .page__content li,
+    body .page__content p {
         font-size: 16px;
     }
 }
