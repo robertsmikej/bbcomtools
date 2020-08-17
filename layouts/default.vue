@@ -35,6 +35,9 @@
         margin: 0;
         transition: all .3s;
     }
+    .page__banner__inner {
+        width: 100%;
+    }
     .page__container {
         width: 100%;
         display: flex;
@@ -50,6 +53,7 @@
     .page__type--marketing--outer {
         max-width: 1200px;
         width: 100%;
+        min-width: 750px;
     }
     .page__content {
         height: 100%;
