@@ -290,7 +290,6 @@ export default {
         let pageInfo = this.pagetypes.filter(obj => {
             return obj.slug === this.$route.query.type
         })[0];
-        // console.log(this.$route.query);
         if (pageInfo) {
             this.pageInfo = pageInfo;
             this.pageType = pageInfo.pageTypes[0];
@@ -323,11 +322,8 @@ export default {
         // },
         parseMatchedTypes: function (componentData, element, updating) {
             let elDatas= {};
-            console.log(componentData, element, updating)
             for (let m in componentData.matchedTypes) {
-                // console.log(element);
                 let matchedType = componentData.matchedTypes[m];
-                // console.log(matchedType);
                 let foundElement = element.getElementsByTagName(matchedType)[0];
                 if (foundElement) { //IF THERE ARE MORE THAN ONE ELEMENT IN COMPONENT
                     if (foundElement.nodeName.toLowerCase() === "picture") { //IF IS PICTURE ELEMENT
@@ -358,7 +354,6 @@ export default {
                                 elDatas[m] = foundElement.getElementsByTagName("img")[0].getAttribute("alt");
                             }
                         }
-                        // console.log(elDatas);
                     } else if (foundElement.nodeName.toLowerCase() === "ul" || foundElement.nodeName.toLowerCase() === "ol") {
                         let listItemArray = [];
                         Array.from(element.getElementsByTagName("li")).forEach(innerEl => {
@@ -368,7 +363,6 @@ export default {
                             elDatas.listItems = listItemArray;
                         }
                     } else {
-                        // console.log(m);
                         elDatas[m] = foundElement.textContent.trim();
                     }
                 } else { //IF THERE IS JUST ONE ELEMENT IN COMPONENT
@@ -412,7 +406,6 @@ export default {
         },
         findTypes: function (element) {
             let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
-            
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
             return dataObj;
         },
@@ -543,35 +536,40 @@ export default {
             chartRows.splice(clickedRow, 1);
             return chartRows;
         },
-        getChartRows(event) {
-            let newChartRows = event.target.closest(".page__chart").getElementsByClassName("chart__row");
+        getChartRows(incomingData) {
+            let newChartRows;
+            let isImport = false;
+            if (incomingData.target) {
+                newChartRows = incomingData.target.closest(".page__chart").getElementsByClassName("chart__row");
+            } else {
+                newChartRows = incomingData.getElementsByClassName("chart__row");
+                isImport = true;
+            }
             let newChartArr = Array.from(newChartRows).map((div) => {
-                // console.log(div)
-                let newChildren = this.getChartRowCells(div.children);
+                let newChildren = this.getChartRowCells(div.children, isImport);
                 return {row: newChildren}
             });
             return newChartArr;
         },
-        getChartRowCells(data) {
+        getChartRowCells(data, imported) {
             let childrenArray = Array.from(data);
-            childrenArray.pop();
+            if (!imported) {childrenArray.pop();}
             let newChildrenArray =[];
             childrenArray.forEach((cell, index) => {
                 let buttonComponentFromCell = cell.querySelector(".component__remove");
-                if (buttonComponentFromCell.parentNode) {
+                if (buttonComponentFromCell && buttonComponentFromCell.parentNode) {
                     buttonComponentFromCell.parentNode.removeChild(buttonComponentFromCell);
                 }
                 let cellNumValue = cell.children[0].dataset.cellNumber;
                 let cleanStr = cell.innerText.trim();
                 let cellObj = {};
                 let keyStr
-                // console.log(cleanStr)
-                if(cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
-                     keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
+                if (cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
+                    keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
                 } else {
-                     keyStr = 'in'
+                    keyStr = 'in'
                 }
-                if(cleanStr.length > 0 ) {
+                if (cleanStr.length > 0 ) {
                     cellObj[keyStr] = cleanStr;
                 } else {
                     cellObj['in'] = 0;
@@ -608,9 +606,7 @@ export default {
         addListItem(event) {
             let newListItems = this.getNewListItems(event);
             let clickedItem = this.getClickedListItem(event, newListItems);
-            // console.log(clickedItem);
             newListItems.splice(clickedItem + 1, 0, {li: "New List Item"});
-            // console.log(newListItems);
             return newListItems;
         },
         deleteListItem(event) {
@@ -704,7 +700,7 @@ export default {
                 group: Object.keys(componentDetails.elementData).length > 1 ? true : false
             };
             // console.log(1);
-            // console.log(newComponent)
+            console.log(newComponent)
             this.clickedElements.numberOfComponents += 1;
             this.clickedElements.elements.push(newComponent);
         },
@@ -780,12 +776,7 @@ export default {
             this.removeElements(codeCopy.querySelectorAll(".component__remove"));
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".page__component"));
             this.moveChildrenOutOfParents(codeCopy.querySelectorAll(".component__wrapper"));
-            // this.removeClasses(codeCopy, ["site__element"]);
-            // this.removeSpaces(codeCopy.querySelectorAll("*"));
-            
-            // console.log(codeCopy);
             codeCopy = codeCopy.outerHTML.replace(/\<!---->/g, "").replace(/\s+/g, ' ').replace(/> /g, ">").replace(/ </g, "<");
-            // console.log(codeCopy);
             this.code = codeCopy;
             this.showCode = true;
         },
@@ -793,7 +784,6 @@ export default {
             let comp = {};
             this.components.forEach(component => {
                 component.types.forEach(type => {
-                    // console.log(type.htmlElement)
                     if (type.htmlElement) { //SINGLE ELEMENTS
                         if (type.htmlElement.toLowerCase() === element.nodeName.toLowerCase()) {
                             comp = {
@@ -822,7 +812,6 @@ export default {
             let importCode = new DOMParser().parseFromString(importZone.value, "text/html");
             let contentArea = importCode.querySelector(".page__content");
             let initialElements = contentArea.children;
-            // console.log(initialElements);
             let componentSubDetails;
             Array.from(initialElements).forEach(element => {                
                 if (element.nodeName.toLowerCase() !== "parsererror") {
@@ -830,7 +819,7 @@ export default {
                     let elDatas = {};
                     let elOptions = {};
                     let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : this.findInComponents(element); 
-                    console.log(componentData);
+                    // console.log(componentData);
                         //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
                     componentData.matchedTypes = this.findTypes(element);
                     if (element.dataset) {
@@ -840,14 +829,18 @@ export default {
                                 let key = d.toLowerCase().replace(/options/g, "");
                                 let value = element.dataset[d];
                                 elOptions[key] = value;
-                                // console.log(elOptions);
-                                // console.log(componentData);
                             }
-                            
                         }
-                        
                     }
-                    let textsToGrab = this.parseMatchedTypes(componentData, element, false);
+                    let textsToGrab;
+                    if (componentData.component.componentName === "Chart") {
+                        this.removeElements(element.querySelectorAll(".chart__row--cm"));
+                        textsToGrab = {
+                            chartRows: this.getChartRows(element)
+                        };
+                    } else {
+                        textsToGrab = this.parseMatchedTypes(componentData, element, false);
+                    }
                     let el = {
                         componentData: componentData,
                         componentName: componentData.component.componentName,
@@ -855,7 +848,6 @@ export default {
                         newElementData: textsToGrab,
                         elOptions: elOptions
                     };
-                    console.log(el)
                     this.createComponent("import", el);
                     console.groupEnd();
                 }
