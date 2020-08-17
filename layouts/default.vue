@@ -66,6 +66,7 @@
         border-bottom: 1px solid #c8c8c8;
         background-color: #FFF;
         padding: 3px 6px;
+        min-width: 750px;
     }
     .site__selection--marketing {
         padding: 0;

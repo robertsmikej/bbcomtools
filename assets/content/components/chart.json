@@ -7,7 +7,7 @@
   "types": [
       {
           "title": "Inch/CM",
-          "type": "chart",
+          "type": "sizingChart",
           "elementData": {
               "chartRows": [
                 {
