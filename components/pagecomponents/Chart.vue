@@ -4,8 +4,9 @@
         <div
             data-input-types="['chart']"
             :data-component-type="componentData.componentName"
+            :data-component-sub-type="componentData.type"
             :class="[inchesNotCM ? 'page__chart--in' : 'page__chart--cm']"
-            class="page__chart page__chart--inches component__wrapper"
+            class="page__chart page__chart--inches"
         >
             <input @click="toggleInCm" type="checkbox" class="conversion__checkbox" :id="'conversion__checkbox' + componentData.uniqueName">
             <label class="conversion__checkbox--label" :for="'conversion__checkbox' + componentData.uniqueName">Inches/CM</label>

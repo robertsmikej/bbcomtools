@@ -323,6 +323,7 @@ export default {
         // },
         parseMatchedTypes: function (componentData, element, updating) {
             let elDatas= {};
+            console.log(componentData, element, updating)
             for (let m in componentData.matchedTypes) {
                 // console.log(element);
                 let matchedType = componentData.matchedTypes[m];
@@ -410,7 +411,6 @@ export default {
             return dataObj;
         },
         findTypes: function (element) {
-            console.log(element);
             let innerElements = element.querySelectorAll("*:not(div):not(.element__exclude)");
             
             let dataObj = innerElements.length === 0 ? this.findType(element) : this.findType(innerElements);
@@ -470,7 +470,7 @@ export default {
                 let newChartRows = data.action === "addChartColumn" ? this.addChartColumn(data.event) : this.deleteChartColumn(data.event);
                 ncd.elementData.chartRows = newChartRows;
                 this.clickedElements.elements[findIn] = ncd;
-            } else if (ncd.type === "chart") {
+            } else if (ncd.componentName === "Chart") {
                 let textsToGrab = this.getChartRows(data.event);
                 ncd.elementData.chartRows = textsToGrab;
                 this.clickedElements.elements[findIn] = ncd;
@@ -546,6 +546,7 @@ export default {
         getChartRows(event) {
             let newChartRows = event.target.closest(".page__chart").getElementsByClassName("chart__row");
             let newChartArr = Array.from(newChartRows).map((div) => {
+                // console.log(div)
                 let newChildren = this.getChartRowCells(div.children);
                 return {row: newChildren}
             });
@@ -564,6 +565,7 @@ export default {
                 let cleanStr = cell.innerText.trim();
                 let cellObj = {};
                 let keyStr
+                // console.log(cleanStr)
                 if(cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
                      keyStr = cell.firstChild.children[0].dataset.keyStr.trim()
                 } else {
@@ -689,7 +691,7 @@ export default {
                     Object.assign(componentDetails.elementData.elementOptions, importData.elOptions);
                 }
             }
-            console.log(componentDetails);
+            // console.log(componentDetails);
             let newComponent = {
                 componentName: component.componentName,
                 uniqueName: component.componentName + this.clickedElements.numberOfComponents,
@@ -724,7 +726,7 @@ export default {
                 Array.from(pastedChildren).forEach(el => {
                     
                     if (el.dataset) {
-                        console.log(el.dataset);
+                        // console.log(el.dataset);
                     }
                     
                 });
@@ -791,6 +793,7 @@ export default {
             let comp = {};
             this.components.forEach(component => {
                 component.types.forEach(type => {
+                    // console.log(type.htmlElement)
                     if (type.htmlElement) { //SINGLE ELEMENTS
                         if (type.htmlElement.toLowerCase() === element.nodeName.toLowerCase()) {
                             comp = {
@@ -807,7 +810,7 @@ export default {
                                 component: component,
                             }
                         }
-                    }
+                    } 
                 });
             });
             return comp;
@@ -819,13 +822,16 @@ export default {
             let importCode = new DOMParser().parseFromString(importZone.value, "text/html");
             let contentArea = importCode.querySelector(".page__content");
             let initialElements = contentArea.children;
+            // console.log(initialElements);
             let componentSubDetails;
             Array.from(initialElements).forEach(element => {                
                 if (element.nodeName.toLowerCase() !== "parsererror") {
                     console.group("1 - Import Data");
                     let elDatas = {};
                     let elOptions = {};
-                    let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : this.findInComponents(element); //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
+                    let componentData = element.hasAttribute("data-component-type") ? this.findInComponents(element, element.getAttribute("data-component-type")) : this.findInComponents(element); 
+                    console.log(componentData);
+                        //IF MULTIPLE ELEMENTS OR JUST SINGLE ELEMENT
                     componentData.matchedTypes = this.findTypes(element);
                     if (element.dataset) {
                         for (let d in element.dataset) {
@@ -849,6 +855,7 @@ export default {
                         newElementData: textsToGrab,
                         elOptions: elOptions
                     };
+                    console.log(el)
                     this.createComponent("import", el);
                     console.groupEnd();
                 }
