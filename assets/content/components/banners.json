@@ -1,12 +1,12 @@
 {
     "title": "Banners",
+    "componentName": "Bannersheroes",
     "pageTypes": ["marketing"],
     "showLive": true,
     "order": 1,
     "types": [
         {
             "title": "Banner",
-            "componentName": "Bannersheroes",
             "type": "Bannersheroes",
             "elementData": {
                 "header_1": "Line 1",

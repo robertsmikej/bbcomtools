@@ -562,6 +562,9 @@ export default {
                 }
                 let cellNumValue = cell.children[0].dataset.cellNumber;
                 let cleanStr = cell.innerText.trim();
+                while(cleanStr.indexOf("0") === 0) {
+                    cleanStr = cleanStr.replace("0", "");
+                } 
                 let cellObj = {};
                 let keyStr
                 if (cell.firstChild && cell.firstChild.children[0] && cell.firstChild.children[0].dataset.keyStr) {
