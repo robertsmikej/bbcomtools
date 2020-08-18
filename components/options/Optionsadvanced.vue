@@ -14,16 +14,6 @@ export default {
         dropdowns: Array
     },
     methods: {
-        sendInfo() {
-            let info = {
-                componentData: this.componentData
-            };
-            this.$nuxt.$emit("sendComponentInfo", info);
-            this.$nuxt.$emit("toggleOptions", info);
-        },
-        checkNotBlank: function () {
-
-        },
         
     }
 }

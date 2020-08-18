@@ -272,15 +272,16 @@ export default {
             let findIn = this.clickedElements.elements.findIndex(this.findInArray);
             this.arrayMove(this.clickedElements.elements, findIn, findIn + 1);
         });
-        this.$nuxt.$on('toggleDropdown', d => {
-            this.currentComponentName = d.componentData.uniqueName;
-            console.log(d)
+        this.$nuxt.$on('toggleDropdown', data => {
+            this.currentComponentName = data.componentData.uniqueName;
             let elements = this.clickedElements.elements;
             for (let e in elements) {
                 let element = elements[e];
-                if (element === d.componentData) {;
-                    let dataNeeded = element.elementData.dropdowns[d.index].data.find(x => x.name === d.selected);
-                    element.elementData[d.dropdown.updateName] = dataNeeded;
+                if (element === data.componentData) {
+                    let dataNeeded = element.elementData.dropdowns[data.index].data.find(x => x.name === data.selected);
+                    console.log(dataNeeded);
+                    console.log(data.dropdown.updateName);
+                    element.elementData.elementOptions[data.dropdown.updateName] = dataNeeded;
                 }
             }
         });
@@ -773,7 +774,6 @@ export default {
         buildCode: function () {
             let code = this.$el.querySelector(".page__content");
             let codeCopy = code.cloneNode(true);
-            
             this.removeAttributes(codeCopy.querySelectorAll("[contenteditable]"));
             this.removeElements(codeCopy.querySelectorAll(".component__options"));
             this.removeElements(codeCopy.querySelectorAll(".options__editable__bottom"));

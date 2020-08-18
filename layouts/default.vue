@@ -386,14 +386,14 @@
         top: 0;
         left: 0;
         padding: 0;
-        z-index: 3;
+        z-index: 2;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-content: flex-start;
         align-items: center;
         justify-content: center;
-        opacity: .5;
+        opacity: .8;
     }
     .component__options--bottom {
         bottom: -42px;

@@ -1,7 +1,7 @@
 {
     "title": "Banners",
     "componentName": "Bannersheroes",
-    "pageTypes": ["products", "marketing"],
+    "pageTypes": ["product", "marketing"],
     "showLive": true,
     "order": 1,
     "types": [
@@ -15,14 +15,16 @@
                 "disclaimerText": "*Disclaimer Text",
                 "buttonText": "Shop Now",
                 "bannerLink": "https://www.bodybuilding.com",
-                "backgroundImg": {
-                    "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-02.jpg",
-                    "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-01-mobile.jpg",
-                    "imgChangeToMobile": "768px"
-                },
-                "textColor": {
-                    "name": "White",
-                    "code": "#FFFFFF"
+                "elementOptions": {
+                    "textColor": {
+                        "name": "White",
+                        "code": "#FFFFFF"
+                    },
+                    "backgroundImg": {
+                        "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-02.jpg",
+                        "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-01-mobile.jpg",
+                        "imgChangeToMobile": "768px"
+                    }
                 },
                 "dropdowns": [
                     {
@@ -46,62 +48,74 @@
                             {
                                 "name": "1",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-01.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-01-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-01-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "2",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-02.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-02-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-02-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "3",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-03.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-03-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-03-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "4",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-04.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-04-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-04-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "5",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-05.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-05-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-05-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "6",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-06.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/evergreen-header-06-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/evergreen-header-06-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "7",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-07.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/evergreen-header-07-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/evergreen-header-07-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "8",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-08.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-08-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-08-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "9",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-09.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-09-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-09-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "10",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-10.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-10-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-10-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "11",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/lpimages/optimization/evergreen-header-11.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-11-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/merch/landingpages/components/header-bg/2020-evergreen-header-11-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             },
                             {
                                 "name": "Birthday",
                                 "imgSrcDesktop": "https://www.bodybuilding.com/images/2020/april/04-01-customer-apprec-headers-desktop.jpg",
-                                "imgSrcMobile": "https://www.bodybuilding.com/images/2020/april/04-01-customer-apprec-headers-mobile.jpg"
+                                "imgSrcMobile": "https://www.bodybuilding.com/images/2020/april/04-01-customer-apprec-headers-mobile.jpg",
+                                "imgChangeToMobile": "768px"
                             }
                         ]
                     }

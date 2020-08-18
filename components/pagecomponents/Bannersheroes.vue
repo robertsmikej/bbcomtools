@@ -1,83 +1,94 @@
 <template>
     <div :href="componentData.elementData.bannerLink" class="page__banner page__component component--to-link">
         <div class="page__banner__inner component__container">
-            <div class="page__banner__image__container">
-                <div class="component__options component__options--bottom" v-if="!componentData.optionsHidden && showBackgroundURLOption">
-    <div
-            v-show="optionsShown"
-            class="options__editable__bottom"
-        >
-            <div class="options__editable__container">
-                <span class="options__description element__exclude">Desktop Image URL</span>
+            <div
+                @click="toggleOptions"
+                class="page__banner__image__container"
+            >
                 <div
-                    @blur="updateTarget"
-                    contenteditable
-                    class="options__editable options--imgsrc--desktop component__remove"
+                    v-if="!componentData.optionsHidden && showBackgroundURLOption"
+                    class="component__options component__options--bottom" 
                 >
-                    {{ componentData.elementData.imgSrcDesktop }}
-                </div>
-            </div>
-            <div class="options__editable__container">
-                <span class="options__description element__exclude">Mobile Image URL</span>
                 <div
-                    @blur="updateTarget"
-                    contenteditable
-                    class="options__editable options--imgsrc--mobile component__remove"
+                    v-show="optionsShown"
+                    class="options__editable__bottom"
                 >
-                    {{ componentData.elementData.imgSrcMobile }}
+                    <div class="options__editable__container">
+                        <span class="options__description element__exclude">Desktop Image URL</span>
+                        <div
+                            @blur="updateTarget"
+                            contenteditable
+                            class="options__editable options--imgsrc--desktop component__remove"
+                        >
+                            {{ componentData.elementData.elementOptions.backgroundImg.imgSrcDesktop }}
+                        </div>
+                    </div>
+                    <div class="options__editable__container">
+                        <span class="options__description element__exclude">Mobile Image URL</span>
+                        <div
+                            @blur="updateTarget"
+                            contenteditable
+                            class="options__editable options--imgsrc--mobile component__remove"
+                        >
+                            {{ componentData.elementData.elementOptions.backgroundImg.imgSrcMobile }}
+                        </div>
+                    </div>
+                    <div class="options__editable__container">
+                        <span class="options__description element__exclude">IMG To Mobile - 768px Default</span>
+                        <div
+                            @blur="updateTarget"
+                            contenteditable
+                            class="options__editable options--img--changetomobile component__remove"
+                        >
+                            {{ componentData.elementData.elementOptions.backgroundImg.imgChangeToMobile }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="options__editable__container">
-                <span class="options__description element__exclude">Image Alt Text</span>
-                <div
-                    @blur="updateTarget"
-                    contenteditable
-                    class="options__editable options--img--alt component__remove"
+                <Optionsbuttons
+                    :componentData="componentData"
+                />
+                </div>
+                <picture
+                    :key="componentData.elementData.elementOptions.backgroundImg.imgSrcDesktop"
+                    class="page__banner__image" 
                 >
-                    {{ componentData.elementData.imgAlt }}
-                </div>
-            </div>
-            <div class="options__editable__container">
-                <span class="options__description element__exclude">IMG To Mobile - 768px Default</span>
-                <div
-                    @blur="updateTarget"
-                    contenteditable
-                    class="options__editable options--img--changetomobile component__remove"
-                >
-                    {{ componentData.elementData.imgChangeToMobile }}
-                </div>
-            </div>
-        </div>
-        
-                    <Optionsbuttons :componentData="componentData"/>
-                </div>
-                <picture class="page__banner__image" :key="componentData.elementData.desktop">
-                    <source :srcset="componentData.elementData.backgroundImg.imgSrcDesktop" :media="'(min-width:' + componentData.elementData.backgroundImg.imgChangeToMobile + ')'">
-                    <img :src="componentData.elementData.backgroundImg.imgSrcMobile" :alt="componentData.elementData.headerText" class="page__banner__image"/>
+                    <source 
+                        :srcset="componentData.elementData.elementOptions.backgroundImg.imgSrcDesktop" 
+                        :media="'(min-width:' + componentData.elementData.elementOptions.backgroundImg.imgChangeToMobile + ')'"
+                    >
+                    <img 
+                        :src="componentData.elementData.elementOptions.backgroundImg.imgSrcMobile" 
+                        :alt="componentData.elementData.headerText" 
+                        class="page__banner__image"
+                    />
                 </picture>
             </div>
             <div class="page__banner__text__container">
                 <Optionsadvanced 
                     :componentData="componentData"
                     :dropdowns="componentData.elementData.dropdowns"
-                    v-if="!componentData.optionsHidden"
-                    class="component__options--right component__options--stacked"
+                    v-show="optionsShown"
+                    class="component__options--left component__options--stacked"
                 />
-                <Headers 
+                <Headers
                     :componentData="headerComponent1"
                     :key="componentData.uniqueName + componentData.componentChanges + '-header1'"
+                    :style="{ color: componentData.elementData.elementOptions.textColor.code }"
                 />
                 <Headers 
                     :componentData="headerComponent2"
                     :key="componentData.uniqueName + componentData.componentChanges + '-header2'"
+                    :style="{ color: componentData.elementData.elementOptions.textColor.code }"
                 />
                 <Headers 
                     :componentData="headerComponent3"
                     :key="componentData.uniqueName + componentData.componentChanges + '-header3'"
+                    :style="{ color: componentData.elementData.elementOptions.textColor.code }"
                 />
                 <Paragraphs
                     :componentData="paraComponent1"
                     :key="componentData.uniqueName + componentData.componentChanges + '-p1'"
+                    :style="{ color: componentData.elementData.elementOptions.textColor.code }"
                     class="page__banner__disclaimer"
                 />
             </div>
@@ -163,14 +174,14 @@ export default {
                 let info = {
                     newComponentData: newComponentData,
                     event: event,
-                    action: action,
+                    action: action
                 };
                 this.$nuxt.$emit("updateTarget", info);
             }
         },
-        checkOptions(e) {
-            this.$nuxt.$emit("toggleOptions", this.componentData.uniqueName);
-        }   
+        toggleOptions() {
+            this.optionsShown = !this.optionsShown;
+        }
     }
 }
 </script>

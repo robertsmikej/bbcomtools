@@ -167,7 +167,7 @@ export default {
             var obj = finalObj || {};
             for (var i in initalObj) {
                 var prop = initalObj[i];
-                if(prop === obj) {
+                if (prop === obj) {
                     continue;
                 }
                 if (typeof prop === 'object') {
