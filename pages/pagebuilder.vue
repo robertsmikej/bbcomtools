@@ -274,6 +274,7 @@ export default {
         });
         this.$nuxt.$on('toggleDropdown', d => {
             this.currentComponentName = d.componentData.uniqueName;
+            console.log(d)
             let elements = this.clickedElements.elements;
             for (let e in elements) {
                 let element = elements[e];

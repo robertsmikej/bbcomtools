@@ -3,17 +3,57 @@
         <div class="page__banner__inner component__container">
             <div class="page__banner__image__container">
                 <div class="component__options component__options--bottom" v-if="!componentData.optionsHidden && showBackgroundURLOption">
-                    <textarea 
-                        v-model="componentData.elementData.backgroundImg.desktop" 
-                        class="text__input" 
-                        type="text" 
-                        placeholder="Background Image URL"
-                    />
+    <div
+            v-show="optionsShown"
+            class="options__editable__bottom"
+        >
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Desktop Image URL</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--imgsrc--desktop component__remove"
+                >
+                    {{ componentData.elementData.imgSrcDesktop }}
+                </div>
+            </div>
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Mobile Image URL</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--imgsrc--mobile component__remove"
+                >
+                    {{ componentData.elementData.imgSrcMobile }}
+                </div>
+            </div>
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">Image Alt Text</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--img--alt component__remove"
+                >
+                    {{ componentData.elementData.imgAlt }}
+                </div>
+            </div>
+            <div class="options__editable__container">
+                <span class="options__description element__exclude">IMG To Mobile - 768px Default</span>
+                <div
+                    @blur="updateTarget"
+                    contenteditable
+                    class="options__editable options--img--changetomobile component__remove"
+                >
+                    {{ componentData.elementData.imgChangeToMobile }}
+                </div>
+            </div>
+        </div>
+        
                     <Optionsbuttons :componentData="componentData"/>
                 </div>
                 <picture class="page__banner__image" :key="componentData.elementData.desktop">
-                    <source :srcset="componentData.elementData.backgroundImg.desktop" media="(min-width: 768px)">
-                    <img :src="componentData.elementData.backgroundImg.mobile" :alt="componentData.elementData.headerText" class="page__banner__image"/>
+                    <source :srcset="componentData.elementData.backgroundImg.imgSrcDesktop" :media="'(min-width:' + componentData.elementData.backgroundImg.imgChangeToMobile + ')'">
+                    <img :src="componentData.elementData.backgroundImg.imgSrcMobile" :alt="componentData.elementData.headerText" class="page__banner__image"/>
                 </picture>
             </div>
             <div class="page__banner__text__container">
@@ -108,6 +148,8 @@ export default {
                 },
                 optionsShown: false
             },
+            optionsShown: true
+
         };
     },
     computed: {
