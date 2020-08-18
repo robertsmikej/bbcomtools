@@ -176,8 +176,8 @@ export default {
     data() {
         return {
             pageInfo: {
-                title: "Component Generator | Bodybuilding.com",
-                description: "Component Generator for Bodybuilding.com Employees",
+                title: "Page Builder | BBcom",
+                description: "Page and Component builder for Bodybuilding.com employees",
                 pageTypes: ["product", "marketing"],
                 initialElements: []
             },
