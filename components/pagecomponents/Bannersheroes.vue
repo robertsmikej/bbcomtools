@@ -17,45 +17,29 @@
                 </picture>
             </div>
             <div class="page__banner__text__container">
-                <div class="component__options component__options--stacked" v-if="!componentData.optionsHidden">
-                    <input
-                        v-model="componentData.elementData.header_1"
-                        class="text__input"
-                        type="text"
-                        placeholder="Header Text - Line 1"
-                    />
-                    <input
-                        v-model="componentData.elementData.header_2"
-                        class="text__input"
-                        type="text"
-                        placeholder="Header Text - Line 3"
-                    />
-                    <input
-                        v-model="componentData.elementData.header_3"
-                        class="text__input"
-                        type="text"
-                        placeholder="Header Text - Line 3"
-                    />
-                    <input
-                        v-model="componentData.elementData.disclaimerText"
-                        class="text__input"
-                        type="text"
-                        placeholder="Disclaimer Text"
-                    />
-                    <Optionsbuttons :componentData="componentData"/>
-                </div>
                 <Optionsadvanced 
                     :componentData="componentData"
                     :dropdowns="componentData.elementData.dropdowns"
                     v-if="!componentData.optionsHidden"
                     class="component__options--right component__options--stacked"
                 />
-                <h2 @click="checkOptions" :style="{'color': this.componentData.elementData.textColor.code}" class="page__banner__header" >
-                    <span>{{ componentData.elementData.header_1 }}</span>
-                    <span>{{ componentData.elementData.header_2 }}</span>
-                    <span>{{ componentData.elementData.header_3 }}</span>
-                </h2>
-                <p @click="checkOptions" class="page__banner__disclaimer">{{ componentData.elementData.disclaimerText }}</p>
+                <Headers 
+                    :componentData="headerComponent1"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-header1'"
+                />
+                <Headers 
+                    :componentData="headerComponent2"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-header2'"
+                />
+                <Headers 
+                    :componentData="headerComponent3"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-header3'"
+                />
+                <Paragraphs
+                    :componentData="paraComponent1"
+                    :key="componentData.uniqueName + componentData.componentChanges + '-p1'"
+                    class="page__banner__disclaimer"
+                />
             </div>
         </div>
     </div>
@@ -71,69 +55,80 @@ export default {
     data() {
         return {
             selectedBackground: "",
-            showBackgroundURLOption: true
+            showBackgroundURLOption: true,
+            headerComponent1: {
+                componentName: "Headers",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Header1",
+                type: "H3",
+                parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
+                number: this.numberOfActions,
+                elementData: {
+                    headerText: this.componentData.elementData.header_1
+                },
+                optionsShown: false
+            },
+            headerComponent2: {
+                componentName: "Headers",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Header2",
+                type: "H2",
+                parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
+                number: this.numberOfActions,
+                elementData: {
+                    headerText: this.componentData.elementData.header_2
+                },
+                optionsShown: false
+            },
+            headerComponent3: {
+                componentName: "Headers",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Header3",
+                type: "H4",
+                parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
+                number: this.numberOfActions,
+                elementData: {
+                    headerText: this.componentData.elementData.header_3
+                },
+                optionsShown: false
+            },
+            paraComponent1: {
+                componentName: "Paragraphs",
+                componentChanges: 0,
+                uniqueName: this.componentData.uniqueName + "-Para1",
+                type: "p",
+                parentData: this.componentData,
+                childComponentNumber: this.componentNumber,
+                number: this.numberOfActions,
+                elementData: {
+                    paraText: this.componentData.elementData.disclaimerText,
+                },
+                optionsShown: false
+            },
         };
     },
     computed: {
 
     },
     methods: {
-        grabTexts(els) {
-            let newObj = {};
-            let listArr = [];
-            Array.from(els).forEach(element => {
-                let textType = element.getAttribute("data-input-type");
-                if (element.nodeName === "IMG") {
-                    newObj[textType] = element.closest(".page__external__data__container").querySelector(".options__editable").textContent.trim();
-                } else if (element.nodeName === "LI") {
-                    listArr.push({li: element.innerHTML.trim()});
-                } else {
-                    newObj[textType] = element.innerHTML.trim();
-                }
-            });
-            if (listArr.length > 0) {
-                newObj.listItems = listArr
-            }
-            return newObj;
-        },
-        updateTarget(event, newListItems) {
+        updateTarget(action) {
             let newComponentData = JSON.parse(JSON.stringify(this.componentData));
-            if (newComponentData.componentName.toLowerCase() === "list" || 
-            newComponentData.componentName.toLowerCase() === "imageheaderpara") {
-                if (newListItems) {
-                    this.numberOfListActions += 1;
-                    newComponentData.elementData.listItems = newListItems;
-                    this.numberOfListActions += 1;
-                } else {
-                    Object.assign(newComponentData.elementData.listItems, this.getNewListItems(event));
-                }
-            } else {
-                let textsToGrab = this.grabTexts(this.$el.querySelectorAll("[data-input-type]"));
-                Object.assign(newComponentData.elementData, textsToGrab);
-            }
-            let info = {
-                newComponentData: newComponentData,
-                oldComponentData: this.componentData
-            };
-            if (!this.group && !this.subgroup) {
+            if (newComponentData.uniqueName === this.componentData.uniqueName) {
+                newComponentData.componentChanges += 1;
+                let info = {
+                    newComponentData: newComponentData,
+                    event: event,
+                    action: action,
+                };
                 this.$nuxt.$emit("updateTarget", info);
-            } else if (this.subgroup) {
-                this.$nuxt.$emit("updateSubGroupList", newComponentData.elementData.listItems);
-            } else {
-                info.parentData = this.parentData;
-                this.$nuxt.$emit("updateGroupTarget", info);
             }
-            newComponentData.componentChanges += 1;
-        },
-        checkHeight(e) {
-            this.$nuxt.$emit("changeHeight", this.componentData);
         },
         checkOptions(e) {
-            let info = {
-                componentData: this.componentData
-            };
-            this.$nuxt.$emit("toggleOptions", info);
-        }
+            this.$nuxt.$emit("toggleOptions", this.componentData.uniqueName);
+        }   
     }
 }
 </script>

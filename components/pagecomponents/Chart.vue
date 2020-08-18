@@ -102,7 +102,7 @@ export default {
                     action: action,
                 };
                 this.$nuxt.$emit("updateTarget", info);
-        }
+            }
         },
         toggleInCm() {
             this.inchesNotCM = !this.inchesNotCM;

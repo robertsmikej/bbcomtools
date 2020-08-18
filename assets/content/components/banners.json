@@ -1,7 +1,7 @@
 {
     "title": "Banners",
     "componentName": "Bannersheroes",
-    "pageTypes": ["marketing"],
+    "pageTypes": ["products", "marketing"],
     "showLive": true,
     "order": 1,
     "types": [
