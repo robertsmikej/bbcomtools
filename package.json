@@ -16,7 +16,7 @@
     "@nuxtjs/google-tag-manager": "^2.3.2",
     "@nuxtjs/markdownit": "^1.2.9",
     "@nuxtjs/sitemap": "^2.3.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cross-env": "^5.2.0",
     "nuxt": "^2.0.0",
     "vuedraggable": "^2.24.0"
