@@ -18,7 +18,7 @@
     "@nuxtjs/sitemap": "^2.3.0",
     "axios": "^0.19.2",
     "cross-env": "^5.2.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "vuedraggable": "^2.24.0"
   },
   "devDependencies": {
